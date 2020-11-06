@@ -1,35 +1,39 @@
 import React, { useEffect } from "react";
 import {
-  Button,
   Container,
   Grid,
+  LinearProgress,
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import {
-  selectIsUserLoaded,
-  selectUserData,
-  selectUserNews,
-} from "../../store/ducks/user/selectors";
-import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  loadUserJWTData,
-  logoutUser,
-} from "../../store/ducks/user/actionCreators";
 import Navbar from "../../components/Navbar";
-import { NewPostForm } from "../../components/NewPostForm";
 import { Counter } from "../../components/Counter";
 import Article from "../../components/Article/Article";
 import { defaultBackgroundColor } from "../../configs/palette";
+import {
+  selectIsReqUserLoaded,
+  selectReqUserData,
+} from "../../store/ducks/reqUser/selectors";
+import { fetchReqUserData } from "../../store/ducks/reqUser/actionCreators";
+import { useParams } from "react-router-dom";
 
-export const Private: React.FC = (): React.ReactElement => {
+export const Page: React.FC = (): React.ReactElement => {
+  const isLoaded = useSelector(selectIsReqUserLoaded);
+  const user = useSelector(selectReqUserData);
+  const params: { username?: string } = useParams();
+  const username = params.username;
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(selectIsUserLoaded);
-  const user = useSelector(selectUserData);
-  const articles = useSelector(selectUserNews)?.reverse();
 
-  const stylesPrivate = makeStyles((theme) => ({
+  useEffect(() => {
+    if (username) {
+      dispatch(fetchReqUserData(username));
+    }
+  }, [username, dispatch]);
+  if (user) {
+    user.articles.reverse();
+  }
+  const stylesPage = makeStyles((theme) => ({
     root: {
       position: "sticky",
       top: 50,
@@ -38,14 +42,8 @@ export const Private: React.FC = (): React.ReactElement => {
       display: "flex",
       flexDirection: "column",
     },
-    content: {},
-    avatarCover: {
-      background: user
-        ? `url(${user.avatarUrl})`
-        : theme.palette.background.default,
+    cover: {
       width: "100%",
-      paddingTop: "100%",
-      backgroundSize: "cover",
     },
     controls: {
       display: "flex",
@@ -66,24 +64,40 @@ export const Private: React.FC = (): React.ReactElement => {
         ? `url(${user.avatarUrl})`
         : theme.palette.background.default,
     },
+    avatarCover: {
+      background: user
+        ? `url(${user.avatarUrl})`
+        : theme.palette.background.default,
+      width: "100%",
+      paddingTop: "100%",
+      backgroundSize: "cover",
+    },
     newslineWrapper: {
+      paddingTop: 30,
       background: defaultBackgroundColor,
       position: "relative",
     },
   }));
 
-  const classes = stylesPrivate();
-  useEffect(() => {
-    dispatch(loadUserJWTData());
-  }, [dispatch]);
-
-  if (!isLoggedIn) {
-    return <Redirect to="/signin" />;
+  const classes = stylesPage();
+  if (!isLoaded) {
+    return <LinearProgress />;
   }
-  const logoutHandler = () => {
-    dispatch(logoutUser());
-  };
-  if (user) {
+  if (!user) {
+    return (
+      <div>
+        <Typography variant="h2">User does not exist</Typography>
+      </div>
+    );
+  } else {
+    /*
+    для редиректа нужно делать 
+        dispatch(setReqUserLoadingState(LoadingState.NEVER));
+        (например в home)
+    */
+    // if (user._id === authUser?._id) {
+    //   return <Redirect to="/private" />;
+    // }
     return (
       <>
         <Navbar />
@@ -92,17 +106,16 @@ export const Private: React.FC = (): React.ReactElement => {
             <Grid item xs={8}>
               <div className={classes.headImageWrapper}></div>
               <div className={classes.newslineWrapper}>
-                <NewPostForm />
-                {articles
-                  ? articles.map((item) => (
+                {user.articles
+                  ? user.articles.map((item) => (
                       <Article
                         key={item._id}
                         id={item._id}
                         mainHeadline={
-                          articles[0]._id !== item._id ? item.headline : ""
+                          user.articles[0]._id !== item._id ? item.headline : ""
                         }
                         generalHeadline={
-                          articles[0]._id === item._id ? item.headline : ""
+                          user.articles[0]._id === item._id ? item.headline : ""
                         }
                         text={item.text}
                         watches={item.watches}
@@ -127,17 +140,14 @@ export const Private: React.FC = (): React.ReactElement => {
                       <Typography variant="subtitle1" color="textPrimary">
                         {user.fullname}
                       </Typography>
-                      <div className={classes.content}>
-                        <Counter number={10} text="Subscribers" />
-                        <Counter number={22} text="Subscribes" />
+                      <div>
+                        <Counter number={100} text="Subscribers" />
+                        <Counter number={204} text="Subscribes" />
                       </div>
                     </div>
                   </Grid>
                   <Grid item xs>
                     <div className={classes.avatarCover}></div>
-                    <Button onClick={logoutHandler} fullWidth>
-                      Logout
-                    </Button>
                   </Grid>
                 </Grid>
               </div>
@@ -147,5 +157,4 @@ export const Private: React.FC = (): React.ReactElement => {
       </>
     );
   }
-  return <Redirect to="/signin" />;
 };

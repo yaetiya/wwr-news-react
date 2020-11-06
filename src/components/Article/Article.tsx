@@ -13,8 +13,6 @@ import {
   secondaryTextColor,
 } from "../../configs/palette";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { fetchOneNewsData } from "../../store/ducks/oneNews/actionCreators";
 import { ArticleBody } from "./ArticleBody";
 
 export type articleProps = {
@@ -34,14 +32,14 @@ export type articleProps = {
 };
 const Article = (articleProps: articleProps): React.ReactElement => {
   const postDate: Date = new Date(Date.parse(articleProps.date));
-  const stylesHome = makeStyles((theme) => ({
+  const stylesHome = makeStyles(() => ({
     linkWrapper: {
       textDecoration: "none",
       color: "inherit",
     },
     articleWrapper: {
       backgroundColor: defaultBackgroundColor,
-      marginBottom: 15,
+      marginBottom: 10,
       paddingBottom: 5,
       color: defaultTextColor,
       position: "relative",
@@ -55,7 +53,7 @@ const Article = (articleProps: articleProps): React.ReactElement => {
         bottom: 0,
         left: 0,
         width: "100%",
-        height: "4px",
+        height: "2px",
         display: "block",
         background: !articleProps.isLast ? secondaryBackgroundColor : "",
       },
@@ -70,13 +68,13 @@ const Article = (articleProps: articleProps): React.ReactElement => {
       fontSize: articleProps?.isSmall ? 20 : 28,
     },
     secondaryHeadline: {
-      fontSize: articleProps?.isSmall ? 16 : 20,
-      fontWeight: "bold",
+      fontSize: articleProps?.isSmall ? 18 : 20,
+      // fontWeight: "bold",
     },
     paragraph: {
-      paddingTop: 10,
+      paddingTop: 0,
       fontSize: 14,
-      fontWeight: 500,
+      fontWeight: 400,
       // fontFamily: "Oswald",
     },
     watchesWrapper: {
@@ -102,11 +100,11 @@ const Article = (articleProps: articleProps): React.ReactElement => {
     },
     userImage: {
       display: articleProps?.isSmall ? "none" : "flex",
-      marginTop: 29,
+      marginTop: articleProps.generalHeadline ? 32 : 29,
       float: "right",
       marginRight: 10,
-      height: 30,
-      width: 30,
+      height: articleProps.generalHeadline ? 34 : 30,
+      width: articleProps.generalHeadline ? 34 : 30,
     },
     "@media (max-width: 624px)": {
       articleWrapper: {
@@ -115,21 +113,6 @@ const Article = (articleProps: articleProps): React.ReactElement => {
     },
   }));
   const classes = stylesHome();
-  const dispatch = useDispatch();
-  const loadOneNews = (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ) => {
-    if (!articleProps.isFull) {
-      dispatch(fetchOneNewsData(articleProps.id));
-    }
-  };
-
-  const loadOneUser = (
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ) => {
-    // dispatch(fetchUserData(articleProps.username));
-      //fetch user by username
-  };
 
   return (
     <Grid container spacing={0}>
@@ -145,19 +128,18 @@ const Article = (articleProps: articleProps): React.ReactElement => {
         <div className={classes.articleWrapper}>
           <Link
             className={classes.linkWrapper}
-            onClick={loadOneUser}
-            to={`/user/${articleProps.userId}`}
+            to={`/user/${articleProps.username}`}
           >
             <div className={classes.userWrapper}>
               <Typography className={classes.userText}>
-                @{articleProps.username} {postDate.toDateString()}
+                @{articleProps.username}{" "}
+                {articleProps?.isSmall ? null : postDate.toTimeString()}
               </Typography>
             </div>
           </Link>
           {!articleProps.isFull ? (
             <Link
               className={classes.linkWrapper}
-              onClick={loadOneNews}
               to={`/oneNews/${articleProps.id}`}
             >
               <ArticleBody articleProps={articleProps} classes={classes} />
@@ -167,7 +149,7 @@ const Article = (articleProps: articleProps): React.ReactElement => {
           )}
           {articleProps.isLast ? (
             <div>
-              <LinearProgress />
+              <LinearProgress style={{ height: 2 }} />
             </div>
           ) : null}
         </div>

@@ -24,6 +24,7 @@ export interface SignUpData {
   password: string;
   password2: string
 }
+
 export interface User {
   _id : string;
   fullname: string;

@@ -3,6 +3,7 @@ import { AddFormState, LoadingState, NewsState, preNews } from "./state";
 
 export enum NewsActionsType {
   SET_NEWS = "news/SET_NEWS",
+  SET_NEWS_TO_TOP = "news/SET_NEWS_TO_TOP",
   SET_LEFT_NEWS = "news/SET_LEFT_NEWS",
   FETCH_NEWS = "news/FETCH_NEWS",
   FETCH_LEFT_NEWS = "news/FETCH_LEFT_NEWS",
@@ -10,13 +11,21 @@ export enum NewsActionsType {
   FETCH_ADD_NEWS = "news/FETCH_ADD_NEWS",
   ADD_NEWS = "news/ADD_NEWS",
   SET_ADD_FORM_STATE = "news/SET_ADD_FORM_STATE",
-  SET_TWEETS = "SET_TWEETS",
-  FETCH_ADD_TWEET = "FETCH_ADD_TWEET",
-  SET_ADD_MESSAGE = "SET_ADD_MESSAGE",
+  FETCH_ADD_TWEET = "news/FETCH_ADD_TWEET",
+  SET_ADD_MESSAGE = "news/SET_ADD_MESSAGE",
+  SET_FETCHED_NEWS_PAGE = "news/SET_FETCHED_NEWS_PAGE"
 }
 
+export interface SetFetchedNewsPageActionInterface extends Action<NewsActionsType> {
+  type: NewsActionsType.SET_FETCHED_NEWS_PAGE;
+  payload: number;
+}
 export interface SetNewsActionInterface extends Action<NewsActionsType> {
   type: NewsActionsType.SET_NEWS;
+  payload: NewsState["items"];
+}
+export interface SetNewsToTopActionInterface extends Action<NewsActionsType> {
+  type: NewsActionsType.SET_NEWS_TO_TOP;
   payload: NewsState["items"];
 }
 export interface SetLeftNewsActionInterface extends Action<NewsActionsType> {

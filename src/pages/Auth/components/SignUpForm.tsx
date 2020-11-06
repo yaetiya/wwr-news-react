@@ -1,5 +1,6 @@
-import { FormControl, FormGroup, TextField, Button } from "@material-ui/core";
+import { FormControl, FormGroup, Button } from "@material-ui/core";
 import React, { ChangeEvent } from "react";
+import { OutlinedTextField } from "../../../components/styledComponents/OutlinedTextField";
 import { SignUpData } from "../../../store/ducks/user/typescript/state";
 
 type TSignUpFormProps = {
@@ -27,7 +28,7 @@ export const SignUpForm = (
       fullWidth
     >
       <FormGroup aria-label="position" row>
-        <TextField
+        <OutlinedTextField
           error={ErrorRegistrationField === "fullname"}
           className={classes.registerField}
           autoFocus
@@ -43,7 +44,7 @@ export const SignUpForm = (
           fullWidth
           value={signUpForm?.fullname}
         />
-        <TextField
+        <OutlinedTextField
           className={classes.registerField}
           error={ErrorRegistrationField === "email"}
           autoFocus
@@ -59,7 +60,7 @@ export const SignUpForm = (
           onChange={changeSignUpInputHandler}
           value={signUpForm?.email}
         />
-        <TextField
+        <OutlinedTextField
           className={classes.registerField}
           autoFocus
           error={ErrorRegistrationField === "username"}
@@ -76,7 +77,7 @@ export const SignUpForm = (
           value={signUpForm?.username}
         />
 
-        <TextField
+        <OutlinedTextField
           className={classes.registerField}
           autoFocus
           error={ErrorRegistrationField === "password"}
@@ -92,7 +93,7 @@ export const SignUpForm = (
           onChange={changeSignUpInputHandler}
           value={signUpForm?.password}
         />
-        <TextField
+        <OutlinedTextField
           className={classes.registerField}
           autoFocus
           error={ErrorRegistrationField === "password"}

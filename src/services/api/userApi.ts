@@ -40,7 +40,7 @@ export const UserApi = {
   },
   fetchUserByUsername(username: string): Promise<User> {
     return axios
-      .get(`https://lohttp://localhost:8888/users/${username}`)
-      .then(({ data }) => data);
+      .get(`http://localhost:8888/users/${username}`)
+      .then(({ data }) => data.data);
   },
 };

@@ -1,15 +1,26 @@
-import { Button, Container, makeStyles } from "@material-ui/core";
+import {
+  Avatar,
+  Button,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Home from "@material-ui/icons/Apps";
+import { selectUserData } from "../store/ducks/user/selectors";
 import { BackButton } from "./BackButton";
 
 const stylesNav = makeStyles((theme) => ({
   root: {
-    paddingLeft: 40,
-    paddingRight: 40,
     width: "100%",
     height: "100%",
     backgroundColor: theme.palette.background.default,
+  },
+  avatar: {
+    marginLeft: 12,
+    width: theme.spacing(3),
+    height: theme.spacing(3),
   },
   navWrapper: {
     paddingTop: 4,
@@ -22,68 +33,49 @@ const stylesNav = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   navLogo: {},
-  loginWrapper: {},
+  loginWrapper: {
+    marginRight: 38,
+  },
   navBtn: {
     color: "inherit",
     textDecoration: "none",
   },
-  ArticlesWrapper: {
-    position: "sticky",
-    top: 40,
-    backgroundColor: theme.palette.background.default,
-  },
-
-  sideWrapper: {
-    "& a": {
-      color: "inherit",
-      textDecoration: "none",
-    },
-    paddingTop: 40,
-    position: "sticky",
-    top: 0,
-  },
-
-  buttonSideBlock: {
-    position: "relative",
-    "&:before": {
-      content: '""',
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "0.2rem",
-      display: "block",
-      background: theme.palette.secondary.main,
-    },
-  },
 }));
 
-type TNav = {
-  isLoggedIn: boolean;
-  username: string | undefined;
-};
-
-const Navbar = ({ isLoggedIn, username }: TNav) => {
+const Navbar = () => {
+  const user = useSelector(selectUserData);
   const classes = stylesNav();
   return (
-    <Container maxWidth="lg" className={classes.navWrapper}>
+    <div className={classes.navWrapper}>
       <BackButton />
 
       <Link className={classes.navBtn} to="/signin">
-        <Button>Logo</Button>
+        <Button>
+          <Home />
+        </Button>
       </Link>
       <div className={classes.loginWrapper}>
-        {!isLoggedIn ? (
-          <Link className={classes.navBtn} to="/signin">
-            <Button>Login</Button>
+        {user ? (
+          <Link className={classes.navBtn} to="/private">
+            <Button>
+              <Typography variant="subtitle1">@{user.username}</Typography>
+              <Avatar
+                alt="avatar"
+                variant="rounded"
+                src={user.avatarUrl}
+                className={classes.avatar}
+              />
+            </Button>
           </Link>
         ) : (
-          <Link className={classes.navBtn} to="/private">
-            <Button>{username}</Button>
+          <Link className={classes.navBtn} to="/signin">
+            <Button>
+              <Typography variant="subtitle1">Login</Typography>
+            </Button>
           </Link>
         )}
       </div>
-    </Container>
+    </div>
   );
 };
 export default Navbar;

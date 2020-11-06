@@ -2,14 +2,13 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { makeStyles, Typography, Button, Snackbar } from "@material-ui/core";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControl from "@material-ui/core/FormControl";
-import TextField from "@material-ui/core/TextField";
 import { ModalBlock } from "./components/ModalBlock";
 import { useDispatch, useSelector } from "react-redux";
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import {
   createUser,
   fetchUserData,
   setUserLoadingState,
+  setUserRegistrationState,
 } from "../../store/ducks/user/actionCreators";
 import {
   selectErrorMessage,
@@ -22,14 +21,14 @@ import {
 import { Redirect } from "react-router-dom";
 import {
   LoadingState,
+  RegistrationState,
   SignUpData,
   UserLoadingData,
 } from "../../store/ducks/user/typescript/state";
 import { SignUpForm } from "./components/SignUpForm";
-
-export function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import { alertsStyle } from "../../configs/palette";
+import Alert from "@material-ui/lab/Alert";
+import { OutlinedTextField } from "../../components/styledComponents/OutlinedTextField";
 
 export const useStylesSignIn = makeStyles((theme) => ({
   wrapper: {
@@ -87,6 +86,10 @@ export const SignIn: React.FC = (): React.ReactElement => {
     if (reason === "clickaway") {
       return;
     }
+    setTimeout(() => {
+      dispatch(setUserLoadingState(LoadingState.NEVER));
+      dispatch(setUserRegistrationState(RegistrationState.NEVER));
+    }, 500);
     setOpenErrorRegistration(false);
     setOpenErrorLogin(false);
   };
@@ -121,11 +124,6 @@ export const SignIn: React.FC = (): React.ReactElement => {
     }
   }, [dispatch, isErrorLogin]);
 
-  useEffect(() => {
-    if (isErrorRegistration === true) {
-      handleErrorRegistrationAlert();
-    }
-  }, [isErrorRegistration, regErrorMessage, checker]);
 
   const signUp = (): void => {
     dispatch(createUser(signUpForm));
@@ -133,6 +131,12 @@ export const SignIn: React.FC = (): React.ReactElement => {
       setChecker(!checker);
     }, 500);
   };
+
+  useEffect(() => {
+    if (isRegistrationSuccess || isErrorRegistration){
+      handleErrorRegistrationAlert();
+    }
+  }, [checker, isErrorRegistration, isRegistrationSuccess])
 
   useEffect(() => {
     handleCloseModal();
@@ -179,7 +183,6 @@ export const SignIn: React.FC = (): React.ReactElement => {
 
   if (isLoggedIn) {
     return <Redirect to="/home" />;
-    // return <Redirect to="/private" />;
   }
 
   return (
@@ -189,7 +192,11 @@ export const SignIn: React.FC = (): React.ReactElement => {
         autoHideDuration={1500}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity="error">
+        <Alert
+          onClose={handleClose}
+          severity="error"
+          style={alertsStyle(false)}
+        >
           Data is not correct.
         </Alert>
       </Snackbar>
@@ -198,8 +205,14 @@ export const SignIn: React.FC = (): React.ReactElement => {
         autoHideDuration={1500}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity="error">
-          {regErrorMessage}
+        <Alert
+          onClose={handleClose}
+          severity="error"
+          style={alertsStyle(isRegistrationSuccess)}
+        >
+          {isErrorRegistration
+            ? regErrorMessage
+            : "User was created successfully"}
         </Alert>
       </Snackbar>
 
@@ -245,7 +258,7 @@ export const SignIn: React.FC = (): React.ReactElement => {
               fullWidth
             >
               <FormGroup aria-label="position" row>
-                <TextField
+                <OutlinedTextField
                   className={classes.loginSideField}
                   autoFocus
                   id="username"
@@ -260,7 +273,7 @@ export const SignIn: React.FC = (): React.ReactElement => {
                   fullWidth
                   onChange={changeLoginInputHandler}
                 />
-                <TextField
+                <OutlinedTextField
                   className={classes.loginSideField}
                   autoFocus
                   id="password"
@@ -292,12 +305,15 @@ export const SignIn: React.FC = (): React.ReactElement => {
             classes={classes}
             title="Создайте учетную запись"
           >
-            
-            <SignUpForm {...{classes,
-              ErrorRegistrationField,
-              changeSignUpInputHandler,
-              signUpForm,
-              signUp}}/>
+            <SignUpForm
+              {...{
+                classes,
+                ErrorRegistrationField,
+                changeSignUpInputHandler,
+                signUpForm,
+                signUp,
+              }}
+            />
           </ModalBlock>
         </div>
       </section>

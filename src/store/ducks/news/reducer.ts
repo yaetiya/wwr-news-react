@@ -8,14 +8,22 @@ const initialNewsState: NewsState = {
   leftItems: [],
   addFormState: AddFormState.NEVER,
   loadingState: LoadingState.NEVER,
-  addNewsMessage: ""
+  addNewsMessage: "",
+  fetchedNewsPage: 0,
 };
 
 export const newsReducer = produce(
   (draft: Draft<NewsState>, action: NewsActions) => {
     switch (action.type) {
+      case NewsActionsType.SET_FETCHED_NEWS_PAGE:
+        draft.fetchedNewsPage = action.payload;
+        break;
       case NewsActionsType.SET_NEWS:
         draft.items.push(...action.payload);
+        draft.loadingState = LoadingState.LOADED;
+        break;
+      case NewsActionsType.SET_NEWS_TO_TOP:
+        draft.items.unshift(...action.payload);
         draft.loadingState = LoadingState.LOADED;
         break;
       case NewsActionsType.SET_LEFT_NEWS:
@@ -34,10 +42,10 @@ export const newsReducer = produce(
       case NewsActionsType.SET_LOADING_STATE:
         draft.loadingState = action.payload;
         break;
-      
+
       case NewsActionsType.SET_ADD_MESSAGE:
-          draft.addNewsMessage = action.payload;
-          break;
+        draft.addNewsMessage = action.payload;
+        break;
       case NewsActionsType.SET_ADD_FORM_STATE:
         draft.addFormState = action.payload;
         break;

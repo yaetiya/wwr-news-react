@@ -5,17 +5,22 @@ import Home from "./pages/Home/Home";
 import { Private } from "./pages/Private/Private";
 import { SignIn } from "./pages/Auth/Auth";
 import { loadUserJWTData } from "./store/ducks/user/actionCreators";
+import { ScrollTopBtn } from "./components/ScrollTopBtn";
+import { Page } from "./pages/Page/Page";
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadUserJWTData());
-  }, [dispatch])
+  }, [dispatch]);
   return (
     <div className="App">
+      <ScrollTopBtn />
+
       <Switch>
         <Route path="/signin" component={SignIn} />
         <Route path="/private" component={Private} />
+        <Route path="/user/:username" component={Page} />
         <Route path="/" component={Home} />
       </Switch>
     </div>

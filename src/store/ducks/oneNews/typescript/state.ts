@@ -6,8 +6,13 @@ export enum LoadingState {
   ERROR = 'ERROR',
   NEVER = 'NEVER',
 }
+export interface TPreComment {
+  text: string;
+  postId: string;
+}
 
 export interface OneNewsState {
   data: News | undefined;
   loadingState: LoadingState;
+  addCommentErrorMessage: string | undefined;
 }

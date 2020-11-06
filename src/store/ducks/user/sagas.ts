@@ -18,8 +18,14 @@ export function* fetchUserDataRequest({
   payload: UserLoadingData,
 }: FetchUserDataActionInterface) {
   try {
-    const data: User = yield call(UserApi.login, UserLoadingData);
-    yield put(setUserData(data));
+    const user: User = yield call(UserApi.login, UserLoadingData);
+    if (user.token) {
+      const data: User = yield call(UserApi.getUserFromJWT, user.token);
+      yield put(setUserData({...data, token: user.token}));
+    }
+    else{
+      yield put(setUserLoadingState(LoadingState.ERROR));
+    }
   } catch (error) {
     yield put(setUserLoadingState(LoadingState.ERROR));
   }
@@ -66,7 +72,7 @@ export function* signUpWorker({
       }
       yield put(setUserRegistrationState(RegistrationState.ERROR));
     } else if (RegistrationData.message?.name) {
-      yield put(setErrorMessageData("The same user already exists"));
+      yield put(setErrorMessageData("The user with the same email or username already exists"));
       yield put(setErrorRegistrationFieldData(undefined));
     } else if (RegistrationData.data) {
       yield put(setUserRegistrationState(RegistrationState.SUCCESS));

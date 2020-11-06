@@ -1,12 +1,12 @@
 // @ts-nocheck
 
 import { createMuiTheme } from "@material-ui/core/styles";
-import { red } from "@material-ui/core/colors";
 import {
   defaultTextColor,
   secondaryBackgroundColor,
   secondaryTextColor,
   defaultBackgroundColor,
+  defaultErrorColor,
 } from "./configs/palette";
 
 export const theme = createMuiTheme({
@@ -32,7 +32,10 @@ export const theme = createMuiTheme({
       main: secondaryBackgroundColor,
     },
     error: {
-      main: red.A400,
+      main: defaultErrorColor,
+    },
+    success: {
+      main: defaultBackgroundColor,
     },
     background: {
       default: defaultBackgroundColor,
@@ -50,6 +53,9 @@ export const theme = createMuiTheme({
         fontSize: 16,
         height: 40,
         fontWeight: 700,
+        "&:hover":{
+          backgroundColor: "transpatern"
+        }
       },
       textPrimary: {
         paddingLeft: 20,
@@ -57,20 +63,18 @@ export const theme = createMuiTheme({
       },
       outlinedPrimary: {
         borderColor: secondaryTextColor,
+        borderWidth: 2,
+        "&:hover": {
+          borderWidth: 2,
+        },
       },
     },
-    MuiFilledInput: {
-      underline: {
-        "&:after": {
-          borderBottomWidth: "2px",
-        },
-        "&:before": {
-          borderColor: "#000",
-          borderBottomWidth: "2px",
-        },
-      },
+    MuiOutlinedInput: {
       input: {
         backgroundColor: defaultBackgroundColor,
+      },
+      notchedOutline: {
+        borderRadius: 2,
       },
     },
     MuiDialog: {

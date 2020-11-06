@@ -1,7 +1,6 @@
 import {
   FormControl,
   FormGroup,
-  TextField,
   Button,
   makeStyles,
   Snackbar,
@@ -9,16 +8,19 @@ import {
 import React, { ChangeEvent, useEffect, useState } from "react";
 import CreateIcon from "@material-ui/icons/Create";
 import { Alert } from "@material-ui/lab";
+import { alertsStyle, secondaryTextColor } from "../configs/palette";
 import {
-  secondaryTextColor,
-} from "../configs/palette";
-import { fetchAddNews } from "../store/ducks/news/actionCreators";
-import { preNews } from "../store/ducks/news/typescript/state";
+  fetchAddNews,
+  setAddFormState,
+  setAddMessage,
+} from "../store/ducks/news/actionCreators";
+import { AddFormState, preNews } from "../store/ducks/news/typescript/state";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectAddMessage,
   selectIsAddPostLoaded,
 } from "../store/ducks/news/selectors";
+import { OutlinedTextField } from "./styledComponents/OutlinedTextField";
 
 const stylesFormNewPost = makeStyles((theme) => ({
   newPost: {
@@ -38,6 +40,7 @@ export const NewPostForm = () => {
   const classes = stylesFormNewPost();
   const IsNewPostLoaded = useSelector(selectIsAddPostLoaded);
   const newPostMessage = useSelector(selectAddMessage);
+  const [checker, setChecker] = useState(false);
   const [openNewPostMessage, setOpenNewPostMessage] = useState(false);
   const dispatch = useDispatch();
   const [newPostForm, setNewPostForm] = useState<preNews>({
@@ -69,14 +72,24 @@ export const NewPostForm = () => {
       })
     );
     setTimeout(() => {
-      setOpenNewPostMessage(true);
-    }, 1000);
+      setChecker(!checker);
+      // setOpenNewPostMessage(true);
+    }, 500);
   };
+  useEffect(() => {
+    if (IsNewPostLoaded || newPostMessage) {
+      setOpenNewPostMessage(true);
+    }
+  }, [IsNewPostLoaded, checker, newPostMessage]);
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
     setOpenNewPostMessage(false);
+    setTimeout(() => {
+      dispatch(setAddFormState(AddFormState.NEVER));
+      dispatch(setAddMessage(""));
+    }, 500);
   };
   return (
     <>
@@ -87,6 +100,7 @@ export const NewPostForm = () => {
         onClose={handleClose}
       >
         <Alert
+          style={alertsStyle(IsNewPostLoaded)}
           onClose={handleClose}
           severity={!IsNewPostLoaded ? "error" : "success"}
         >
@@ -96,7 +110,7 @@ export const NewPostForm = () => {
       <div className={classes.newPost}>
         <FormControl component="fieldset" fullWidth>
           <FormGroup aria-label="position" row>
-            <TextField
+            <OutlinedTextField
               className={classes.newPostField}
               style={{ marginTop: 50 }}
               autoFocus
@@ -112,7 +126,7 @@ export const NewPostForm = () => {
               fullWidth
               onChange={changeNewPostInputHandler}
             />
-            <TextField
+            <OutlinedTextField
               className={classes.newPostField}
               autoFocus
               id="text"

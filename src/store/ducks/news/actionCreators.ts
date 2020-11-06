@@ -5,9 +5,11 @@ import {
   NewsActionsType,
   SetAddFormStateActionInterface,
   SetAddMessage,
+  SetFetchedNewsPageActionInterface,
   SetLeftNewsActionInterface,
   SetNewsActionInterface,
   SetNewsLoadingStateActionInterface,
+  SetNewsToTopActionInterface,
 } from "./typescript/actionTypes";
 import {
   AddFormState,
@@ -20,6 +22,13 @@ export const setNews = (
   payload: NewsState["items"]
 ): SetNewsActionInterface => ({
   type: NewsActionsType.SET_NEWS,
+  payload,
+});
+
+export const setNewsToTop = (
+  payload: NewsState["items"]
+): SetNewsToTopActionInterface => ({
+  type: NewsActionsType.SET_NEWS_TO_TOP,
   payload,
 });
 export const setLeftNews = (
@@ -60,6 +69,11 @@ export const fetchNews = (): FetchNewsActionInterface => ({
   type: NewsActionsType.FETCH_NEWS,
 });
 
+export const setFetchedNewsPage = (payload: number): SetFetchedNewsPageActionInterface => ({
+  type: NewsActionsType.SET_FETCHED_NEWS_PAGE,
+  payload
+});
+
 export const fetchLeftNews = (): FetchLeftNewsActionInterface => ({
   type: NewsActionsType.FETCH_LEFT_NEWS,
 });
@@ -67,10 +81,12 @@ export const fetchLeftNews = (): FetchLeftNewsActionInterface => ({
 
 export type NewsActions =
   | SetNewsActionInterface
+  | SetNewsToTopActionInterface
   | SetLeftNewsActionInterface
   | FetchNewsActionInterface
   | FetchLeftNewsActionInterface
   | SetNewsLoadingStateActionInterface
   | FetchAddNewsActionInterface
   | SetAddFormStateActionInterface
-  | SetAddMessage;
+  | SetAddMessage
+  | SetFetchedNewsPageActionInterface;

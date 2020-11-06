@@ -13,7 +13,7 @@ export const BackButton: React.FC = (): React.ReactElement => {
   return (
     <Button
       onClick={handleClickButton}
-      style={{ marginRight: 20 }}
+      style={{ marginLeft: 38 }}
       color="primary"
     >
       <ArrowBackIosIcon />

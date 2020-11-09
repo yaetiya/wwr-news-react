@@ -9,11 +9,12 @@ import React from "react";
 import {
   defaultBackgroundColor,
   defaultTextColor,
-  secondaryBackgroundColor,
+  primaryColor,
   secondaryTextColor,
 } from "../../configs/palette";
 import { Link } from "react-router-dom";
 import { ArticleBody } from "./ArticleBody";
+import WatchesIcon from "@material-ui/icons/Visibility";
 
 export type articleProps = {
   isLast?: boolean;
@@ -29,6 +30,7 @@ export type articleProps = {
   id: string;
   userId: string;
   date: string;
+  tags: string[];
 };
 const Article = (articleProps: articleProps): React.ReactElement => {
   const postDate: Date = new Date(Date.parse(articleProps.date));
@@ -55,27 +57,35 @@ const Article = (articleProps: articleProps): React.ReactElement => {
         width: "100%",
         height: "2px",
         display: "block",
-        background: !articleProps.isLast ? secondaryBackgroundColor : "",
+        background: !articleProps.isLast ? primaryColor : "",
       },
     },
 
     generalHeadline: {
       fontFamily: "Oswald",
-      fontSize: 36,
+      fontSize: 34,
     },
     mainHeadline: {
       fontFamily: "Oswald",
       fontSize: articleProps?.isSmall ? 20 : 28,
     },
     secondaryHeadline: {
-      fontSize: articleProps?.isSmall ? 18 : 20,
-      // fontWeight: "bold",
+      fontSize: articleProps?.isSmall ? 16 : 24,
+      fontWeight: 500,
     },
     paragraph: {
-      paddingTop: 0,
+      paddingTop: 4,
       fontSize: 14,
       fontWeight: 400,
       // fontFamily: "Oswald",
+    },
+    tagsWrapper: {
+      display: "flex",
+      color: secondaryTextColor,
+    },
+    infoBottomWrapper: {
+      justifyContent: "space-between",
+      display: "flex",
     },
     watchesWrapper: {
       color: secondaryTextColor,
@@ -106,11 +116,11 @@ const Article = (articleProps: articleProps): React.ReactElement => {
       height: articleProps.generalHeadline ? 34 : 30,
       width: articleProps.generalHeadline ? 34 : 30,
     },
-    "@media (max-width: 624px)": {
-      articleWrapper: {
-        display: articleProps.isSmall ? "none" : "block",
-      },
-    },
+    // "@media (max-width: 624px)": {
+    //   articleWrapper: {
+    //     display: articleProps.isSmall ? "none" : "block",
+    //   },
+    // },
   }));
   const classes = stylesHome();
 
@@ -132,8 +142,8 @@ const Article = (articleProps: articleProps): React.ReactElement => {
           >
             <div className={classes.userWrapper}>
               <Typography className={classes.userText}>
-                @{articleProps.username}{" "}
-                {articleProps?.isSmall ? null : postDate.toTimeString()}
+                @{articleProps.username+" "}
+                {articleProps?.isSmall ? null : postDate.toLocaleString()}
               </Typography>
             </div>
           </Link>
@@ -147,6 +157,21 @@ const Article = (articleProps: articleProps): React.ReactElement => {
           ) : (
             <ArticleBody articleProps={articleProps} classes={classes} />
           )}
+          <div className={classes.infoBottomWrapper}>
+            <div className={classes.tagsWrapper}>
+              {articleProps.tags.slice(0, 3).map((tag) => (
+                <Link to={`/tag/${tag}`} className={classes.linkWrapper}>
+                  <Typography variant="body2">#{tag}</Typography>
+                </Link>
+              ))}
+            </div>
+            <div className={classes.watchesWrapper}>
+              <Typography className={classes.watchesText}>
+                {articleProps.watches}
+              </Typography>
+              <WatchesIcon className={classes.watchedIcon} />
+            </div>
+          </div>
           {articleProps.isLast ? (
             <div>
               <LinearProgress style={{ height: 2 }} />

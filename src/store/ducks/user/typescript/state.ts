@@ -29,9 +29,12 @@ export interface User {
   _id : string;
   fullname: string;
   username: string;
+  role: string;
   avatarUrl: string;
   token?: string;
   articles: News[];
+  subscribers: string;
+  subscribtions: string;
 }
 
 export interface UserState {

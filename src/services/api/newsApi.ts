@@ -15,7 +15,7 @@ export const NewsApi = {
   },
   fetchLeftNews(): Promise<NewsState["leftItems"]> {
     return axios
-      .get("http://localhost:8888/trends")
+      .get("http://localhost:8888/left")
       .then(({ data }) => data.data);
   },
   fetchOneNewsData(id: string): Promise<News> {

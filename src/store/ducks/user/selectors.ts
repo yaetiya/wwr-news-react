@@ -28,13 +28,14 @@ export const selectUserData = (state: RootState): UserState["data"] =>
 export const selectUsernameData = (state: RootState): string | undefined =>
   selectUser(state)?.data?.username;
 export const selectUserNews = (state: RootState): News[] | undefined =>
-selectUser(state)?.data?.articles;
+  selectUser(state)?.data?.articles;
 export const selectIsRegistrationSuccess = (state: RootState): boolean =>
   selectRegistrationState(state) === RegistrationState.SUCCESS;
 export const selectIsRegistrationError = (state: RootState): boolean =>
   selectRegistrationState(state) === RegistrationState.ERROR;
 export const selectIsUserError = (state: RootState): boolean =>
   selectLoadingState(state) === LoadingState.ERROR;
-
+export const selectUserId = (state: RootState): string | undefined =>
+  selectUserData(state)?._id;
 export const selectJWT = (state: RootState): string | undefined =>
-  selectUser(state).data?.token;
+  selectUserData(state)?.token;

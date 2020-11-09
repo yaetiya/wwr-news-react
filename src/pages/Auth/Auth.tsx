@@ -124,7 +124,6 @@ export const SignIn: React.FC = (): React.ReactElement => {
     }
   }, [dispatch, isErrorLogin]);
 
-
   const signUp = (): void => {
     dispatch(createUser(signUpForm));
     setTimeout(() => {
@@ -133,10 +132,10 @@ export const SignIn: React.FC = (): React.ReactElement => {
   };
 
   useEffect(() => {
-    if (isRegistrationSuccess || isErrorRegistration){
+    if (isRegistrationSuccess || isErrorRegistration) {
       handleErrorRegistrationAlert();
     }
-  }, [checker, isErrorRegistration, isRegistrationSuccess])
+  }, [checker, isErrorRegistration, isRegistrationSuccess]);
 
   useEffect(() => {
     handleCloseModal();
@@ -147,14 +146,16 @@ export const SignIn: React.FC = (): React.ReactElement => {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    handleCloseModal();
-    setSignUpForm({
-      password: "",
-      password2: "",
-      username: "",
-      fullname: "",
-      email: "",
-    });
+    if (isRegistrationSuccess) {
+      handleCloseModal();
+      setSignUpForm({
+        password: "",
+        password2: "",
+        username: "",
+        fullname: "",
+        email: "",
+      });
+    }
   }, [isRegistrationSuccess]);
 
   const handleCloseModal = (): void => {
@@ -207,7 +208,7 @@ export const SignIn: React.FC = (): React.ReactElement => {
       >
         <Alert
           onClose={handleClose}
-          severity="error"
+          severity={isRegistrationSuccess ? undefined : "error"}
           style={alertsStyle(isRegistrationSuccess)}
         >
           {isErrorRegistration

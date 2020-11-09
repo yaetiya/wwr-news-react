@@ -1,8 +1,10 @@
 import {
   FetchAddNewsActionInterface,
   FetchLeftNewsActionInterface,
+  FetchLeftNewsFromTagActionInterface,
   FetchNewsActionInterface,
   NewsActionsType,
+  ResetNewsActionInterface,
   SetAddFormStateActionInterface,
   SetAddMessage,
   SetFetchedNewsPageActionInterface,
@@ -22,6 +24,13 @@ export const setNews = (
   payload: NewsState["items"]
 ): SetNewsActionInterface => ({
   type: NewsActionsType.SET_NEWS,
+  payload,
+});
+
+export const resetNews = (
+  payload: NewsState["items"]
+): ResetNewsActionInterface => ({
+  type: NewsActionsType.RESET_NEWS,
   payload,
 });
 
@@ -74,6 +83,11 @@ export const setFetchedNewsPage = (payload: number): SetFetchedNewsPageActionInt
   payload
 });
 
+export const fetchLeftNewsFromTag = (payload: string):FetchLeftNewsFromTagActionInterface => ({
+  type: NewsActionsType.FETCH_LEFT_NEWS_FROM_TAG,
+  payload
+});
+
 export const fetchLeftNews = (): FetchLeftNewsActionInterface => ({
   type: NewsActionsType.FETCH_LEFT_NEWS,
 });
@@ -88,5 +102,7 @@ export type NewsActions =
   | SetNewsLoadingStateActionInterface
   | FetchAddNewsActionInterface
   | SetAddFormStateActionInterface
+  | ResetNewsActionInterface
   | SetAddMessage
-  | SetFetchedNewsPageActionInterface;
+  | SetFetchedNewsPageActionInterface
+  | FetchLeftNewsFromTagActionInterface;

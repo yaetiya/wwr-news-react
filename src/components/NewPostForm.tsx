@@ -112,8 +112,7 @@ export const NewPostForm = () => {
           <FormGroup aria-label="position" row>
             <OutlinedTextField
               className={classes.newPostField}
-              style={{ marginTop: 50 }}
-              autoFocus
+              style={{ marginTop: 15 }}
               id="headline"
               label="Headline"
               InputLabelProps={{
@@ -128,7 +127,6 @@ export const NewPostForm = () => {
             />
             <OutlinedTextField
               className={classes.newPostField}
-              autoFocus
               id="text"
               label="Post body"
               multiline

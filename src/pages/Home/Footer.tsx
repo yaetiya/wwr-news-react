@@ -1,11 +1,11 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import { secondaryTextColor } from "../../configs/palette";
+import { secondaryBackgroundColor } from "../../configs/palette";
 
 const stylesFooter = makeStyles(() => ({
   footerWrapper: {
     height: 100,
-    backgroundColor: secondaryTextColor,
+    backgroundColor: secondaryBackgroundColor,
   },
 }));
 export const Footer = () => {

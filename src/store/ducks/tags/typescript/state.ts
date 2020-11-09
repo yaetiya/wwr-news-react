@@ -6,7 +6,6 @@ export enum LoadingState {
 }
 
 export interface Tag {
-  _id: string;
   name: string;
 }
 

@@ -7,7 +7,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import {
-  selectIsUserLoaded,
   selectUserData,
   selectUserNews,
 } from "../../store/ducks/user/selectors";
@@ -22,10 +21,11 @@ import { NewPostForm } from "../../components/NewPostForm";
 import { Counter } from "../../components/Counter";
 import Article from "../../components/Article/Article";
 import { defaultBackgroundColor } from "../../configs/palette";
+import { selectIsNewsLoading } from "../../store/ducks/news/selectors";
 
 export const Private: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(selectIsUserLoaded);
+  const isLoading = useSelector(selectIsNewsLoading);
   const user = useSelector(selectUserData);
   const articles = useSelector(selectUserNews)?.reverse();
 
@@ -77,7 +77,7 @@ export const Private: React.FC = (): React.ReactElement => {
     dispatch(loadUserJWTData());
   }, [dispatch]);
 
-  if (!isLoggedIn) {
+  if (isLoading) {
     return <Redirect to="/signin" />;
   }
   const logoutHandler = () => {
@@ -110,6 +110,7 @@ export const Private: React.FC = (): React.ReactElement => {
                         username={user.username}
                         date={item.date}
                         userId={user._id}
+                        tags={item.tags}
                       />
                     ))
                   : null}
@@ -128,8 +129,8 @@ export const Private: React.FC = (): React.ReactElement => {
                         {user.fullname}
                       </Typography>
                       <div className={classes.content}>
-                        <Counter number={10} text="Subscribers" />
-                        <Counter number={22} text="Subscribes" />
+                        <Counter value={10} text="Subscribers" />
+                        <Counter value={22} text="Subscribes" />
                       </div>
                     </div>
                   </Grid>

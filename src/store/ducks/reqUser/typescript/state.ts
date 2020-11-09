@@ -1,13 +1,16 @@
 import { User } from "../../user/typescript/state";
 
 export enum LoadingState {
-  LOADED = 'LOADED',
-  LOADING = 'LOADING',
-  ERROR = 'ERROR',
-  NEVER = 'NEVER',
+  LOADED = "LOADED",
+  LOADING = "LOADING",
+  ERROR = "ERROR",
+  NEVER = "NEVER",
 }
 
+export interface ReqUser extends User {}
+
 export interface ReqUserState {
-  data: User | undefined;
+  data: ReqUser | undefined;
   loadingState: LoadingState;
+  isSubscribed: boolean | undefined;
 }

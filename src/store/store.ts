@@ -1,6 +1,7 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { NewsState } from './ducks/news/typescript/state';
+import { NotificationsState } from './ducks/notifications/typescript/state';
 import { OneNewsState } from './ducks/oneNews/typescript/state';
 import { ReqUserState } from './ducks/reqUser/typescript/state';
 import { TagsState } from './ducks/tags/typescript/state';
@@ -27,6 +28,7 @@ export interface RootState {
   tags: TagsState;
   user: UserState;
   reqUser: ReqUserState;
+  notifications: NotificationsState;
 }
 
 export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(sagaMiddleware)));

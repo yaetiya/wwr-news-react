@@ -6,15 +6,16 @@
 
 export const defaultBackgroundColor = "#FFFFFF";
 export const defaultTextColor = "#2B2D42";
-export const secondaryBackgroundColor = "#0500FF";
-export const secondaryTextColor = "#8D99AE";
-export const primaryDarkColor = "#D90429";
+export const secondaryBackgroundColor = "#F1F1F1";
+export const primaryColor = "#0500FF";
+export const secondaryTextColor = "#8D99AE" ;
 export const defaultErrorColor = "#EF233C";
+// export const secondaryPrimaryColor = "#0500FF";
 
 export const alertsStyle = (isSuccess : boolean) => {
   return {
     borderRadius: 0,
     color: defaultBackgroundColor,
-    background: isSuccess ? secondaryBackgroundColor : defaultErrorColor,
+    background: isSuccess ? primaryColor : defaultErrorColor,
   };
 };

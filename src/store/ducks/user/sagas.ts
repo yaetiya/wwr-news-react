@@ -1,5 +1,7 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import { TSignUpResp, UserApi } from "../../../services/api/userApi";
+import { setLeftNews, setNews } from "../news/actionCreators";
+import { fetchNotifications } from "../notifications/actionCreators";
 import {
   setErrorMessageData,
   setErrorRegistrationFieldData,
@@ -21,9 +23,9 @@ export function* fetchUserDataRequest({
     const user: User = yield call(UserApi.login, UserLoadingData);
     if (user.token) {
       const data: User = yield call(UserApi.getUserFromJWT, user.token);
-      yield put(setUserData({...data, token: user.token}));
-    }
-    else{
+      yield put(setUserData({ ...data, token: user.token }));
+      yield put(fetchNotifications());
+    } else {
       yield put(setUserLoadingState(LoadingState.ERROR));
     }
   } catch (error) {
@@ -49,7 +51,10 @@ export function* fetchUserFromJWTDataRequest() {
 export function* logoutWorker() {
   try {
     delete localStorage["jwt"];
+    delete localStorage["checked"];
     yield put(setUserLoadingState(LoadingState.NEVER));
+    yield setNews([]);
+    yield setLeftNews([]);
   } catch (error) {
     yield put(setUserLoadingState(LoadingState.ERROR));
   }
@@ -72,10 +77,15 @@ export function* signUpWorker({
       }
       yield put(setUserRegistrationState(RegistrationState.ERROR));
     } else if (RegistrationData.message?.name) {
-      yield put(setErrorMessageData("The user with the same email or username already exists"));
+      yield put(
+        setErrorMessageData(
+          "The user with the same email or username already exists"
+        )
+      );
       yield put(setErrorRegistrationFieldData(undefined));
     } else if (RegistrationData.data) {
       yield put(setUserRegistrationState(RegistrationState.SUCCESS));
+      setErrorRegistrationFieldData(undefined);
     }
   } catch (error) {
     yield put(setErrorMessageData("Bad request"));
@@ -88,7 +98,5 @@ export function* UserSaga() {
   yield takeEvery(UserActionsType.SIGN_UP, signUpWorker);
   yield takeEvery(UserActionsType.FETCH_USER_DATA, fetchUserDataRequest);
   yield takeEvery(UserActionsType.LOAD_JWT_DATA, fetchUserFromJWTDataRequest);
-  // yield takeEvery(UserActionsType.fet)
-  //fetch user by username
   yield takeEvery(UserActionsType.LOGOUT, logoutWorker);
 }

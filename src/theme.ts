@@ -3,13 +3,21 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import {
   defaultTextColor,
-  secondaryBackgroundColor,
+  primaryColor,
   secondaryTextColor,
   defaultBackgroundColor,
   defaultErrorColor,
 } from "./configs/palette";
 
 export const theme = createMuiTheme({
+  // props: {
+  //   // Name of the component
+  //   MuiButtonBase: {
+  //     // The properties to apply
+  //     centerRipple: true
+  //     // disableRipple: true // No more ripple, on the whole application!
+  //   }
+  // },
   typography: {
     fontFamily: [
       "system-ui",
@@ -24,12 +32,12 @@ export const theme = createMuiTheme({
   },
   palette: {
     primary: {
-      main: secondaryBackgroundColor,
+      main: primaryColor,
       dark: secondaryTextColor,
       contrastText: "#fff",
     },
     secondary: {
-      main: secondaryBackgroundColor,
+      main: primaryColor,
     },
     error: {
       main: defaultErrorColor,
@@ -53,13 +61,19 @@ export const theme = createMuiTheme({
         fontSize: 16,
         height: 40,
         fontWeight: 700,
-        "&:hover":{
-          backgroundColor: "transpatern"
-        }
+        "&:hover": {
+          backgroundColor: "transpatern",
+        },
       },
       textPrimary: {
         paddingLeft: 20,
         paddingRight: 20,
+      },
+      containedPrimary: {
+        transition: "1s",
+        "&:hover": {
+          backgroundColor: primaryColor,
+        },
       },
       outlinedPrimary: {
         borderColor: secondaryTextColor,

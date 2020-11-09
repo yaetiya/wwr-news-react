@@ -15,11 +15,15 @@ const initialNewsState: NewsState = {
 export const newsReducer = produce(
   (draft: Draft<NewsState>, action: NewsActions) => {
     switch (action.type) {
+      case NewsActionsType.RESET_NEWS:
+        draft.items = action.payload;
+        draft.loadingState = LoadingState.LOADED;
+        break;
       case NewsActionsType.SET_FETCHED_NEWS_PAGE:
         draft.fetchedNewsPage = action.payload;
         break;
       case NewsActionsType.SET_NEWS:
-        draft.items.push(...action.payload);
+        draft.items = [...draft.items, ...action.payload];
         draft.loadingState = LoadingState.LOADED;
         break;
       case NewsActionsType.SET_NEWS_TO_TOP:
@@ -28,15 +32,10 @@ export const newsReducer = produce(
         break;
       case NewsActionsType.SET_LEFT_NEWS:
         draft.leftItems = action.payload;
-        draft.loadingState = LoadingState.LOADED;
         break;
 
       case NewsActionsType.FETCH_NEWS:
-        // draft.items = [];
         draft.loadingState = LoadingState.LOADING;
-        // if (draft.items.length === 0){
-        //   draft.loadingState = LoadingState.LOADING;
-        // }
         break;
 
       case NewsActionsType.SET_LOADING_STATE:

@@ -38,6 +38,7 @@ export const OneArticle = () => {
           username={oneNews.userId.username}
           date={oneNews.date}
           userId={oneNews.userId._id}
+          tags={oneNews.tags}
         />
         <NewCommentForm />
 
@@ -48,7 +49,7 @@ export const OneArticle = () => {
                 <Grid item xs>
                   <Comment
                     text={comment.text}
-                    date={new Date(Date.parse(comment.date)).toTimeString()}
+                    date={new Date(Date.parse(comment.date)).toLocaleString()}
                     username={comment.userId.username}
                     avatar={comment.userId.avatarUrl}
                   />

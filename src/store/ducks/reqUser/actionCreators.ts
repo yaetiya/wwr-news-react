@@ -1,6 +1,23 @@
-import { FetchReqUserDataActionInterface, ReqUserActionsType, SetReqUserDataActionInterface, SetReqUserLoadingStateActionInterface } from "./typescript/actionTypes";
+import {
+  FetchIsSubscribedActionInterface,
+  FetchReqUserDataActionInterface,
+  ReqUserActionsType,
+  SetIsSubscribedActionInterface,
+  SetReqUserDataActionInterface,
+  SetReqUserLoadingStateActionInterface,
+  SubscribeActionInterface,
+  UnsubscribeActionInterface,
+} from "./typescript/actionTypes";
 import { LoadingState, ReqUserState } from "./typescript/state";
-
+export const setIsSubscribedData = (
+  payload: boolean
+): SetIsSubscribedActionInterface => ({
+  type: ReqUserActionsType.SET_IS_SUBSCRIBED,
+  payload,
+});
+export const fetchIsSubscribedData = (): FetchIsSubscribedActionInterface => ({
+  type: ReqUserActionsType.FETCH_IS_SUBSCRIBED,
+});
 export const setReqUserData = (
   payload: ReqUserState["data"]
 ): SetReqUserDataActionInterface => ({
@@ -22,9 +39,23 @@ export const fetchReqUserData = (
   payload,
 });
 
+export const fetchSubscribe = (payload: string): SubscribeActionInterface => ({
+  type: ReqUserActionsType.SUBSCRIBE,
+  payload,
+});
+
+export const fetchUnsubscribe = (
+  payload: string
+): UnsubscribeActionInterface => ({
+  type: ReqUserActionsType.UNSUBSCRIBE,
+  payload,
+});
 
 export type ReqUserActions =
+  | FetchIsSubscribedActionInterface
+  | SetIsSubscribedActionInterface
   | SetReqUserDataActionInterface
   | FetchReqUserDataActionInterface
   | SetReqUserLoadingStateActionInterface
-;
+  | UnsubscribeActionInterface
+  | SubscribeActionInterface;

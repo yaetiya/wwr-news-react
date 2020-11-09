@@ -7,10 +7,12 @@ import { SignIn } from "./pages/Auth/Auth";
 import { loadUserJWTData } from "./store/ducks/user/actionCreators";
 import { ScrollTopBtn } from "./components/ScrollTopBtn";
 import { Page } from "./pages/Page/Page";
+import { fetchNotifications } from "./store/ducks/notifications/actionCreators";
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(fetchNotifications())
     dispatch(loadUserJWTData());
   }, [dispatch]);
   return (

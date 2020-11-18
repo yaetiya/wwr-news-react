@@ -1,4 +1,5 @@
 import axios from "axios";
+import { News } from "../../store/ducks/news/typescript/state";
 import { ReqUser } from "../../store/ducks/reqUser/typescript/state";
 import {
   User,
@@ -44,12 +45,19 @@ export const UserApi = {
       .get(`http://localhost:8888/users/${username}`)
       .then(({ data }) => data.data);
   },
+  fetchUserPostsByUsername(username: string, page: number): Promise<News[]> {
+    return axios
+      .get(`http://localhost:8888/posts/${username}`, {
+        params: { page: page },
+      })
+      .then(({ data }) => data.data);
+  },
   sub(payload: any, jwt: string) {
     axios.post("http://localhost:8888/sub/", payload, {
       headers: { token: jwt },
     });
   },
-  isSubscribed(payload: any, jwt: string):Promise<boolean> {
+  isSubscribed(payload: any, jwt: string): Promise<boolean> {
     return axios
       .post("http://localhost:8888/sub/isSubscribed", payload, {
         headers: { token: jwt },

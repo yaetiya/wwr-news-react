@@ -13,4 +13,5 @@ export interface ReqUserState {
   data: ReqUser | undefined;
   loadingState: LoadingState;
   isSubscribed: boolean | undefined;
+  page: number | undefined;
 }

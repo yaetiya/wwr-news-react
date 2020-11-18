@@ -7,13 +7,20 @@ const initialUserState: ReqUserState = {
   data: undefined,
   loadingState: LoadingState.NEVER,
   isSubscribed: undefined,
+  page: undefined,
 };
 
 export const ReqUserReducer = produce(
   (draft: Draft<ReqUserState>, action: ReqUserActions) => {
     switch (action.type) {
+      case ReqUserActionsType.SET_PAGE:
+        draft.page = action.payload;
+        break;
+      case ReqUserActionsType.SET_REQ_USER_POSTS:
+        draft.data?.articles.push(...action.payload);
+        break;
       case ReqUserActionsType.SET_IS_SUBSCRIBED:
-        draft.isSubscribed = action.payload
+        draft.isSubscribed = action.payload;
         break;
       case ReqUserActionsType.SET_USER_DATA:
         draft.data = action.payload;

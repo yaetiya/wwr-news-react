@@ -1,4 +1,5 @@
 import {
+  AddLeftNewsActionInterface,
   FetchAddNewsActionInterface,
   FetchLeftNewsActionInterface,
   FetchLeftNewsFromTagActionInterface,
@@ -9,6 +10,7 @@ import {
   SetAddMessage,
   SetFetchedNewsPageActionInterface,
   SetLeftNewsActionInterface,
+  SetLeftNewsPageActionInterface,
   SetNewsActionInterface,
   SetNewsLoadingStateActionInterface,
   SetNewsToTopActionInterface,
@@ -46,8 +48,16 @@ export const setLeftNews = (
   type: NewsActionsType.SET_LEFT_NEWS,
   payload,
 });
+export const addLeftNews = (
+  payload: NewsState["leftItems"]
+): AddLeftNewsActionInterface => ({
+  type: NewsActionsType.ADD_LEFT_NEWS,
+  payload,
+});
 
-export const fetchAddNews = (payload: preNews): FetchAddNewsActionInterface => ({
+export const fetchAddNews = (
+  payload: preNews
+): FetchAddNewsActionInterface => ({
   type: NewsActionsType.FETCH_ADD_NEWS,
   payload,
 });
@@ -59,13 +69,10 @@ export const setNewsLoadingState = (
   payload,
 });
 
-export const setAddMessage = (
-  payload: string
-): SetAddMessage => ({
+export const setAddMessage = (payload: string): SetAddMessage => ({
   type: NewsActionsType.SET_ADD_MESSAGE,
   payload,
 });
-
 
 export const setAddFormState = (
   payload: AddFormState
@@ -78,23 +85,33 @@ export const fetchNews = (): FetchNewsActionInterface => ({
   type: NewsActionsType.FETCH_NEWS,
 });
 
-export const setFetchedNewsPage = (payload: number): SetFetchedNewsPageActionInterface => ({
+export const setFetchedNewsPage = (
+  payload: number
+): SetFetchedNewsPageActionInterface => ({
   type: NewsActionsType.SET_FETCHED_NEWS_PAGE,
-  payload
+  payload,
 });
-
-export const fetchLeftNewsFromTag = (payload: string):FetchLeftNewsFromTagActionInterface => ({
+export const setLeftNewsPage = (
+  payload: number
+): SetLeftNewsPageActionInterface => ({
+  type: NewsActionsType.SET_LEFT_NEWS_PAGE,
+  payload,
+});
+export const fetchLeftNewsFromTag = (
+  payload: string
+): FetchLeftNewsFromTagActionInterface => ({
   type: NewsActionsType.FETCH_LEFT_NEWS_FROM_TAG,
-  payload
+  payload,
 });
 
 export const fetchLeftNews = (): FetchLeftNewsActionInterface => ({
   type: NewsActionsType.FETCH_LEFT_NEWS,
 });
 
-
 export type NewsActions =
   | SetNewsActionInterface
+  | AddLeftNewsActionInterface
+  | SetLeftNewsPageActionInterface
   | SetNewsToTopActionInterface
   | SetLeftNewsActionInterface
   | FetchNewsActionInterface

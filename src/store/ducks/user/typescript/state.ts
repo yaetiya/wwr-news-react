@@ -43,4 +43,5 @@ export interface UserState {
   registrationState: RegistrationState;
   errorMessage: string | undefined;
   invalidRegistrationField: string | undefined;
+  jwt: string | undefined;
 }

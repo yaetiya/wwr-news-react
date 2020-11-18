@@ -24,7 +24,7 @@ export const ArticleBody = ({ articleProps, classes }: TArticleBodyProps) => {
         {!articleProps.isFull
           ? articleProps?.isSmall
             ? articleProps.text.slice(0, 100)
-            : articleProps.text.slice(0, 900)
+            : articleProps.text.slice(0, 400)
           : articleProps.text}
       </Typography>
       

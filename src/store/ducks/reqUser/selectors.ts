@@ -11,10 +11,13 @@ export const selectIsReqUserLoaded = (state: RootState): boolean =>
 
 export const selectReqUserData = (state: RootState): ReqUserState["data"] =>
   selectReqUser(state)?.data;
-export const selectIsSubscribed = (state: RootState): boolean | undefined=>
-selectReqUser(state)?.isSubscribed;
+export const selectReqUserUsername = (state: RootState): string | undefined =>
+  selectReqUserData(state)?.username;
+export const selectIsSubscribed = (state: RootState): boolean | undefined =>
+  selectReqUser(state)?.isSubscribed;
 export const selectIsReqUserError = (state: RootState): boolean =>
   selectLoadingState(state) === LoadingState.ERROR;
-
+export const selectReqUserPage = (state: RootState): number | undefined =>
+  selectReqUser(state).page;
 export const selectIsReqUserLoading = (state: RootState): boolean =>
   selectLoadingState(state) === LoadingState.LOADING;

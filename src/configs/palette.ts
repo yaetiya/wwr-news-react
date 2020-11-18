@@ -10,6 +10,7 @@ export const secondaryBackgroundColor = "#F1F1F1";
 export const primaryColor = "#0500FF";
 export const secondaryTextColor = "#8D99AE" ;
 export const defaultErrorColor = "#EF233C";
+export const primaryShadow = "0px 4px 10px rgba(5, 0, 255, 0.28)";
 // export const secondaryPrimaryColor = "#0500FF";
 
 export const alertsStyle = (isSuccess : boolean) => {

@@ -3,16 +3,18 @@ import { NewsApi } from "../../../services/api/newsApi";
 import { TagsApi } from "../../../services/api/tagsApi";
 import { selectJWT } from "../user/selectors";
 import {
+  addLeftNews,
   resetNews,
   setAddFormState,
   setAddMessage,
   setFetchedNewsPage,
   setLeftNews,
+  setLeftNewsPage,
   setNews,
   setNewsLoadingState,
   setNewsToTop,
 } from "./actionCreators";
-import { selectFetchedNewsPage } from "./selectors";
+import { selectFetchedNewsPage, selectLeftNewsPage } from "./selectors";
 import {
   FetchAddNewsActionInterface,
   FetchLeftNewsFromTagActionInterface,
@@ -40,12 +42,14 @@ export function* fetchNewsRequest() {
         : yield put(setNews(items));
     }
   } catch (error) {
+    // const pageNumber = yield select(selectFetchedNewsPage);
+    // yield put(setFetchedNewsPage(pageNumber + 1));
     yield put(setNewsLoadingState(LoadingState.ERROR));
   }
 }
 export function* fetchLeftNewsRequest() {
   try {
-    const leftItems = yield call(NewsApi.fetchLeftNews);
+    const leftItems = yield call(TagsApi.fetchNewsByTagName, "TRENDS", 0);
     yield put(setLeftNews(leftItems));
   } catch (error) {
     yield put(setNewsLoadingState(LoadingState.ERROR));
@@ -55,8 +59,10 @@ export function* fetchLeftNewsFromTagWorker({
   payload,
 }: FetchLeftNewsFromTagActionInterface) {
   try {
-    const leftItems = yield call(TagsApi.fetchNewsByTagName, payload);
-    yield put(setLeftNews(leftItems));
+    const page = yield select(selectLeftNewsPage);
+    const leftItems = yield call(TagsApi.fetchNewsByTagName, payload, page);
+    yield put(addLeftNews(leftItems));
+    yield put(setLeftNewsPage(page + 1));
   } catch {}
 }
 export function* fetchAddNewsRequest({ payload }: FetchAddNewsActionInterface) {
@@ -72,6 +78,9 @@ export function* fetchAddNewsRequest({ payload }: FetchAddNewsActionInterface) {
       yield put(setAddMessage(message));
     }
   } catch (error) {
+    yield put(
+      setAddMessage("Чтобы добавлять записи необходимо авторизоваться")
+    );
     yield put(setAddFormState(AddFormState.ERROR));
   }
 }

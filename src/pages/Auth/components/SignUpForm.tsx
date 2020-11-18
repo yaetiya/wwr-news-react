@@ -30,7 +30,7 @@ export const SignUpForm = (
       <FormGroup aria-label="position" row>
         <OutlinedTextField
           error={ErrorRegistrationField === "fullname"}
-          className={classes.registerField}
+          className={classes.registrationField}
           autoFocus
           id="name"
           label="Имя"
@@ -45,7 +45,7 @@ export const SignUpForm = (
           value={signUpForm?.fullname}
         />
         <OutlinedTextField
-          className={classes.registerField}
+          className={classes.registrationField}
           error={ErrorRegistrationField === "email"}
           autoFocus
           id="email"
@@ -61,7 +61,7 @@ export const SignUpForm = (
           value={signUpForm?.email}
         />
         <OutlinedTextField
-          className={classes.registerField}
+          className={classes.registrationField}
           autoFocus
           error={ErrorRegistrationField === "username"}
           id="username"
@@ -78,7 +78,7 @@ export const SignUpForm = (
         />
 
         <OutlinedTextField
-          className={classes.registerField}
+          className={classes.registrationField}
           autoFocus
           error={ErrorRegistrationField === "password"}
           id="password"
@@ -94,7 +94,7 @@ export const SignUpForm = (
           value={signUpForm?.password}
         />
         <OutlinedTextField
-          className={classes.registerField}
+          className={classes.registrationField}
           autoFocus
           error={ErrorRegistrationField === "password"}
           id="password2"

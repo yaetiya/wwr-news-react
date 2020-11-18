@@ -6,6 +6,7 @@ import Article from "../../components/Article/Article";
 import {
   fetchLeftNewsFromTag,
   setLeftNews,
+  setLeftNewsPage,
 } from "../../store/ducks/news/actionCreators";
 import { selectLeftNewsItems } from "../../store/ducks/news/selectors";
 
@@ -17,6 +18,7 @@ export const TagNews = () => {
 
   useEffect(() => {
     dispatch(setLeftNews([]));
+    dispatch(setLeftNewsPage(0));
     if (name) {
       dispatch(fetchLeftNewsFromTag(name));
     }

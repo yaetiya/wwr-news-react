@@ -13,11 +13,6 @@ export const NewsApi = {
       .get("http://localhost:8888/articles", { params: payload, headers: { token: jwt }})
       .then(({ data }) => data.data);
   },
-  fetchLeftNews(): Promise<NewsState["leftItems"]> {
-    return axios
-      .get("http://localhost:8888/left")
-      .then(({ data }) => data.data);
-  },
   fetchOneNewsData(id: string): Promise<News> {
     return axios
       .get(`http://localhost:8888/articles/${id}`)

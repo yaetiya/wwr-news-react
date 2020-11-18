@@ -17,6 +17,9 @@ import {
 } from "../../store/ducks/oneNews/selectors";
 import { sendCommentOneNewsData } from "../../store/ducks/oneNews/actionCreators";
 import { OutlinedTextField } from "../styledComponents/OutlinedTextField";
+import { useHistory } from "react-router-dom";
+import { selectJWT } from "../../store/ducks/user/selectors";
+import { redirectPaths } from "../../configs/redirect";
 
 const stylesFormNewComment = makeStyles(() => ({
   newCommentField: {
@@ -39,6 +42,8 @@ export const NewCommentForm = () => {
   const [openNewCommentMessage, setOpenNewCommentMessage] = useState(false);
   const postId = useSelector(selectOneNewsData)?._id;
   const dispatch = useDispatch();
+  const history = useHistory();
+  const jwt = useSelector(selectJWT);
   const [newCommentForm, setNewCommentForm] = useState({
     text: "",
   });
@@ -54,19 +59,23 @@ export const NewCommentForm = () => {
   };
 
   const sendNewCommentData = () => {
-    if (postId) {
-      dispatch(
-        sendCommentOneNewsData({
-          text: newCommentForm.text,
-          postId: postId,
-        })
-      );
-      setNewCommentForm({ text: "" });
-    }
+    if (jwt) {
+      if (postId) {
+        dispatch(
+          sendCommentOneNewsData({
+            text: newCommentForm.text,
+            postId: postId,
+          })
+        );
+        setNewCommentForm({ text: "" });
+      }
 
-    setTimeout(() => {
-      setOpenNewCommentMessage(true);
-    }, 1000);
+      setTimeout(() => {
+        setOpenNewCommentMessage(true);
+      }, 500);
+    } else {
+      history.push(redirectPaths.auth);
+    }
   };
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {

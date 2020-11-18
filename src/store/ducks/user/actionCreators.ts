@@ -5,6 +5,7 @@ import {
   LogoutActionInterface,
   SetErrorMessageActionInterface,
   SetErrorRegistrationFieldActionInterface,
+  SetOnlyJWTActionInterface,
   SetUserDataActionInterface,
   SetUserLoadingStateActionInterface,
   SetUserRegistrationStateActionInterface,
@@ -30,6 +31,11 @@ export const setErrorMessageData = (
   payload: string
 ): SetErrorMessageActionInterface => ({
   type: UserActionsType.SET_ERROR_MESSAGE,
+  payload,
+});
+
+export const setOnlyJWTData = (payload: string | undefined): SetOnlyJWTActionInterface => ({
+  type: UserActionsType.SET_ONLY_JWT,
   payload,
 });
 
@@ -61,7 +67,6 @@ export const fetchUserData = (
   payload,
 });
 
-
 export const createUser = (payload: SignUpData): SignUpDataActionInterface => ({
   type: UserActionsType.SIGN_UP,
   payload,
@@ -83,6 +88,7 @@ export const fetchUserJWTData = (
 });
 
 export type UserActions =
+  | SetOnlyJWTActionInterface
   | SetUserDataActionInterface
   | FetchUserDataActionInterface
   | SetUserLoadingStateActionInterface

@@ -10,11 +10,15 @@ const initialUserState: UserState = {
   loadingState: LoadingState.NEVER,
   registrationState: RegistrationState.NEVER,
   invalidRegistrationField: undefined,
+  jwt: undefined,
 };
 
 export const UserReducer = produce(
   (draft: Draft<UserState>, action: UserActions) => {
     switch (action.type) {
+      case UserActionsType.SET_ONLY_JWT:
+        draft.jwt = action.payload;
+        break;
       case UserActionsType.SET_USER_DATA:
         draft.data = action.payload;
         draft.loadingState = LoadingState.LOADED;
@@ -24,9 +28,9 @@ export const UserReducer = produce(
         }
         break;
       case UserActionsType.SET_ERROR_MESSAGE:
-          draft.errorMessage = action.payload;
-          draft.registrationState = RegistrationState.ERROR;
-          break;
+        draft.errorMessage = action.payload;
+        draft.registrationState = RegistrationState.ERROR;
+        break;
       case UserActionsType.LOGOUT:
         draft.data = undefined;
         break;

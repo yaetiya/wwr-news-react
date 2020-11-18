@@ -38,4 +38,4 @@ export const selectIsUserError = (state: RootState): boolean =>
 export const selectUserId = (state: RootState): string | undefined =>
   selectUserData(state)?._id;
 export const selectJWT = (state: RootState): string | undefined =>
-  selectUserData(state)?.token;
+  selectUser(state).jwt ? selectUser(state).jwt : selectUserData(state)?.token;

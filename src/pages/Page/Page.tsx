@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import {
-  Button,
   Container,
   Grid,
   LinearProgress,
@@ -9,29 +8,24 @@ import {
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/Navbar";
-import { Counter } from "../../components/Counter";
 import Article from "../../components/Article/Article";
 import { defaultBackgroundColor } from "../../configs/palette";
 import {
   selectIsReqUserError,
   selectIsReqUserLoaded,
-  selectIsSubscribed,
   selectReqUserData,
 } from "../../store/ducks/reqUser/selectors";
-import {
-  fetchReqUserData,
-  fetchSubscribe,
-  fetchUnsubscribe,
-} from "../../store/ducks/reqUser/actionCreators";
+import { fetchReqUserData } from "../../store/ducks/reqUser/actionCreators";
 import { useParams } from "react-router-dom";
-import { selectIsUserLoaded, selectUserId } from "../../store/ducks/user/selectors";
+import { UserInfoCard } from "../../components/UserInfoCard";
+import { NewPostForm } from "../../components/NewPostForm";
+import { selectUserId } from "../../store/ducks/user/selectors";
+import { isMobile } from "../../configs/device";
 
 export const Page: React.FC = (): React.ReactElement => {
   const isLoaded = useSelector(selectIsReqUserLoaded);
   const isError = useSelector(selectIsReqUserError);
-  const isLoggedIn = useSelector(selectIsUserLoaded);
   const loggedUserId = useSelector(selectUserId);
-  const isSubscribed = useSelector(selectIsSubscribed);
   const user = useSelector(selectReqUserData);
   const params: { username?: string } = useParams();
   const username = params.username;
@@ -43,10 +37,13 @@ export const Page: React.FC = (): React.ReactElement => {
   }, [username, dispatch]);
 
   const stylesPage = makeStyles((theme) => ({
-    root: {
-      position: "sticky",
-      top: 50,
-    },
+    root: isMobile
+      ? {
+          position: "fixed",
+          top: 50,
+          right: 38,
+        }
+      : { position: "sticky", top: 50 },
     details: {
       display: "flex",
       flexDirection: "column",
@@ -65,7 +62,9 @@ export const Page: React.FC = (): React.ReactElement => {
       width: 38,
     },
     headImageWrapper: {
-      width: "100%",
+      width: "99%",
+      marginLeft: 2,
+      marginRight: 2,
       paddingTop: "40%",
       position: "sticky",
       top: 60,
@@ -86,18 +85,15 @@ export const Page: React.FC = (): React.ReactElement => {
       background: defaultBackgroundColor,
       position: "relative",
     },
+    "@media (max-width: 450px)": {
+      root: {
+        position: "relative",
+        top: 0,
+        left: 0,
+      },
+    },
   }));
 
-  const unsubscribe = () => {
-    if (user) {
-      dispatch(fetchUnsubscribe(user?._id));
-    }
-  };
-  const subscribe = () => {
-    if (user) {
-      dispatch(fetchSubscribe(user?._id));
-    }
-  };
   const classes = stylesPage();
   if (isError) {
     return (
@@ -110,24 +106,22 @@ export const Page: React.FC = (): React.ReactElement => {
     return <LinearProgress />;
   }
   if (user) {
-    /*
-    для редиректа нужно делать 
-        dispatch(setReqUserLoadingState(LoadingState.NEVER));
-        (например в home)
-    */
-    // if (user._id === authUser?._id) {
-    //   return <Redirect to="/private" />;
-    // }
     return (
       <>
         <Navbar />
         <Container maxWidth="lg">
+          {isMobile ? (
+            <div className={classes.root}>
+              <UserInfoCard isPrivate={false} />
+            </div>
+          ) : null}
           <Grid container spacing={3}>
-            <Grid item xs={8}>
+            <Grid item xs={!isMobile ? 8 : 12}>
               <div className={classes.headImageWrapper}></div>
               <div className={classes.newslineWrapper}>
+                {loggedUserId === user._id ? <NewPostForm /> : null}
                 {user.articles
-                  ? user.articles.slice().reverse().map((item) => (
+                  ? user.articles.map((item) => (
                       <Article
                         key={item._id}
                         id={item._id}
@@ -150,53 +144,11 @@ export const Page: React.FC = (): React.ReactElement => {
               </div>
             </Grid>
             <Grid item xs>
-              <div className={classes.root}>
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <div className={classes.details}>
-                      <Typography component="h5" variant="h5">
-                        @{user.username}
-                      </Typography>
-                      <br />
-                      <Typography variant="subtitle1" color="textPrimary">
-                        {user.fullname}
-                      </Typography>
-                      <div>
-                        <Counter value={user.subscribers} text="Subscribers" />
-                        <Counter
-                          value={user.subscribtions}
-                          text="Subscribtions"
-                        />
-                      </div>
-                    </div>
-                  </Grid>
-                  <Grid item xs>
-                    <div className={classes.avatarCover}></div>
-                    <br />
-                    {(isLoggedIn && loggedUserId !== user._id) ? (
-                      !isSubscribed ? (
-                        <Button
-                          onClick={subscribe}
-                          fullWidth
-                          variant="contained"
-                          color="primary"
-                        >
-                          Subscribe
-                        </Button>
-                      ) : (
-                        <Button
-                          onClick={unsubscribe}
-                          fullWidth
-                          color="primary"
-                          variant="outlined"
-                        >
-                          Unubscribe
-                        </Button>
-                      )
-                    ) : null}
-                  </Grid>
-                </Grid>
-              </div>
+              {!isMobile ? (
+                <div className={classes.root}>
+                  <UserInfoCard isPrivate={false} />
+                </div>
+              ) : null}
             </Grid>
           </Grid>
         </Container>

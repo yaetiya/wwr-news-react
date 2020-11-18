@@ -1,29 +1,31 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-import Home from "./pages/Home/Home";
 import { Private } from "./pages/Private/Private";
 import { SignIn } from "./pages/Auth/Auth";
-import { loadUserJWTData } from "./store/ducks/user/actionCreators";
 import { ScrollTopBtn } from "./components/ScrollTopBtn";
-import { Page } from "./pages/Page/Page";
 import { fetchNotifications } from "./store/ducks/notifications/actionCreators";
+import { fetchTags } from "./store/ducks/tags/actionCreators";
+import { HomeScreen } from "./pages/Home/HomeScreen";
+import { PageScreen } from "./pages/Page/PageScreen";
+import { fetchNews } from "./store/ducks/news/actionCreators";
+import { redirectPaths } from "./configs/redirect";
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchNotifications())
-    dispatch(loadUserJWTData());
+    dispatch(fetchTags());
+    dispatch(fetchNotifications());
+    dispatch(fetchNews());
   }, [dispatch]);
   return (
     <div className="App">
       <ScrollTopBtn />
-
       <Switch>
-        <Route path="/signin" component={SignIn} />
-        <Route path="/private" component={Private} />
-        <Route path="/user/:username" component={Page} />
-        <Route path="/" component={Home} />
+        <Route path={redirectPaths.auth} component={SignIn} />
+        <Route path={redirectPaths.private} component={Private} />
+        <Route path={`${redirectPaths.user}/:username`} component={PageScreen} />
+        <Route path="/" component={HomeScreen} />
       </Switch>
     </div>
   );

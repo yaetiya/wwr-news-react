@@ -1,11 +1,7 @@
-import {
-  Avatar,
-  Grid,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
+import { Avatar, Grid, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
+import { isMobile } from "../../configs/device";
 import {
   defaultBackgroundColor,
   defaultTextColor,
@@ -47,9 +43,10 @@ const Comment = (commentProps: CommentProps): React.ReactElement => {
     },
 
     paragraph: {
-      paddingTop: 10,
       fontSize: 14,
-      fontWeight: 500,
+      fontWeight: 400,
+      whiteSpace: "pre-line",
+      marginLeft: 5,
       // fontFamily: "Oswald",
     },
     watchesWrapper: {
@@ -80,6 +77,12 @@ const Comment = (commentProps: CommentProps): React.ReactElement => {
       height: 30,
       width: 30,
     },
+    "@media (max-width: 900px)": {
+      userImage: {
+        float: "left",
+        marginBottom: 10,
+      },
+    },
   }));
   const classes = stylesComment();
 
@@ -93,7 +96,7 @@ const Comment = (commentProps: CommentProps): React.ReactElement => {
           src={commentProps.avatar}
         />
       </Grid>
-      <Grid xs={11} item>
+      <Grid xs={isMobile ? 12 : 11} item>
         <div className={classes.articleWrapper}>
           <Link
             className={classes.linkWrapper}
@@ -106,7 +109,9 @@ const Comment = (commentProps: CommentProps): React.ReactElement => {
             </div>
           </Link>
           <Grid item xs>
-            <Typography variant="subtitle1">{commentProps.text}</Typography>
+            <Typography className={classes.paragraph} variant="body2">
+              {commentProps.text}
+            </Typography>
           </Grid>
         </div>
       </Grid>

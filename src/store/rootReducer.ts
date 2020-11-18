@@ -13,5 +13,5 @@ export const rootReducer = combineReducers({
   oneNews: oneNewsReducer,
   user: UserReducer,
   reqUser: ReqUserReducer,
-  notifications: notificationsReducer
+  notifications: notificationsReducer,
 });

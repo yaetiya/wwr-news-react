@@ -8,8 +8,9 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Home from "@material-ui/icons/Apps";
-import { selectUserData } from "../store/ducks/user/selectors";
+import { selectIsUserLoaded, selectUserData } from "../store/ducks/user/selectors";
 import { BackButton } from "./BackButton";
+import { redirectPaths } from "../configs/redirect";
 
 const stylesNav = makeStyles((theme) => ({
   root: {
@@ -43,20 +44,21 @@ const stylesNav = makeStyles((theme) => ({
 }));
 
 const Navbar = () => {
+  const isLoggedIn = useSelector(selectIsUserLoaded);
   const user = useSelector(selectUserData);
   const classes = stylesNav();
   return (
     <div className={classes.navWrapper}>
       <BackButton />
 
-      <Link className={classes.navBtn} to="/signin">
+      <Link className={classes.navBtn} to={isLoggedIn ? redirectPaths.home : `${redirectPaths.tag}/TRENDS`}>
         <Button>
           <Home />
         </Button>
       </Link>
       <div className={classes.loginWrapper}>
         {user ? (
-          <Link className={classes.navBtn} to="/private">
+          <Link className={classes.navBtn} to={redirectPaths.private}>
             <Button>
               <Typography variant="subtitle1">@{user.username}</Typography>
               <Avatar
@@ -68,7 +70,7 @@ const Navbar = () => {
             </Button>
           </Link>
         ) : (
-          <Link className={classes.navBtn} to="/signin">
+          <Link className={classes.navBtn} to={redirectPaths.auth}>
             <Button>
               <Typography variant="subtitle1">Login</Typography>
             </Button>

@@ -1,10 +1,11 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import { TSignUpResp, UserApi } from "../../../services/api/userApi";
-import { setLeftNews, setNews } from "../news/actionCreators";
+import { fetchNews, resetNews, setFetchedNewsPage, setLeftNews } from "../news/actionCreators";
 import { fetchNotifications } from "../notifications/actionCreators";
 import {
   setErrorMessageData,
   setErrorRegistrationFieldData,
+  setOnlyJWTData,
   setUserData,
   setUserLoadingState,
   setUserRegistrationState,
@@ -25,6 +26,7 @@ export function* fetchUserDataRequest({
       const data: User = yield call(UserApi.getUserFromJWT, user.token);
       yield put(setUserData({ ...data, token: user.token }));
       yield put(fetchNotifications());
+      yield put(fetchNews());
     } else {
       yield put(setUserLoadingState(LoadingState.ERROR));
     }
@@ -36,6 +38,7 @@ export function* fetchUserFromJWTDataRequest() {
   try {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
+      yield put(setOnlyJWTData(jwt));
       const data: User = yield call(UserApi.getUserFromJWT, jwt);
       if (data) {
         yield put(setUserData({ ...data, ...{ token: jwt } }));
@@ -52,9 +55,12 @@ export function* logoutWorker() {
   try {
     delete localStorage["jwt"];
     delete localStorage["checked"];
+    yield put(setUserData(undefined));
     yield put(setUserLoadingState(LoadingState.NEVER));
-    yield setNews([]);
-    yield setLeftNews([]);
+    yield put(resetNews([]));
+    yield put(setOnlyJWTData(undefined));
+    yield put(setLeftNews([]));
+    yield put(setFetchedNewsPage(0));
   } catch (error) {
     yield put(setUserLoadingState(LoadingState.ERROR));
   }

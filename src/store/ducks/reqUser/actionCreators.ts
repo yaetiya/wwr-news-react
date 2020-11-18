@@ -1,10 +1,14 @@
+import { News } from "../news/typescript/state";
 import {
   FetchIsSubscribedActionInterface,
   FetchReqUserDataActionInterface,
+  FetchReqUserPostsActionInterface,
   ReqUserActionsType,
   SetIsSubscribedActionInterface,
+  SetPageActionInterface,
   SetReqUserDataActionInterface,
   SetReqUserLoadingStateActionInterface,
+  SetReqUserPostsActionInterface,
   SubscribeActionInterface,
   UnsubscribeActionInterface,
 } from "./typescript/actionTypes";
@@ -44,6 +48,21 @@ export const fetchSubscribe = (payload: string): SubscribeActionInterface => ({
   payload,
 });
 
+export const SetReqUserPostsData = (
+  payload: News[]
+): SetReqUserPostsActionInterface => ({
+  type: ReqUserActionsType.SET_REQ_USER_POSTS,
+  payload,
+});
+export const SetPageData = (payload: number): SetPageActionInterface => ({
+  type: ReqUserActionsType.SET_PAGE,
+  payload,
+});
+
+export const FetchReqUserPostsData = (): FetchReqUserPostsActionInterface => ({
+  type: ReqUserActionsType.FETCH_REQ_USER_POSTS,
+});
+
 export const fetchUnsubscribe = (
   payload: string
 ): UnsubscribeActionInterface => ({
@@ -52,6 +71,9 @@ export const fetchUnsubscribe = (
 });
 
 export type ReqUserActions =
+  | SetPageActionInterface
+  | FetchReqUserPostsActionInterface
+  | SetReqUserPostsActionInterface
   | FetchIsSubscribedActionInterface
   | SetIsSubscribedActionInterface
   | SetReqUserDataActionInterface

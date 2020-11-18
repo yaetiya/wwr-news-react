@@ -15,6 +15,7 @@ import {
 import { Link } from "react-router-dom";
 import { ArticleBody } from "./ArticleBody";
 import WatchesIcon from "@material-ui/icons/Visibility";
+import { isMobile } from "../../configs/device";
 
 export type articleProps = {
   isLast?: boolean;
@@ -77,6 +78,7 @@ const Article = (articleProps: articleProps): React.ReactElement => {
       paddingTop: 4,
       fontSize: 14,
       fontWeight: 400,
+      whiteSpace: "pre-line",
       // fontFamily: "Oswald",
     },
     tagsWrapper: {
@@ -116,11 +118,12 @@ const Article = (articleProps: articleProps): React.ReactElement => {
       height: articleProps.generalHeadline ? 34 : 30,
       width: articleProps.generalHeadline ? 34 : 30,
     },
-    // "@media (max-width: 624px)": {
-    //   articleWrapper: {
-    //     display: articleProps.isSmall ? "none" : "block",
-    //   },
-    // },
+    "@media (max-width: 900px)": {
+      userImage: {
+        float: "left",
+        marginBottom: 10,
+      },
+    },
   }));
   const classes = stylesHome();
 
@@ -134,7 +137,7 @@ const Article = (articleProps: articleProps): React.ReactElement => {
           src={articleProps.avatar}
         />
       </Grid>
-      <Grid xs={11} item>
+      <Grid xs={isMobile ? 12 : 11} item>
         <div className={classes.articleWrapper}>
           <Link
             className={classes.linkWrapper}
@@ -142,7 +145,7 @@ const Article = (articleProps: articleProps): React.ReactElement => {
           >
             <div className={classes.userWrapper}>
               <Typography className={classes.userText}>
-                @{articleProps.username+" "}
+                @{articleProps.username + " "}
                 {articleProps?.isSmall ? null : postDate.toLocaleString()}
               </Typography>
             </div>
@@ -161,7 +164,9 @@ const Article = (articleProps: articleProps): React.ReactElement => {
             <div className={classes.tagsWrapper}>
               {articleProps.tags.slice(0, 3).map((tag) => (
                 <Link to={`/tag/${tag}`} className={classes.linkWrapper}>
-                  <Typography variant="body2">#{tag}</Typography>
+                  <Typography variant="body2" style={{ marginRight: 5 }}>
+                    #{tag}
+                  </Typography>
                 </Link>
               ))}
             </div>

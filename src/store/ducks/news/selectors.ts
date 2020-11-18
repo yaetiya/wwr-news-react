@@ -32,3 +32,6 @@ export const selectLeftNewsItems = createSelector(
 
 export const selectFetchedNewsPage = (state: RootState): number =>
   selectNews(state).fetchedNewsPage;
+
+export const selectLeftNewsPage = (state: RootState): number =>
+  selectNews(state).leftNewsPage;

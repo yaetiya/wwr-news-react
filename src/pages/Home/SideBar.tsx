@@ -3,10 +3,12 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { primaryColor } from "../../configs/palette";
+import { redirectPaths } from "../../configs/redirect";
 import {
   selectTagsItems,
   selectIsTagsLoaded,
 } from "../../store/ducks/tags/selectors";
+import { selectIsUserLoaded } from "../../store/ducks/user/selectors";
 
 const stylesSideBar = makeStyles(() => ({
   sideWrapper: {
@@ -56,12 +58,30 @@ const stylesSideBar = makeStyles(() => ({
       "&:before": { top: 17, left: -8 },
     },
   },
+  "@media (max-width: 450px)": {
+    sideWrapper: {
+      textAlign: "center",
+      display: "block",
+      position: "relative",
+      transform: "translate(0%, 0%)",
+      left: 0,
+      justifyContent: "center",
+      "& a": {
+        margin: 10,
+      },
+    },
+
+    activeTab: {
+      "&:before": { top: 6, right: 0 },
+    },
+  },
 }));
 
 export const SideBar = () => {
+  const isLoggedIn = useSelector(selectIsUserLoaded);
   const location = useLocation();
   const activeTab: string =
-    location.pathname.split("/")[1] === "tag"
+    location.pathname.split("/")[1] === redirectPaths.tag.slice(1)
       ? location.pathname.split("/")[2]
       : location.pathname.split("/")[1];
   const classes = stylesSideBar();
@@ -69,26 +89,35 @@ export const SideBar = () => {
   const isTagsLoaded = useSelector(selectIsTagsLoaded);
   return (
     <div className={classes.sideWrapper}>
-      <Link
-        to="/home"
-        className={activeTab === "home" ? classes.activeTab : undefined}
-      >
-        <Button disableRipple>Home</Button>
-      </Link>
+      {isLoggedIn ? (
+        <Link
+          to={redirectPaths.home}
+          className={
+            activeTab === redirectPaths.home.slice(1)
+              ? classes.activeTab
+              : undefined
+          }
+        >
+          <Button disableRipple>Home</Button>
+        </Link>
+      ) : null}
       <br />
       {isTagsLoaded
         ? tags.map((tag) =>
             tag.name === activeTab ? (
               <>
-                <Link to={`/tag/${tag.name}`} className={classes.activeTab}>
-                  <Button disableRipple>{tag.name}</Button>
+                <Link
+                  to={`${redirectPaths.tag}/${tag.name}`}
+                  className={classes.activeTab}
+                >
+                  <Button disableRipple>#{tag.name}</Button>
                 </Link>
                 <br />
               </>
             ) : (
               <>
-                <Link to={`/tag/${tag.name}`}>
-                  <Button disableRipple>{tag.name}</Button>
+                <Link to={`${redirectPaths.tag}/${tag.name}`}>
+                  <Button disableRipple>#{tag.name}</Button>
                 </Link>
                 <br />
               </>

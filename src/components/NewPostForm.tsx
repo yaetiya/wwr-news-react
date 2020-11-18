@@ -8,7 +8,7 @@ import {
 import React, { ChangeEvent, useEffect, useState } from "react";
 import CreateIcon from "@material-ui/icons/Create";
 import { Alert } from "@material-ui/lab";
-import { alertsStyle, secondaryTextColor } from "../configs/palette";
+import { alertsStyle, primaryShadow, secondaryTextColor } from "../configs/palette";
 import {
   fetchAddNews,
   setAddFormState,
@@ -21,6 +21,9 @@ import {
   selectIsAddPostLoaded,
 } from "../store/ducks/news/selectors";
 import { OutlinedTextField } from "./styledComponents/OutlinedTextField";
+import { selectJWT } from "../store/ducks/user/selectors";
+import { useHistory } from "react-router-dom";
+import { redirectPaths } from "../configs/redirect";
 
 const stylesFormNewPost = makeStyles((theme) => ({
   newPost: {
@@ -32,14 +35,16 @@ const stylesFormNewPost = makeStyles((theme) => ({
   },
   newPostBtn: {
     marginBottom: 50,
-    boxShadow: "0px 4px 10px rgba(5, 0, 255, 0.28)",
+    boxShadow: primaryShadow,
   },
 }));
 
 export const NewPostForm = () => {
   const classes = stylesFormNewPost();
   const IsNewPostLoaded = useSelector(selectIsAddPostLoaded);
+  const jwt = useSelector(selectJWT);
   const newPostMessage = useSelector(selectAddMessage);
+  const history = useHistory();
   const [checker, setChecker] = useState(false);
   const [openNewPostMessage, setOpenNewPostMessage] = useState(false);
   const dispatch = useDispatch();
@@ -65,16 +70,20 @@ export const NewPostForm = () => {
   };
 
   const sendNewPostData = () => {
-    dispatch(
-      fetchAddNews({
-        text: newPostForm.text,
-        headline: newPostForm.headline,
-      })
-    );
-    setTimeout(() => {
-      setChecker(!checker);
-      // setOpenNewPostMessage(true);
-    }, 500);
+    if(jwt){
+      dispatch(
+        fetchAddNews({
+          text: newPostForm.text,
+          headline: newPostForm.headline,
+        })
+      );
+      setTimeout(() => {
+        setChecker(!checker);
+        // setOpenNewPostMessage(true);
+      }, 500);
+    }else{
+      history.push(redirectPaths.auth)
+    }
   };
   useEffect(() => {
     if (IsNewPostLoaded || newPostMessage) {

@@ -7,6 +7,7 @@ import {
   secondaryTextColor,
   defaultBackgroundColor,
   defaultErrorColor,
+  primaryShadow,
 } from "./configs/palette";
 
 export const theme = createMuiTheme({
@@ -58,7 +59,7 @@ export const theme = createMuiTheme({
       root: {
         borderRadius: 0,
         textTransform: "none",
-        fontSize: 16,
+        fontSize: 14,
         height: 40,
         fontWeight: 700,
         "&:hover": {
@@ -70,6 +71,7 @@ export const theme = createMuiTheme({
         paddingRight: 20,
       },
       containedPrimary: {
+        boxShadow: primaryShadow,
         transition: "1s",
         "&:hover": {
           backgroundColor: primaryColor,
@@ -78,6 +80,7 @@ export const theme = createMuiTheme({
       outlinedPrimary: {
         borderColor: secondaryTextColor,
         borderWidth: 2,
+        transition: "1s",
         "&:hover": {
           borderWidth: 2,
         },

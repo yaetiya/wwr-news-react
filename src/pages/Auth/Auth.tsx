@@ -29,6 +29,7 @@ import { SignUpForm } from "./components/SignUpForm";
 import { alertsStyle } from "../../configs/palette";
 import Alert from "@material-ui/lab/Alert";
 import { OutlinedTextField } from "../../components/styledComponents/OutlinedTextField";
+import { redirectPaths } from "../../configs/redirect";
 
 export const useStylesSignIn = makeStyles((theme) => ({
   wrapper: {
@@ -46,15 +47,15 @@ export const useStylesSignIn = makeStyles((theme) => ({
     width: 380,
   },
   loginSideTitle: {
-    fontWeight: 300,
+    fontWeight: 500,
     fontSize: 32,
-    marginBottom: 60,
-    marginTop: 20,
+    marginBottom: 40,
+    marginTop: 0,
   },
   loginSideField: {
     marginBottom: 18,
   },
-  registerField: {
+  registrationField: {
     marginBottom: theme.spacing(5),
   },
   loginFormControl: {
@@ -183,7 +184,7 @@ export const SignIn: React.FC = (): React.ReactElement => {
   };
 
   if (isLoggedIn) {
-    return <Redirect to="/home" />;
+    return <Redirect to={redirectPaths.home} />;
   }
 
   return (
@@ -219,17 +220,22 @@ export const SignIn: React.FC = (): React.ReactElement => {
 
       <section className={classes.loginSide}>
         <div className={classes.loginSideWrapper}>
+          <Typography variant="body2">WELCOME TO</Typography>
           <Typography
             className={classes.loginSideTitle}
             gutterBottom
             variant="h4"
           >
-            Откройте мир, окружающий Вас каждый день
+            <span
+              style={{
+                fontWeight: 700,
+              }}
+            >
+              WWR.
+            </span>
+            NEWS
           </Typography>
-          <Typography>
-            <b>Присоединяйтесь к VEEV!</b>
-          </Typography>
-          <br />
+
           <Button
             onClick={handleClickOpenSignUp}
             style={{ marginBottom: 20 }}

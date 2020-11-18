@@ -10,6 +10,7 @@ const initialNewsState: NewsState = {
   loadingState: LoadingState.NEVER,
   addNewsMessage: "",
   fetchedNewsPage: 0,
+  leftNewsPage: 0,
 };
 
 export const newsReducer = produce(
@@ -33,7 +34,12 @@ export const newsReducer = produce(
       case NewsActionsType.SET_LEFT_NEWS:
         draft.leftItems = action.payload;
         break;
-
+      case NewsActionsType.ADD_LEFT_NEWS:
+        draft.leftItems.push(...action.payload);
+        break;
+      case NewsActionsType.SET_LEFT_NEWS_PAGE:
+        draft.leftNewsPage = action.payload;
+        break;
       case NewsActionsType.FETCH_NEWS:
         draft.loadingState = LoadingState.LOADING;
         break;

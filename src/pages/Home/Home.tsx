@@ -5,7 +5,7 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, useLocation } from "react-router-dom";
 import Article from "../../components/Article/Article";
@@ -13,24 +13,19 @@ import Navbar from "../../components/Navbar";
 import { NewPostForm } from "../../components/NewPostForm";
 import { OneArticle } from "./OneArticle";
 import { defaultBackgroundColor, primaryColor } from "../../configs/palette";
-import {
-  fetchLeftNews,
-  fetchNews,
-  resetNews,
-  setFetchedNewsPage,
-} from "../../store/ducks/news/actionCreators";
+import { fetchLeftNews } from "../../store/ducks/news/actionCreators";
 import {
   selectIsNewsLoaded,
   selectIsNewsLoading,
   selectLeftNewsItems,
   selectNewsItems,
 } from "../../store/ducks/news/selectors";
-import { fetchTags } from "../../store/ducks/tags/actionCreators";
 
 import { SideBar } from "./SideBar";
 import { NotificationHub } from "../../components/NotificationsHub/NotificationsHub";
-import { selectJWT } from "../../store/ducks/user/selectors";
-import { TagNews } from "./TagNews";
+import { isHome, redirectPaths } from "../../configs/redirect";
+import { TagNewsComponent } from "./TagNewsComponent";
+import { isMobile } from "../../configs/device";
 
 const stylesHome = makeStyles(() => ({
   root: {
@@ -52,56 +47,16 @@ const Home: React.FC = (): React.ReactElement => {
   const dispatch = useDispatch();
   const news = useSelector(selectNewsItems);
   const isLoaded = useSelector(selectIsNewsLoaded);
-  const jwt = useSelector(selectJWT);
   const leftNews = useSelector(selectLeftNewsItems);
   const isLoading = useSelector(selectIsNewsLoading);
-
-  const windowHeight =
-    document.documentElement.scrollHeight -
-    document.documentElement.clientHeight;
   const classes = stylesHome();
   const location = useLocation();
 
   useEffect(() => {
-    dispatch(fetchTags());
-    if (location.pathname.split("/")[1] === "home") {
+    if (leftNews.length === 0 && isHome(location.pathname) && !isMobile) {
       dispatch(fetchLeftNews());
     }
-  }, [dispatch, location.pathname]);
-
-  useEffect(() => {
-    if (jwt) {
-      dispatch(setFetchedNewsPage(0));
-      dispatch(fetchNews());
-    } else {
-      dispatch(resetNews(leftNews));
-    }
-  }, [dispatch, jwt, leftNews]);
-
-  const [scrollPosition, setSrollPosition] = useState(0);
-  const handleScroll = () => {
-    const position = window.pageYOffset;
-    if (position > scrollPosition) {
-      setSrollPosition(Math.round(position - (position % 100)));
-    }
-  };
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  });
-
-  useEffect(() => {
-    if (
-      windowHeight > 100 &&
-      windowHeight - scrollPosition < 100 &&
-      windowHeight - scrollPosition > 0 &&
-      location.pathname.split("/")[1] === "home"
-    ) {
-      dispatch(fetchNews());
-    }
-  }, [dispatch, scrollPosition, windowHeight, location]);
+  }, [dispatch, leftNews.length, location.pathname]);
 
   return (
     <>
@@ -112,8 +67,8 @@ const Home: React.FC = (): React.ReactElement => {
         <SideBar />
         <div className={classes.ArticlesWrapper}>
           <Grid container spacing={3}>
-            <Grid item xs={4}>
-              <Route path="/home" exact>
+            <Grid item xs={!isMobile ? 4 : undefined}>
+              <Route path={[redirectPaths.home, "/"]} exact>
                 <div className={classes.ArticlesWrapper}>
                   {isLoading && leftNews.length === 0 ? (
                     <div></div>
@@ -139,8 +94,8 @@ const Home: React.FC = (): React.ReactElement => {
                 </div>
               </Route>
             </Grid>
-            <Grid item xs={8}>
-              <Route path="/home" exact>
+            <Grid item xs={!isMobile ? 8 : 12}>
+              <Route path={[redirectPaths.home, "/"]} exact>
                 <div className={classes.ArticlesWrapper}>
                   {isLoading && news.length === 0 ? (
                     <div>
@@ -179,49 +134,17 @@ const Home: React.FC = (): React.ReactElement => {
             </Grid>
           </Grid>
 
-          <Route path="/trends" exact>
-            <Container maxWidth="md">
-              <div className={classes.ArticlesWrapper}>
-                {isLoading && leftNews.length === 0 ? (
-                  <div>
-                    <LinearProgress />
-                  </div>
-                ) : (
-                  leftNews.map((oneNews) => (
-                    <Article
-                      key={oneNews._id}
-                      id={oneNews._id}
-                      mainHeadline={
-                        leftNews[0]._id !== oneNews._id ? oneNews.headline : ""
-                      }
-                      generalHeadline={
-                        leftNews[0]._id === oneNews._id ? oneNews.headline : ""
-                      }
-                      text={oneNews.text}
-                      watches={oneNews.watches}
-                      avatar={oneNews.userId.avatarUrl}
-                      username={oneNews.userId.username}
-                      date={oneNews.date}
-                      userId={oneNews.userId._id}
-                      tags={oneNews.tags}
-                    />
-                  ))
-                )}
-              </div>
-            </Container>
-          </Route>
-
-          <Route path="/oneNews/:id">
+          <Route path={`${redirectPaths.oneNews}/:id`}>
             <Container maxWidth="md">
               <div className={classes.ArticlesWrapper}>
                 <OneArticle />
               </div>
             </Container>
           </Route>
-          <Route path="/tag/:name">
+          <Route path={`${redirectPaths.tag}/:name`}>
             <Container maxWidth="md">
               <div className={classes.ArticlesWrapper}>
-                <TagNews />
+                <TagNewsComponent />
               </div>
             </Container>
           </Route>

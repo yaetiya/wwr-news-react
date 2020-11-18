@@ -16,6 +16,7 @@ export const ScrollTopBtn = () => {
         bottom: 40,
         background: theme.palette.primary.main,
         borderRadius: 2,
+        zIndex: 999,
         boxShadow: "0px 4px 10px rgba(5, 0, 255, 0.28)",
         "&:hover": { background: theme.palette.primary.main },
       },
@@ -29,6 +30,8 @@ export const ScrollTopBtn = () => {
         ScrollTopBtnWrapper: {
           right: 25,
           bottom: 25,
+          height: 44,
+          width: 34,
         },
       },
     })
@@ -49,7 +52,7 @@ export const ScrollTopBtn = () => {
 
   return (
     <Button
-    variant="outlined"
+      variant="outlined"
       className={classes.ScrollTopBtnWrapper}
       onClick={() => {
         scroll.scrollToTop();

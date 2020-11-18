@@ -47,4 +47,5 @@ export interface NewsState {
   addFormState: AddFormState;
   addNewsMessage: string;
   fetchedNewsPage: number;
+  leftNewsPage: number;
 }

@@ -51,7 +51,7 @@ const Home: React.FC = (): React.ReactElement => {
   const isLoading = useSelector(selectIsNewsLoading);
   const classes = stylesHome();
   const location = useLocation();
-
+  
   useEffect(() => {
     if (leftNews.length === 0 && isHome(location.pathname) && !isMobile) {
       dispatch(fetchLeftNews());

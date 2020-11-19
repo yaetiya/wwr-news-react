@@ -9,6 +9,7 @@ import {
   setOneNewsLoadingState,
 } from "./actionCreators";
 import {
+  DeleteOneNewsActionInterface,
   FetchOneNewsDataActionInterface,
   OneNewsActionsType,
   SendCommentDataActionInterface,
@@ -41,10 +42,27 @@ export function* fetchSendComment({ payload }: SendCommentDataActionInterface) {
   }
 }
 
+export function* deleteOneNewsWorker({
+  payload,
+}: DeleteOneNewsActionInterface) {
+  try {
+    const jwt = yield select(selectJWT);
+    const isDeleted = yield call(NewsApi.deleteNews, payload, jwt);
+    if (isDeleted) {
+      yield put(setOneNewsLoadingState(LoadingState.DELETED));
+    } else {
+      yield put(setOneNewsLoadingState(LoadingState.NOT_DELETED));
+    }
+  } catch {
+    yield put(setOneNewsLoadingState(LoadingState.NOT_DELETED));
+  }
+}
+
 export function* oneNewsSaga() {
   yield takeEvery(
     OneNewsActionsType.FETCH_ONE_NEWS_DATA,
     fetchOneNewsDataRequest
   );
   yield takeEvery(OneNewsActionsType.SEND_COMMENT, fetchSendComment);
+  yield takeEvery(OneNewsActionsType.DELETE_ONE_NEWS, deleteOneNewsWorker);
 }

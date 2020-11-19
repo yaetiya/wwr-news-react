@@ -4,11 +4,16 @@ import {
   Button,
   makeStyles,
   Snackbar,
+  Grid,
 } from "@material-ui/core";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import CreateIcon from "@material-ui/icons/Create";
 import { Alert } from "@material-ui/lab";
-import { alertsStyle, primaryShadow, secondaryTextColor } from "../configs/palette";
+import {
+  alertsStyle,
+  primaryShadow,
+  secondaryTextColor,
+} from "../configs/palette";
 import {
   fetchAddNews,
   setAddFormState,
@@ -24,6 +29,8 @@ import { OutlinedTextField } from "./styledComponents/OutlinedTextField";
 import { selectJWT } from "../store/ducks/user/selectors";
 import { useHistory } from "react-router-dom";
 import { redirectPaths } from "../configs/redirect";
+import { ChooseMediaBtn } from "./ChooseMediaBtn";
+import { isMobile } from "../configs/device";
 
 const stylesFormNewPost = makeStyles((theme) => ({
   newPost: {
@@ -70,7 +77,7 @@ export const NewPostForm = () => {
   };
 
   const sendNewPostData = () => {
-    if(jwt){
+    if (jwt) {
       dispatch(
         fetchAddNews({
           text: newPostForm.text,
@@ -81,8 +88,8 @@ export const NewPostForm = () => {
         setChecker(!checker);
         // setOpenNewPostMessage(true);
       }, 500);
-    }else{
-      history.push(redirectPaths.auth)
+    } else {
+      history.push(redirectPaths.auth);
     }
   };
   useEffect(() => {
@@ -149,15 +156,22 @@ export const NewPostForm = () => {
               fullWidth
               onChange={changeNewPostInputHandler}
             />
-            <Button
-              onClick={sendNewPostData}
-              variant="contained"
-              color="primary"
-              fullWidth
-              className={classes.newPostBtn}
-            >
-              <CreateIcon />
-            </Button>
+            <Grid container spacing={3}>
+              <Grid item xs={isMobile ? 12 : 10}>
+                <Button
+                  onClick={sendNewPostData}
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  className={classes.newPostBtn}
+                >
+                  <CreateIcon />
+                </Button>
+              </Grid>
+              <Grid item xs>
+                <ChooseMediaBtn />
+              </Grid>
+            </Grid>
           </FormGroup>
         </FormControl>
       </div>

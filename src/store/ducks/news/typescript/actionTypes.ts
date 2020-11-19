@@ -1,10 +1,5 @@
 import { Action } from "redux";
-import {
-  AddFormState,
-  LoadingState,
-  NewsState,
-  preNews,
-} from "./state";
+import { AddFormState, LoadingState, NewsState, preNews } from "./state";
 
 export enum NewsActionsType {
   RESET_NEWS = "news/RESET_NEWS",

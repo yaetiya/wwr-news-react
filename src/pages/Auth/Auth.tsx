@@ -1,5 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { makeStyles, Typography, Button, Snackbar } from "@material-ui/core";
+import {
+  makeStyles,
+  Typography,
+  Button,
+  Snackbar,
+  Container,
+} from "@material-ui/core";
+import HomeIcon from "@material-ui/icons/Apps";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControl from "@material-ui/core/FormControl";
 import { ModalBlock } from "./components/ModalBlock";
@@ -18,7 +25,7 @@ import {
   selectIsUserError,
   selectIsUserLoaded,
 } from "../../store/ducks/user/selectors";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import {
   LoadingState,
   RegistrationState,
@@ -26,7 +33,7 @@ import {
   UserLoadingData,
 } from "../../store/ducks/user/typescript/state";
 import { SignUpForm } from "./components/SignUpForm";
-import { alertsStyle } from "../../configs/palette";
+import { alertsStyle, secondaryTextColor } from "../../configs/palette";
 import Alert from "@material-ui/lab/Alert";
 import { OutlinedTextField } from "../../components/styledComponents/OutlinedTextField";
 import { redirectPaths } from "../../configs/redirect";
@@ -38,6 +45,7 @@ export const useStylesSignIn = makeStyles((theme) => ({
   },
 
   loginSide: {
+    height: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -45,6 +53,12 @@ export const useStylesSignIn = makeStyles((theme) => ({
   },
   loginSideWrapper: {
     width: 380,
+  },
+  authRedirectBtn: {
+    marginLeft: -2,
+    padding: 0,
+    height: 40,
+    color: secondaryTextColor,
   },
   loginSideTitle: {
     fontWeight: 500,
@@ -218,112 +232,117 @@ export const SignIn: React.FC = (): React.ReactElement => {
         </Alert>
       </Snackbar>
 
-      <section className={classes.loginSide}>
-        <div className={classes.loginSideWrapper}>
-          <Typography variant="body2">WELCOME TO</Typography>
-          <Typography
-            className={classes.loginSideTitle}
-            gutterBottom
-            variant="h4"
-          >
-            <span
-              style={{
-                fontWeight: 700,
-              }}
+      <Container maxWidth="md">
+        <div className={classes.loginSide}>
+          <div className={classes.loginSideWrapper}>
+            <Link to={`${redirectPaths.tag}/TRENDS`}>
+              <HomeIcon className={classes.authRedirectBtn} />
+            </Link>
+            <Typography variant="body2">WELCOME TO</Typography>
+            <Typography
+              className={classes.loginSideTitle}
+              gutterBottom
+              variant="h4"
             >
-              WWR.
-            </span>
-            NEWS
-          </Typography>
+              <span
+                style={{
+                  fontWeight: 700,
+                }}
+              >
+                WWR.
+              </span>
+              NEWS
+            </Typography>
 
-          <Button
-            onClick={handleClickOpenSignUp}
-            style={{ marginBottom: 20 }}
-            variant="contained"
-            color="primary"
-            fullWidth
-          >
-            Зарегистрироваться
-          </Button>
-          <Button
-            onClick={handleClickOpenSignIn}
-            variant="outlined"
-            color="primary"
-            fullWidth
-          >
-            Войти
-          </Button>
-          <ModalBlock
-            visible={visibleModal === "signIn"}
-            onClose={handleCloseModal}
-            classes={classes}
-            title="Войти в аккаунт"
-          >
-            <FormControl
-              className={classes.loginFormControl}
-              component="fieldset"
+            <Button
+              onClick={handleClickOpenSignUp}
+              style={{ marginBottom: 20 }}
+              variant="contained"
+              color="primary"
               fullWidth
             >
-              <FormGroup aria-label="position" row>
-                <OutlinedTextField
-                  className={classes.loginSideField}
-                  autoFocus
-                  id="username"
-                  label="Username"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  value={loginForm?.username}
-                  variant="outlined"
-                  type="username"
-                  name="username"
-                  fullWidth
-                  onChange={changeLoginInputHandler}
-                />
-                <OutlinedTextField
-                  className={classes.loginSideField}
-                  autoFocus
-                  id="password"
-                  label="Пароль"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  value={loginForm?.password}
-                  variant="outlined"
-                  type="password"
-                  name="password"
-                  fullWidth
-                  onChange={changeLoginInputHandler}
-                />
-                <Button
-                  onClick={login}
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                >
-                  Войти
-                </Button>
-              </FormGroup>
-            </FormControl>
-          </ModalBlock>
-          <ModalBlock
-            visible={visibleModal === "signUp"}
-            onClose={handleCloseModal}
-            classes={classes}
-            title="Создайте учетную запись"
-          >
-            <SignUpForm
-              {...{
-                classes,
-                ErrorRegistrationField,
-                changeSignUpInputHandler,
-                signUpForm,
-                signUp,
-              }}
-            />
-          </ModalBlock>
+              Зарегистрироваться
+            </Button>
+            <Button
+              onClick={handleClickOpenSignIn}
+              variant="outlined"
+              color="primary"
+              fullWidth
+            >
+              Войти
+            </Button>
+            <ModalBlock
+              visible={visibleModal === "signIn"}
+              onClose={handleCloseModal}
+              classes={classes}
+              title="Войти в аккаунт"
+            >
+              <FormControl
+                className={classes.loginFormControl}
+                component="fieldset"
+                fullWidth
+              >
+                <FormGroup aria-label="position" row>
+                  <OutlinedTextField
+                    className={classes.loginSideField}
+                    autoFocus
+                    id="username"
+                    label="Username"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    value={loginForm?.username}
+                    variant="outlined"
+                    type="username"
+                    name="username"
+                    fullWidth
+                    onChange={changeLoginInputHandler}
+                  />
+                  <OutlinedTextField
+                    className={classes.loginSideField}
+                    autoFocus
+                    id="password"
+                    label="Пароль"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    value={loginForm?.password}
+                    variant="outlined"
+                    type="password"
+                    name="password"
+                    fullWidth
+                    onChange={changeLoginInputHandler}
+                  />
+                  <Button
+                    onClick={login}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                  >
+                    Войти
+                  </Button>
+                </FormGroup>
+              </FormControl>
+            </ModalBlock>
+            <ModalBlock
+              visible={visibleModal === "signUp"}
+              onClose={handleCloseModal}
+              classes={classes}
+              title="Создайте учетную запись"
+            >
+              <SignUpForm
+                {...{
+                  classes,
+                  ErrorRegistrationField,
+                  changeSignUpInputHandler,
+                  signUpForm,
+                  signUp,
+                }}
+              />
+            </ModalBlock>
+          </div>
         </div>
-      </section>
+      </Container>
     </div>
   );
 };

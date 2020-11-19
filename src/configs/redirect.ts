@@ -11,4 +11,5 @@ export const redirectPaths = {
 export const isHome = (path: string): boolean =>
   path === redirectPaths.home || path === "/";
 
-export const isPage = (path: string): boolean => path === redirectPaths.user;
+export const isPage = (path: string): boolean =>
+  path.split("/")[1] === redirectPaths.user.slice(1);

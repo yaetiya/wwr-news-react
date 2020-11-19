@@ -26,6 +26,11 @@ export const NewsApi = {
       .then(({ data }) => data.data)
       .catch((error) => error.response.data.errors[0].msg);
   },
+  deleteNews (id: string, jwt: string): Promise<boolean> {
+    return axios.post("http://localhost:8888/articles/delete/", {_id: id}, {
+      headers: { token: jwt },
+    })
+  },
   fetchComment(payload: TPreComment, jwt: string): Promise<string | Comment>{
     return axios
       .post("http://localhost:8888/comment", payload, {

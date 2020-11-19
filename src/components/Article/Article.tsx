@@ -1,21 +1,36 @@
 import {
   Avatar,
+  Button,
   Grid,
   LinearProgress,
   makeStyles,
+  Snackbar,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
+  alertsStyle,
   defaultBackgroundColor,
   defaultTextColor,
   primaryColor,
   secondaryTextColor,
 } from "../../configs/palette";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { ArticleBody } from "./ArticleBody";
 import WatchesIcon from "@material-ui/icons/Visibility";
 import { isMobile } from "../../configs/device";
+import { useDispatch, useSelector } from "react-redux";
+import { selectIsAdmin, selectUserId } from "../../store/ducks/user/selectors";
+import {
+  deleteOneNewsData,
+  setOneNewsLoadingState,
+} from "../../store/ducks/oneNews/actionCreators";
+import Alert from "@material-ui/lab/Alert";
+import {
+  selectIsOneNewsDeleted,
+  selectIsOneNewsNotDeleted,
+} from "../../store/ducks/oneNews/selectors";
+import { LoadingState } from "../../store/ducks/oneNews/typescript/state";
 
 export type articleProps = {
   isLast?: boolean;
@@ -35,6 +50,7 @@ export type articleProps = {
 };
 const Article = (articleProps: articleProps): React.ReactElement => {
   const postDate: Date = new Date(Date.parse(articleProps.date));
+  const [openIsDeleted, setOpenIsDeleted] = useState<boolean>(false);
   const stylesHome = makeStyles(() => ({
     linkWrapper: {
       textDecoration: "none",
@@ -64,7 +80,7 @@ const Article = (articleProps: articleProps): React.ReactElement => {
 
     generalHeadline: {
       fontFamily: "Oswald",
-      fontSize: 34,
+      fontSize: 32,
     },
     mainHeadline: {
       fontFamily: "Oswald",
@@ -105,7 +121,11 @@ const Article = (articleProps: articleProps): React.ReactElement => {
       height: 14,
     },
     userWrapper: {
+      justifyContent: "space-between",
       display: "flex",
+    },
+    deleteBtn: {
+      height: 14,
     },
     userText: {
       fontSize: 14,
@@ -126,65 +146,116 @@ const Article = (articleProps: articleProps): React.ReactElement => {
     },
   }));
   const classes = stylesHome();
+  const userId = useSelector(selectUserId);
+  const isDeleted = useSelector(selectIsOneNewsDeleted);
+  const isNotDeleted = useSelector(selectIsOneNewsNotDeleted);
+  const isAdminLogged = useSelector(selectIsAdmin);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const deleteHandler = () => {
+    dispatch(deleteOneNewsData(articleProps.id));
+  };
+  useEffect(() => {
+    if (isDeleted || isNotDeleted) {
+      setOpenIsDeleted(true);
+      setTimeout(() => {
+        setOpenIsDeleted(false);
+        dispatch(setOneNewsLoadingState(LoadingState.NEVER));
+      }, 800);
+    }
+  }, [dispatch, history, isDeleted, isNotDeleted]);
+  const handleClose = (_?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenIsDeleted(false);
+  };
 
   return (
-    <Grid container spacing={0}>
-      <Grid xs item>
-        <Avatar
-          variant="rounded"
-          alt="Avatar"
-          className={classes.userImage}
-          src={articleProps.avatar}
-        />
-      </Grid>
-      <Grid xs={isMobile ? 12 : 11} item>
-        <div className={classes.articleWrapper}>
-          <Link
-            className={classes.linkWrapper}
-            to={`/user/${articleProps.username}`}
-          >
+    <>
+      <Snackbar
+        open={openIsDeleted}
+        autoHideDuration={700}
+        onClose={handleClose}
+      >
+        <Alert
+          style={alertsStyle(!!isDeleted)}
+          onClose={handleClose}
+          severity={!!isNotDeleted ? "error" : "success"}
+        >
+          {isDeleted ? "You have deleted this news" : "Something goes wrong"}
+        </Alert>
+      </Snackbar>
+      <Grid container spacing={0}>
+        <Grid xs item>
+          <Avatar
+            variant="rounded"
+            alt="Avatar"
+            className={classes.userImage}
+            src={articleProps.avatar}
+          />
+        </Grid>
+        <Grid xs={isMobile ? 12 : 11} item>
+          <div className={classes.articleWrapper}>
             <div className={classes.userWrapper}>
-              <Typography className={classes.userText}>
-                @{articleProps.username + " "}
-                {articleProps?.isSmall ? null : postDate.toLocaleString()}
-              </Typography>
+              <Link
+                className={classes.linkWrapper}
+                to={`/user/${articleProps.username}`}
+              >
+                <Typography className={classes.userText}>
+                  @{articleProps.username + " "}
+                  {articleProps?.isSmall ? null : postDate.toLocaleString()}
+                </Typography>
+              </Link>
+
+              {articleProps.isFull &&
+              (articleProps.userId === userId || isAdminLogged) ? (
+                <Button
+                  className={classes.deleteBtn}
+                  style={isDeleted ? { color: primaryColor } : undefined}
+                  disableRipple
+                  onClick={deleteHandler}
+                >
+                  {!isDeleted ? "Delete" : "Was deleted"}
+                </Button>
+              ) : null}
             </div>
-          </Link>
-          {!articleProps.isFull ? (
-            <Link
-              className={classes.linkWrapper}
-              to={`/oneNews/${articleProps.id}`}
-            >
+            {!articleProps.isFull ? (
+              <Link
+                className={classes.linkWrapper}
+                to={`/oneNews/${articleProps.id}`}
+              >
+                <ArticleBody articleProps={articleProps} classes={classes} />
+              </Link>
+            ) : (
               <ArticleBody articleProps={articleProps} classes={classes} />
-            </Link>
-          ) : (
-            <ArticleBody articleProps={articleProps} classes={classes} />
-          )}
-          <div className={classes.infoBottomWrapper}>
-            <div className={classes.tagsWrapper}>
-              {articleProps.tags.slice(0, 3).map((tag) => (
-                <Link to={`/tag/${tag}`} className={classes.linkWrapper}>
-                  <Typography variant="body2" style={{ marginRight: 5 }}>
-                    #{tag}
-                  </Typography>
-                </Link>
-              ))}
+            )}
+            <div className={classes.infoBottomWrapper}>
+              <div className={classes.tagsWrapper}>
+                {articleProps.tags.slice(0, 3).map((tag) => (
+                  <Link to={`/tag/${tag}`} className={classes.linkWrapper}>
+                    <Typography variant="caption" style={{ marginRight: 5 }}>
+                      #{tag}
+                    </Typography>
+                  </Link>
+                ))}
+              </div>
+              <div className={classes.watchesWrapper}>
+                <Typography className={classes.watchesText}>
+                  {articleProps.watches}
+                </Typography>
+                <WatchesIcon className={classes.watchedIcon} />
+              </div>
             </div>
-            <div className={classes.watchesWrapper}>
-              <Typography className={classes.watchesText}>
-                {articleProps.watches}
-              </Typography>
-              <WatchesIcon className={classes.watchedIcon} />
-            </div>
+            {articleProps.isLast ? (
+              <div>
+                <LinearProgress style={{ height: 2 }} />
+              </div>
+            ) : null}
           </div>
-          {articleProps.isLast ? (
-            <div>
-              <LinearProgress style={{ height: 2 }} />
-            </div>
-          ) : null}
-        </div>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 

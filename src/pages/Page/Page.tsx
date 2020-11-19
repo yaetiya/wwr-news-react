@@ -44,23 +44,7 @@ export const Page: React.FC = (): React.ReactElement => {
           right: 38,
         }
       : { position: "sticky", top: 50 },
-    details: {
-      display: "flex",
-      flexDirection: "column",
-    },
-    cover: {
-      width: "100%",
-    },
-    controls: {
-      display: "flex",
-      alignItems: "center",
-      paddingLeft: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
-    },
-    playIcon: {
-      height: 38,
-      width: 38,
-    },
+    
     headImageWrapper: {
       width: "99%",
       marginLeft: 2,
@@ -69,16 +53,9 @@ export const Page: React.FC = (): React.ReactElement => {
       position: "sticky",
       top: 60,
       background: user
-        ? `url(${user.avatarUrl})`
+        ? `url(${user.headerUrl}) no-repeat`
         : theme.palette.background.default,
-    },
-    avatarCover: {
-      background: user
-        ? `url(${user.avatarUrl})`
-        : theme.palette.background.default,
-      width: "100%",
-      paddingTop: "100%",
-      backgroundSize: "cover",
+      backgroundSize: "cover"
     },
     newslineWrapper: {
       paddingTop: 30,
@@ -146,7 +123,7 @@ export const Page: React.FC = (): React.ReactElement => {
             <Grid item xs>
               {!isMobile ? (
                 <div className={classes.root}>
-                  <UserInfoCard isPrivate={false} />
+                  <UserInfoCard isPrivate={loggedUserId === user._id} />
                 </div>
               ) : null}
             </Grid>

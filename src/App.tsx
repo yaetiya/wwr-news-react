@@ -11,6 +11,13 @@ import { PageScreen } from "./pages/Page/PageScreen";
 import { fetchNews } from "./store/ducks/news/actionCreators";
 import { redirectPaths } from "./configs/redirect";
 
+/*
+1. Change/Add user avatar
+2. Extract header image (dublicate avatarUrl to headerUrl)
+3. Add an oportunity to delete a post for user
+4. Create admin account (he can delete any post)
+*/
+
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {

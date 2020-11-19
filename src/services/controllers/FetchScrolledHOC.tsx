@@ -36,7 +36,7 @@ export const FetchScrolledHOC = (
     if (
       windowHeight > 100 &&
       windowHeight - scrollPosition < 100 &&
-      windowHeight - scrollPosition > 0 &&
+      windowHeight - scrollPosition >= 0 &&
       additionalCondition
     ) {
       dispatch(action(payload));

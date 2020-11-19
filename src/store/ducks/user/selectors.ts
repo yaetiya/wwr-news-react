@@ -37,5 +37,7 @@ export const selectIsUserError = (state: RootState): boolean =>
   selectLoadingState(state) === LoadingState.ERROR;
 export const selectUserId = (state: RootState): string | undefined =>
   selectUserData(state)?._id;
+export const selectIsAdmin = (state: RootState): boolean | undefined =>
+  selectUserData(state)?.role === "admin";
 export const selectJWT = (state: RootState): string | undefined =>
   selectUser(state).jwt ? selectUser(state).jwt : selectUserData(state)?.token;

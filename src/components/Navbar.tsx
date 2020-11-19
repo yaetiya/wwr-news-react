@@ -1,16 +1,17 @@
-import {
-  Avatar,
-  Button,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
+import { Avatar, Button, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Home from "@material-ui/icons/Apps";
-import { selectIsUserLoaded, selectUserData } from "../store/ducks/user/selectors";
+import HomeIcon from "@material-ui/icons/Apps";
+import {
+  selectIsUserLoaded,
+  selectUserData,
+} from "../store/ducks/user/selectors";
 import { BackButton } from "./BackButton";
 import { redirectPaths } from "../configs/redirect";
+import { primaryColor } from "../configs/palette";
+import { userRoles } from "../configs/userRoles";
+import { animateScroll } from "react-scroll";
 
 const stylesNav = makeStyles((theme) => ({
   root: {
@@ -47,20 +48,42 @@ const Navbar = () => {
   const isLoggedIn = useSelector(selectIsUserLoaded);
   const user = useSelector(selectUserData);
   const classes = stylesNav();
+  let scroll = animateScroll;
+
   return (
     <div className={classes.navWrapper}>
       <BackButton />
 
-      <Link className={classes.navBtn} to={isLoggedIn ? redirectPaths.home : `${redirectPaths.tag}/TRENDS`}>
-        <Button>
-          <Home />
+      <Link
+        className={classes.navBtn}
+        to={isLoggedIn ? redirectPaths.home : `${redirectPaths.tag}/TRENDS`}
+      >
+        <Button
+          disableRipple
+          onClick={() => {
+            scroll.scrollToTop();
+          }}
+        >
+          <HomeIcon />
         </Button>
       </Link>
       <div className={classes.loginWrapper}>
         {user ? (
-          <Link className={classes.navBtn} to={redirectPaths.private}>
+          <Link
+            className={classes.navBtn}
+            to={`${redirectPaths.user}/${user.username}`}
+          >
             <Button>
-              <Typography variant="subtitle1">@{user.username}</Typography>
+              <Typography variant="subtitle1">
+                {user?.role === userRoles.admin ? (
+                  <span style={{ color: primaryColor, fontWeight: "bold" }}>
+                    [A]
+                  </span>
+                ) : (
+                  <span>@</span>
+                )}
+                {user.username}
+              </Typography>
               <Avatar
                 alt="avatar"
                 variant="rounded"

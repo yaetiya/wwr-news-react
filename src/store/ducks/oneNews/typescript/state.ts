@@ -5,6 +5,8 @@ export enum LoadingState {
   LOADING = 'LOADING',
   ERROR = 'ERROR',
   NEVER = 'NEVER',
+  DELETED = 'DELETED',
+  NOT_DELETED = 'NOT_DELETED'
 }
 export interface TPreComment {
   text: string;

@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { defaultBackgroundColor } from "../configs/palette";
 import { redirectPaths } from "../configs/redirect";
 import {
@@ -31,6 +31,7 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
   const loggedUserId = useSelector(selectUserId);
   const isSubscribed = useSelector(selectIsSubscribed);
   const loggedUser = useSelector(selectUserData);
+  const history = useHistory();
   const reqUser = useSelector(selectReqUserData);
   let user = isPrivate ? loggedUser : reqUser;
 
@@ -90,6 +91,7 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
   };
   const logoutHandler = () => {
     dispatch(logoutUser());
+    history.push(redirectPaths.auth);
   };
   if (user) {
     return (

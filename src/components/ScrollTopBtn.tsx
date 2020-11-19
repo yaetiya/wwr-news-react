@@ -38,7 +38,7 @@ export const ScrollTopBtn = () => {
   );
 
   const classes = useStyles();
-  let scroll = animateScroll;
+  const scroll = animateScroll;
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
   });

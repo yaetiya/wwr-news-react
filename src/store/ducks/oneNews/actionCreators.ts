@@ -7,6 +7,7 @@ import {
   SetErrorMessageDataActionInterface,
   SendCommentDataActionInterface,
   SetCommentOneNewsDataActionInterface,
+  DeleteOneNewsActionInterface,
 } from "./typescript/actionTypes";
 import { LoadingState, OneNewsState, TPreComment } from "./typescript/state";
 
@@ -16,6 +17,13 @@ export const setOneNewsData = (
   type: OneNewsActionsType.SET_ONE_NEWS_DATA,
   payload,
 });
+export const deleteOneNewsData = (
+  payload: string
+): DeleteOneNewsActionInterface => ({
+  type: OneNewsActionsType.DELETE_ONE_NEWS,
+  payload,
+});
+
 export const setCommentOneNewsData = (
   payload: TComment
 ): SetCommentOneNewsDataActionInterface => ({
@@ -57,4 +65,5 @@ export type OneNewsActions =
   | FetchOneNewsDataActionInterface
   | SetOneNewsLoadingStateActionInterface
   | SetErrorMessageDataActionInterface
+  | DeleteOneNewsActionInterface
   | SendCommentDataActionInterface;

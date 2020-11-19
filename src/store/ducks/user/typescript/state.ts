@@ -1,16 +1,16 @@
 import { News } from "../../news/typescript/state";
 
 export enum LoadingState {
-  LOADED = 'LOADED',
-  LOADING = 'LOADING',
-  ERROR = 'ERROR',
-  NEVER = 'NEVER',
+  LOADED = "LOADED",
+  LOADING = "LOADING",
+  ERROR = "ERROR",
+  NEVER = "NEVER",
 }
 
 export enum RegistrationState {
-  SUCCESS = 'SUCCESS',
-  ERROR = 'ERROR',
-  NEVER = 'NEVER',
+  SUCCESS = "SUCCESS",
+  ERROR = "ERROR",
+  NEVER = "NEVER",
 }
 
 export interface UserLoadingData {
@@ -22,15 +22,16 @@ export interface SignUpData {
   fullname: string;
   username: string;
   password: string;
-  password2: string
+  password2: string;
 }
 
 export interface User {
-  _id : string;
+  _id: string;
   fullname: string;
   username: string;
   role: string;
   avatarUrl: string;
+  headerUrl: string;
   token?: string;
   articles: News[];
   subscribers: string;

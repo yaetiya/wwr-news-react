@@ -7,31 +7,31 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import { defaultBackgroundColor } from "../configs/palette";
-import { redirectPaths } from "../configs/redirect";
+import { Link } from "react-router-dom";
+import { isMobile } from "../../configs/device";
+import { defaultBackgroundColor } from "../../configs/palette";
+import { redirectPaths } from "../../configs/redirect";
 import {
   fetchUnsubscribe,
   fetchSubscribe,
-} from "../store/ducks/reqUser/actionCreators";
+} from "../../store/ducks/reqUser/actionCreators";
 import {
   selectIsSubscribed,
   selectReqUserData,
-} from "../store/ducks/reqUser/selectors";
-import { logoutUser } from "../store/ducks/user/actionCreators";
+} from "../../store/ducks/reqUser/selectors";
 import {
   selectIsUserLoaded,
   selectUserData,
   selectUserId,
-} from "../store/ducks/user/selectors";
-import { Counter } from "./Counter";
+} from "../../store/ducks/user/selectors";
+import { Counter } from "../Counter";
+import { ActionButtons } from "./ActionButtons";
 
 export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
   const isLoggedIn = useSelector(selectIsUserLoaded);
   const loggedUserId = useSelector(selectUserId);
   const isSubscribed = useSelector(selectIsSubscribed);
   const loggedUser = useSelector(selectUserData);
-  const history = useHistory();
   const reqUser = useSelector(selectReqUserData);
   let user = isPrivate ? loggedUser : reqUser;
 
@@ -44,6 +44,11 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
     details: {
       display: "flex",
       flexDirection: "column",
+    },
+    actionsBtnWrapper: {
+      display: "flex",
+      paddingBottom: 10,
+      paddingTop: 10,
     },
     content: {},
     avatarCover: {
@@ -89,10 +94,7 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
       dispatch(fetchSubscribe(user?._id));
     }
   };
-  const logoutHandler = () => {
-    dispatch(logoutUser());
-    history.push(redirectPaths.auth);
-  };
+  
   if (user) {
     return (
       <div className={classes.root}>
@@ -120,14 +122,8 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
           <Grid item xs>
             <div className={classes.avatarCover}></div>
             <br />
-            {isPrivate ? (
-              <Button
-                onClick={logoutHandler}
-                variant="outlined"
-                fullWidth
-              >
-                Logout
-              </Button>
+            {isPrivate && !isMobile ? (
+              <ActionButtons />
             ) : isLoggedIn && loggedUserId !== user._id ? (
               !isSubscribed ? (
                 <Button
@@ -151,6 +147,11 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
             ) : null}
           </Grid>
         </Grid>
+        {isMobile ? (
+          <div className={classes.actionsBtnWrapper}>
+            <ActionButtons />
+          </div>
+        ) : null}
       </div>
     );
   }

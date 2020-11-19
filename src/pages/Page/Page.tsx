@@ -17,8 +17,8 @@ import {
 } from "../../store/ducks/reqUser/selectors";
 import { fetchReqUserData } from "../../store/ducks/reqUser/actionCreators";
 import { useParams } from "react-router-dom";
-import { UserInfoCard } from "../../components/UserInfoCard";
-import { NewPostForm } from "../../components/NewPostForm";
+import { UserInfoCard } from "../../components/UserInfoCard/UserInfoCard";
+import { NewPostForm } from "../../components/NewPostForm/NewPostForm";
 import { selectUserId } from "../../store/ducks/user/selectors";
 import { isMobile } from "../../configs/device";
 
@@ -89,7 +89,7 @@ export const Page: React.FC = (): React.ReactElement => {
         <Container maxWidth="lg">
           {isMobile ? (
             <div className={classes.root}>
-              <UserInfoCard isPrivate={false} />
+              <UserInfoCard isPrivate={loggedUserId === user._id} />
             </div>
           ) : null}
           <Grid container spacing={3}>

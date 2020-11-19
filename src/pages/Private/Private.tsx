@@ -5,10 +5,10 @@ import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUserJWTData } from "../../store/ducks/user/actionCreators";
 import Navbar from "../../components/Navbar";
-import { NewPostForm } from "../../components/NewPostForm";
+import { NewPostForm } from "../../components/NewPostForm/NewPostForm";
 import { defaultBackgroundColor } from "../../configs/palette";
 import { selectIsNewsLoading } from "../../store/ducks/news/selectors";
-import { UserInfoCard } from "../../components/UserInfoCard";
+import { UserInfoCard } from "../../components/UserInfoCard/UserInfoCard";
 import { redirectPaths } from "../../configs/redirect";
 
 export const Private: React.FC = (): React.ReactElement => {

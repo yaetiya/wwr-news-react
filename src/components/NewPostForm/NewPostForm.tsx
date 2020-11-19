@@ -13,24 +13,24 @@ import {
   alertsStyle,
   primaryShadow,
   secondaryTextColor,
-} from "../configs/palette";
+} from "../../configs/palette";
 import {
   fetchAddNews,
   setAddFormState,
   setAddMessage,
-} from "../store/ducks/news/actionCreators";
-import { AddFormState, preNews } from "../store/ducks/news/typescript/state";
+} from "../../store/ducks/news/actionCreators";
+import { AddFormState, preNews } from "../../store/ducks/news/typescript/state";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectAddMessage,
   selectIsAddPostLoaded,
-} from "../store/ducks/news/selectors";
-import { OutlinedTextField } from "./styledComponents/OutlinedTextField";
-import { selectJWT } from "../store/ducks/user/selectors";
+} from "../../store/ducks/news/selectors";
+import { OutlinedTextField } from "../styledComponents/OutlinedTextField";
+import { selectJWT } from "../../store/ducks/user/selectors";
 import { useHistory } from "react-router-dom";
-import { redirectPaths } from "../configs/redirect";
+import { redirectPaths } from "../../configs/redirect";
 import { ChooseMediaBtn } from "./ChooseMediaBtn";
-import { isMobile } from "../configs/device";
+import { isMobile } from "../../configs/device";
 
 const stylesFormNewPost = makeStyles((theme) => ({
   newPost: {
@@ -41,7 +41,7 @@ const stylesFormNewPost = makeStyles((theme) => ({
     marginBottom: 20,
   },
   newPostBtn: {
-    marginBottom: 50,
+    marginBottom: isMobile ? 0 : 50,
     boxShadow: primaryShadow,
   },
 }));
@@ -58,11 +58,12 @@ export const NewPostForm = () => {
   const [newPostForm, setNewPostForm] = useState<preNews>({
     headline: "",
     text: "",
+    media: [],
   });
 
   useEffect(() => {
     if (IsNewPostLoaded) {
-      setNewPostForm({ headline: "", text: "" });
+      setNewPostForm({ headline: "", text: "", media: [] });
     }
   }, [IsNewPostLoaded]);
 
@@ -75,18 +76,14 @@ export const NewPostForm = () => {
       ...{ [event.target.name]: event.target.value },
     });
   };
-
+  const mediaHandler = (picture: string) => {
+    setNewPostForm({ ...newPostForm, media: [...newPostForm.media, picture] });
+  };
   const sendNewPostData = () => {
     if (jwt) {
-      dispatch(
-        fetchAddNews({
-          text: newPostForm.text,
-          headline: newPostForm.headline,
-        })
-      );
+      dispatch(fetchAddNews(newPostForm));
       setTimeout(() => {
         setChecker(!checker);
-        // setOpenNewPostMessage(true);
       }, 500);
     } else {
       history.push(redirectPaths.auth);
@@ -169,7 +166,7 @@ export const NewPostForm = () => {
                 </Button>
               </Grid>
               <Grid item xs>
-                <ChooseMediaBtn />
+                <ChooseMediaBtn mediaHandler={mediaHandler} />
               </Grid>
             </Grid>
           </FormGroup>

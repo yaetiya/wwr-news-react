@@ -17,6 +17,7 @@ export enum AddFormState {
 export interface preNews {
   headline: string;
   text: string;
+  media: string[];
 }
 
 export interface TComment {
@@ -25,7 +26,7 @@ export interface TComment {
   userId: User;
 }
 
-export interface fetchNewsInterface{
+export interface fetchNewsInterface {
   page: number;
 }
 

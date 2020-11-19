@@ -1,20 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import ImageUploader from "react-images-upload";
-import {
-  defaultBackgroundColor,
-  primaryColor,
-} from "../configs/palette";
+import { isMobile } from "../../configs/device";
+import { defaultBackgroundColor, primaryColor } from "../../configs/palette";
 
-export const ChooseMediaBtn: React.FC = (): React.ReactElement => {
-  const [pic, setPic] = useState<string[][]>([]);
-  const onDrop = (files: File[], picture: string[]) => {
-    console.log(files);
-    setPic([...pic, picture]);
-    console.log(picture);
+export const ChooseMediaBtn = ({ mediaHandler }: { mediaHandler: any }) => {
+  const onDrop = (_: File[], picture: string[]) => {
+    if (picture.length !== 0) {
+      mediaHandler(picture.slice().reverse()[0]);
+    }
   };
   return (
     <div>
       <ImageUploader
+        singleImage
         withIcon={false}
         withLabel={false}
         buttonText="Media"
@@ -26,6 +24,7 @@ export const ChooseMediaBtn: React.FC = (): React.ReactElement => {
           border: "2px solid " + primaryColor,
           borderRadius: 2,
           margin: 0,
+          marginBottom: isMobile ? 40 : 0,
           height: 40,
           padding: 0,
           width: "100%",

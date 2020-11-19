@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Route, useLocation } from "react-router-dom";
 import Article from "../../components/Article/Article";
 import Navbar from "../../components/Navbar";
-import { NewPostForm } from "../../components/NewPostForm";
+import { NewPostForm } from "../../components/NewPostForm/NewPostForm";
 import { OneArticle } from "./OneArticle";
 import { defaultBackgroundColor, primaryColor } from "../../configs/palette";
 import { fetchLeftNews } from "../../store/ducks/news/actionCreators";

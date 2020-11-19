@@ -4,33 +4,27 @@ import {
   Grid,
   LinearProgress,
   makeStyles,
-  Snackbar,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
-  alertsStyle,
   defaultBackgroundColor,
+  defaultErrorColor,
   defaultTextColor,
   primaryColor,
   secondaryTextColor,
 } from "../../configs/palette";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ArticleBody } from "./ArticleBody";
 import WatchesIcon from "@material-ui/icons/Visibility";
 import { isMobile } from "../../configs/device";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsAdmin, selectUserId } from "../../store/ducks/user/selectors";
-import {
-  deleteOneNewsData,
-  setOneNewsLoadingState,
-} from "../../store/ducks/oneNews/actionCreators";
-import Alert from "@material-ui/lab/Alert";
+import { deleteOneNewsData } from "../../store/ducks/oneNews/actionCreators";
 import {
   selectIsOneNewsDeleted,
   selectIsOneNewsNotDeleted,
 } from "../../store/ducks/oneNews/selectors";
-import { LoadingState } from "../../store/ducks/oneNews/typescript/state";
 
 export type articleProps = {
   isLast?: boolean;
@@ -50,7 +44,6 @@ export type articleProps = {
 };
 const Article = (articleProps: articleProps): React.ReactElement => {
   const postDate: Date = new Date(Date.parse(articleProps.date));
-  const [openIsDeleted, setOpenIsDeleted] = useState<boolean>(false);
   const stylesHome = makeStyles(() => ({
     linkWrapper: {
       textDecoration: "none",
@@ -87,12 +80,12 @@ const Article = (articleProps: articleProps): React.ReactElement => {
       fontSize: articleProps?.isSmall ? 20 : 28,
     },
     secondaryHeadline: {
-      fontSize: articleProps?.isSmall ? 16 : 24,
+      fontSize: articleProps?.isSmall ? 14 : 24,
       fontWeight: 500,
     },
     paragraph: {
       paddingTop: 4,
-      fontSize: 14,
+      fontSize: articleProps?.isSmall ? 12 : 14,
       fontWeight: 400,
       whiteSpace: "pre-line",
       // fontFamily: "Oswald",
@@ -150,42 +143,13 @@ const Article = (articleProps: articleProps): React.ReactElement => {
   const isDeleted = useSelector(selectIsOneNewsDeleted);
   const isNotDeleted = useSelector(selectIsOneNewsNotDeleted);
   const isAdminLogged = useSelector(selectIsAdmin);
-  const history = useHistory();
   const dispatch = useDispatch();
   const deleteHandler = () => {
     dispatch(deleteOneNewsData(articleProps.id));
   };
-  useEffect(() => {
-    if (isDeleted || isNotDeleted) {
-      setOpenIsDeleted(true);
-      setTimeout(() => {
-        setOpenIsDeleted(false);
-        dispatch(setOneNewsLoadingState(LoadingState.NEVER));
-      }, 800);
-    }
-  }, [dispatch, history, isDeleted, isNotDeleted]);
-  const handleClose = (_?: React.SyntheticEvent, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenIsDeleted(false);
-  };
 
   return (
     <>
-      <Snackbar
-        open={openIsDeleted}
-        autoHideDuration={700}
-        onClose={handleClose}
-      >
-        <Alert
-          style={alertsStyle(!!isDeleted)}
-          onClose={handleClose}
-          severity={!!isNotDeleted ? "error" : "success"}
-        >
-          {isDeleted ? "You have deleted this news" : "Something goes wrong"}
-        </Alert>
-      </Snackbar>
       <Grid container spacing={0}>
         <Grid xs item>
           <Avatar
@@ -212,11 +176,21 @@ const Article = (articleProps: articleProps): React.ReactElement => {
               (articleProps.userId === userId || isAdminLogged) ? (
                 <Button
                   className={classes.deleteBtn}
-                  style={isDeleted ? { color: primaryColor } : undefined}
+                  style={
+                    isDeleted
+                      ? { color: primaryColor }
+                      : isNotDeleted
+                      ? { color: defaultErrorColor }
+                      : undefined
+                  }
                   disableRipple
                   onClick={deleteHandler}
                 >
-                  {!isDeleted ? "Delete" : "Was deleted"}
+                  {!isDeleted
+                    ? "Delete"
+                    : isNotDeleted
+                    ? "Was not deleted"
+                    : "Was deleted"}
                 </Button>
               ) : null}
             </div>

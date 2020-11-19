@@ -15,7 +15,17 @@ import { redirectPaths } from "./configs/redirect";
 1. Change/Add user avatar
 2. Extract header image (dublicate avatarUrl to headerUrl)
 3. Add an oportunity to delete a post for user
-4. Create admin account (he can delete any post)
+---------
+Back:
+Now images are saving on mem-ry
+Front:
+Not u can upload only one image (because lib(...)
+does not clear choosen images state (need to write custom useState and crear
+this from the parent (newPostForm))
+when the post was successfully uploaded)
+TODO:
+Display images with post
+Add logic for change image btn on user's page
 */
 
 function App() {

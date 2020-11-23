@@ -29,6 +29,8 @@ export const selectLeftNewsItems = createSelector(
   selectNews,
   (news) => news.leftItems
 );
+export const selectIsNewPostLoading = (state: RootState): boolean => 
+selectAddFormState(state) === AddFormState.LOADING;
 
 export const selectFetchedNewsPage = (state: RootState): number =>
   selectNews(state).fetchedNewsPage;

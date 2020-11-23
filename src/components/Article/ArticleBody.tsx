@@ -1,5 +1,6 @@
 import { Typography } from "@material-ui/core";
 import React from "react";
+import { MediaPreview } from "../MediaPreview";
 import { articleProps } from "./Article";
 
 type TArticleBodyProps = {
@@ -27,7 +28,9 @@ export const ArticleBody = ({ articleProps, classes }: TArticleBodyProps) => {
             : articleProps.text.slice(0, 400)
           : articleProps.text}
       </Typography>
-      
+      {!articleProps.isSmall && articleProps.mediaUrls.length !== 0 ? (
+        <MediaPreview mediaUrls={articleProps.mediaUrls} />
+      ) : null}
     </>
   );
 };

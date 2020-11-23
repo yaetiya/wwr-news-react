@@ -39,6 +39,7 @@ export interface News {
   date: string;
   commentsId: TComment[];
   tags: string[];
+  mediaUrls: string[];
 }
 
 export interface NewsState {

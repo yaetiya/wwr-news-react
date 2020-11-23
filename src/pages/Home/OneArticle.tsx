@@ -1,21 +1,27 @@
-import { Grid, LinearProgress } from "@material-ui/core";
+import { Grid, LinearProgress, Typography } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchOneNewsData } from "../../store/ducks/oneNews/actionCreators";
 import {
   selectComments,
+  selectIsOneNewsError,
   selectOneNewsData,
 } from "../../store/ducks/oneNews/selectors";
 import Article from "../../components/Article/Article";
 import Comment from "../../components/Comment/Comment";
 import { NewCommentForm } from "../../components/Comment/AddCommentForm";
 import { Footer } from "./Footer";
+import { windowHeight } from "../../configs/device";
 
 export const OneArticle = () => {
   const params: { id?: string } = useParams();
   const oneNews = useSelector(selectOneNewsData);
+  const isError = useSelector(selectIsOneNewsError);
   const id = params.id;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  },[])
   const dispatch = useDispatch();
   const comments = useSelector(selectComments);
 
@@ -24,6 +30,9 @@ export const OneArticle = () => {
       dispatch(fetchOneNewsData(id));
     }
   }, [dispatch, id]);
+  if (isError) {
+    return <Typography variant="h5">Данной новости не существует</Typography>;
+  }
   if (oneNews) {
     return (
       <>
@@ -31,6 +40,7 @@ export const OneArticle = () => {
           isFull
           key={oneNews._id}
           id={oneNews._id}
+          mediaUrls={oneNews.mediaUrls}
           generalHeadline={oneNews?.headline}
           text={oneNews.text}
           watches={oneNews.watches}
@@ -62,7 +72,7 @@ export const OneArticle = () => {
     );
   } else {
     return (
-      <div>
+      <div style={{ height: windowHeight }}>
         <LinearProgress />
       </div>
     );

@@ -1,5 +1,6 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, select, takeLatest } from "redux-saga/effects";
 import { NotificationsApi } from "../../../services/api/NotificationsApi";
+import { selectJWT } from "../user/selectors";
 import {
   setNotifications,
   setNotificationsLoadingState,
@@ -13,8 +14,10 @@ import { Notifications, NotificationsLoadingState } from "./typescript/state";
 export function* fetchNotificationsRequest() {
   try {
     const checkedNotifications = localStorage.getItem("checked");
+    const jwt = yield select(selectJWT);
     const items: Notifications[] = (yield call(
-      NotificationsApi.fetchNotifications
+      NotificationsApi.fetchNotifications,
+      jwt
     )).filter(
       (item: Notifications) => !checkedNotifications?.includes(item._id)
     );
@@ -30,7 +33,7 @@ export function* saveCheckedId({
   const checkedString = localStorage.getItem("checked");
   const checked: string[] = checkedString ? JSON.parse(checkedString) : [];
   checked.unshift(payload);
-  if (checked.length > 6) {
+  if (checked.length > 80) {
     checked.pop();
   }
   localStorage.setItem("checked", JSON.stringify(checked));

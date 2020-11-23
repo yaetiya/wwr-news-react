@@ -11,7 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
+input{
+  width: 30px; 
+  /* This is fixing libs... */
+}
 
 @font-face {
   font-family: "Oswald";

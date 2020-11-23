@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import Article from "../../components/Article/Article";
+import { windowHeight } from "../../configs/device";
 import {
   fetchLeftNewsFromTag,
   setLeftNews,
@@ -15,7 +16,9 @@ export const TagNews = () => {
   const leftNews = useSelector(selectLeftNewsItems);
   const name = params.name;
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [name]);
   useEffect(() => {
     dispatch(setLeftNews([]));
     dispatch(setLeftNewsPage(0));
@@ -30,6 +33,7 @@ export const TagNews = () => {
           <Article
             key={oneNews._id}
             id={oneNews._id}
+            mediaUrls={oneNews.mediaUrls}
             mainHeadline={
               leftNews[0]._id !== oneNews._id ? oneNews.headline : ""
             }
@@ -49,7 +53,7 @@ export const TagNews = () => {
     );
   }
   return (
-    <div>
+    <div style={{ height: windowHeight }}>
       <LinearProgress />
     </div>
   );

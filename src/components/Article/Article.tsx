@@ -33,6 +33,7 @@ export type articleProps = {
   generalHeadline?: string;
   mainHeadline?: string;
   secondaryHeadline?: string;
+  mediaUrls: string[];
   text: string;
   watches: number;
   avatar: string;

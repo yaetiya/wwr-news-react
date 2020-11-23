@@ -1,2 +1,3 @@
 const windowWidth = document.documentElement.clientWidth;
-export const isMobile = !(windowWidth > 400);
+export const windowHeight = document.documentElement.clientHeight;
+export const isMobile = !(windowWidth > 500);

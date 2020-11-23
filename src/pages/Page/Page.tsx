@@ -39,9 +39,10 @@ export const Page: React.FC = (): React.ReactElement => {
   const stylesPage = makeStyles((theme) => ({
     root: isMobile
       ? {
-          position: "fixed",
-          top: 50,
-          right: 38,
+          position: "relative",
+          zIndex: 2,
+          // top: 50,
+          // right: 38,
         }
       : { position: "sticky", top: 50 },
     
@@ -51,7 +52,7 @@ export const Page: React.FC = (): React.ReactElement => {
       marginRight: 2,
       paddingTop: "40%",
       position: "sticky",
-      top: 60,
+      top: 50,
       background: user
         ? `url(${user.headerUrl}) no-repeat`
         : theme.palette.background.default,
@@ -102,6 +103,7 @@ export const Page: React.FC = (): React.ReactElement => {
                       <Article
                         key={item._id}
                         id={item._id}
+                        mediaUrls={item.mediaUrls}
                         mainHeadline={
                           user.articles[0]._id !== item._id ? item.headline : ""
                         }

@@ -38,8 +38,9 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
   const dispatch = useDispatch();
   const stylesCard = makeStyles((theme) => ({
     root: {
-      position: "sticky",
+      position: !isMobile ? "sticky" : "relative",
       top: 50,
+      backgroundColor: defaultBackgroundColor
     },
     details: {
       display: "flex",
@@ -50,7 +51,6 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
       paddingBottom: 10,
       paddingTop: 10,
     },
-    content: {},
     avatarCover: {
       background: user
         ? `url(${user.avatarUrl})`
@@ -68,19 +68,6 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
     playIcon: {
       height: 38,
       width: 38,
-    },
-    headImageWrapper: {
-      width: "100%",
-      paddingTop: "40%",
-      position: "sticky",
-      top: 60,
-      background: user
-        ? `url(${user.avatarUrl})`
-        : theme.palette.background.default,
-    },
-    newslineWrapper: {
-      background: defaultBackgroundColor,
-      position: "relative",
     },
   }));
   const classes = stylesCard();
@@ -113,9 +100,9 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
               <Typography variant="subtitle1" color="textPrimary">
                 {user.fullname}
               </Typography>
-              <div className={classes.content}>
+              <div>
                 <Counter value={user.subscribers} text="Subscribers" />
-                <Counter value={user.subscribtions} text="Subscribtions" />
+                <Counter value={user.subscriptions} text="Subscribtions" />
               </div>
             </div>
           </Grid>
@@ -147,7 +134,7 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
             ) : null}
           </Grid>
         </Grid>
-        {isMobile ? (
+        {isPrivate &&isMobile ? (
           <div className={classes.actionsBtnWrapper}>
             <ActionButtons />
           </div>

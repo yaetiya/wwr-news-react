@@ -5,6 +5,7 @@ import {
   makeStyles,
   Snackbar,
   Grid,
+  LinearProgress,
 } from "@material-ui/core";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import CreateIcon from "@material-ui/icons/Create";
@@ -24,6 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectAddMessage,
   selectIsAddPostLoaded,
+  selectIsNewPostLoading,
 } from "../../store/ducks/news/selectors";
 import { OutlinedTextField } from "../styledComponents/OutlinedTextField";
 import { selectJWT } from "../../store/ducks/user/selectors";
@@ -31,22 +33,24 @@ import { useHistory } from "react-router-dom";
 import { redirectPaths } from "../../configs/redirect";
 import { ChooseMediaBtn } from "./ChooseMediaBtn";
 import { isMobile } from "../../configs/device";
-
-const stylesFormNewPost = makeStyles((theme) => ({
+import { MediaPreview } from "../MediaPreview";
+const stylesFormNewPost = makeStyles((_) => ({
   newPost: {
     color: secondaryTextColor,
     top: 0,
+    marginBottom: 20,
   },
   newPostField: {
     marginBottom: 20,
   },
   newPostBtn: {
-    marginBottom: isMobile ? 0 : 50,
+    marginBottom: isMobile ? 0 : 0,
     boxShadow: primaryShadow,
   },
 }));
-
 export const NewPostForm = () => {
+  const [localFiles, setLocalFiles] = useState<string[]>([]);
+  const isLoadingRequest = useSelector(selectIsNewPostLoading);
   const classes = stylesFormNewPost();
   const IsNewPostLoaded = useSelector(selectIsAddPostLoaded);
   const jwt = useSelector(selectJWT);
@@ -64,6 +68,7 @@ export const NewPostForm = () => {
   useEffect(() => {
     if (IsNewPostLoaded) {
       setNewPostForm({ headline: "", text: "", media: [] });
+      setLocalFiles([]);
     }
   }, [IsNewPostLoaded]);
 
@@ -76,8 +81,14 @@ export const NewPostForm = () => {
       ...{ [event.target.name]: event.target.value },
     });
   };
-  const mediaHandler = (picture: string) => {
-    setNewPostForm({ ...newPostForm, media: [...newPostForm.media, picture] });
+  const mediaHandler = (files: File[], picture: string[]) => {
+    if (newPostForm.media.length < 6) {
+      setNewPostForm({
+        ...newPostForm,
+        media: [...newPostForm.media, ...picture].slice(0, 5),
+      });
+      setLocalFiles(files.slice(0, 5).map((file) => URL.createObjectURL(file)));
+    }
   };
   const sendNewPostData = () => {
     if (jwt) {
@@ -164,6 +175,7 @@ export const NewPostForm = () => {
                 >
                   <CreateIcon />
                 </Button>
+                {isLoadingRequest ? <LinearProgress /> : null}
               </Grid>
               <Grid item xs>
                 <ChooseMediaBtn mediaHandler={mediaHandler} />
@@ -171,6 +183,9 @@ export const NewPostForm = () => {
             </Grid>
           </FormGroup>
         </FormControl>
+        <div style={{ marginTop: isLoadingRequest ? 11 : 15 }}>
+          <MediaPreview mediaUrls={localFiles} />
+        </div>
       </div>
     </>
   );

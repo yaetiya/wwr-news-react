@@ -35,7 +35,7 @@ export interface User {
   token?: string;
   articles: News[];
   subscribers: string;
-  subscribtions: string;
+  subscriptions: string;
 }
 
 export interface UserState {

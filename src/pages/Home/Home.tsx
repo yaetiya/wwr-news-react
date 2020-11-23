@@ -86,6 +86,7 @@ const Home: React.FC = (): React.ReactElement => {
                           avatar={oneNews.userId.avatarUrl}
                           username={oneNews.userId.username}
                           date={oneNews.date}
+                          mediaUrls={oneNews.mediaUrls}
                           userId={oneNews.userId._id}
                           tags={oneNews.tags}
                         />
@@ -113,6 +114,7 @@ const Home: React.FC = (): React.ReactElement => {
                         }
                         key={oneNews._id}
                         id={oneNews._id}
+                        mediaUrls={oneNews.mediaUrls}
                         mainHeadline={
                           news[0]._id !== oneNews._id ? oneNews.headline : ""
                         }

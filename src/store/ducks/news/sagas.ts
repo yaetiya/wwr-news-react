@@ -67,6 +67,7 @@ export function* fetchLeftNewsFromTagWorker({
 }
 export function* fetchAddNewsRequest({ payload }: FetchAddNewsActionInterface) {
   try {
+    yield put(setAddFormState(AddFormState.LOADING));
     const jwt = yield select(selectJWT);
     const message = yield call(NewsApi.addNews, payload, jwt);
     if (typeof message !== "string") {

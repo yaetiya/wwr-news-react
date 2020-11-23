@@ -1,18 +1,22 @@
 import React from "react";
 import ImageUploader from "react-images-upload";
 import { isMobile } from "../../configs/device";
-import { defaultBackgroundColor, primaryColor } from "../../configs/palette";
+import {
+  defaultBackgroundColor,
+  defaultErrorColor,
+  primaryColor,
+} from "../../configs/palette";
 
 export const ChooseMediaBtn = ({ mediaHandler }: { mediaHandler: any }) => {
-  const onDrop = (_: File[], picture: string[]) => {
+  const onDrop = (files: File[], picture: string[]) => {
     if (picture.length !== 0) {
-      mediaHandler(picture.slice().reverse()[0]);
+      mediaHandler(files, picture.slice());
     }
   };
   return (
     <div>
       <ImageUploader
-        singleImage
+        // singleImage
         withIcon={false}
         withLabel={false}
         buttonText="Media"
@@ -31,8 +35,21 @@ export const ChooseMediaBtn = ({ mediaHandler }: { mediaHandler: any }) => {
           fontSize: 12,
           boxShadow: "0px 4px 10px rgba(5, 0, 255, 0.06)",
         }}
-        errorStyle={{ position: "absolute", left: 0, top: 44 }}
-        fileContainerStyle={{ boxShadow: "none", margin: 0, padding: 0 }}
+        errorStyle={{
+          position: "absolute",
+          left: 0,
+          top: 50,
+          zIndex: 2,
+          padding: 3,
+          borderRadius: 2,
+          backgroundColor: defaultErrorColor,
+          color: defaultBackgroundColor,
+        }}
+        fileContainerStyle={{
+          boxShadow: "none",
+          margin: 0,
+          padding: 0,
+        }}
         imgExtension={[".jpg", ".gif", ".png"]}
         maxFileSize={5242880}
       />

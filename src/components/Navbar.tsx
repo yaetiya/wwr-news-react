@@ -12,6 +12,7 @@ import { redirectPaths } from "../configs/redirect";
 import { primaryColor } from "../configs/palette";
 import { userRoles } from "../configs/userRoles";
 import { animateScroll } from "react-scroll";
+import { isMobile } from "../configs/device";
 
 const stylesNav = makeStyles((theme) => ({
   root: {
@@ -36,7 +37,7 @@ const stylesNav = makeStyles((theme) => ({
   },
   navLogo: {},
   loginWrapper: {
-    marginRight: 38,
+    marginRight: isMobile ? 0 : 38,
   },
   navBtn: {
     color: "inherit",
@@ -57,13 +58,11 @@ const Navbar = () => {
       <Link
         className={classes.navBtn}
         to={isLoggedIn ? redirectPaths.home : `${redirectPaths.tag}/TRENDS`}
+        onClick={() => {
+          scroll.scrollToTop();
+        }}
       >
-        <Button
-          disableRipple
-          onClick={() => {
-            scroll.scrollToTop();
-          }}
-        >
+        <Button disableRipple>
           <HomeIcon />
         </Button>
       </Link>

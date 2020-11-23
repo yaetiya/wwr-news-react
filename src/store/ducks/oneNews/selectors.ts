@@ -12,6 +12,8 @@ export const selectIsOneNewsLoading = (state: RootState): boolean =>
 
 export const selectIsOneNewsLoaded = (state: RootState): boolean =>
   selectLoadingState(state) === LoadingState.LOADED;
+export const selectIsOneNewsError = (state: RootState): boolean =>
+  selectLoadingState(state) === LoadingState.ERROR;
 
 export const selectOneNewsData = (state: RootState): News | undefined =>
   selectOneNews(state)?.data;

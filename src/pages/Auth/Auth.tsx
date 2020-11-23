@@ -53,17 +53,19 @@ export const useStylesSignIn = makeStyles((theme) => ({
   },
   loginSideWrapper: {
     width: 380,
+    textAlign: "center",
   },
   authRedirectBtn: {
     marginLeft: -2,
     padding: 0,
+    marginBottom: 20,
     height: 40,
     color: secondaryTextColor,
   },
   loginSideTitle: {
     fontWeight: 500,
     fontSize: 32,
-    marginBottom: 40,
+    marginBottom: 0,
     marginTop: 0,
   },
   loginSideField: {
@@ -235,9 +237,6 @@ export const SignIn: React.FC = (): React.ReactElement => {
       <Container maxWidth="md">
         <div className={classes.loginSide}>
           <div className={classes.loginSideWrapper}>
-            <Link to={`${redirectPaths.tag}/TRENDS`}>
-              <HomeIcon className={classes.authRedirectBtn} />
-            </Link>
             <Typography variant="body2">WELCOME TO</Typography>
             <Typography
               className={classes.loginSideTitle}
@@ -253,7 +252,9 @@ export const SignIn: React.FC = (): React.ReactElement => {
               </span>
               NEWS
             </Typography>
-
+            <Link to={`${redirectPaths.tag}/TRENDS`}>
+              <HomeIcon className={classes.authRedirectBtn} />
+            </Link>
             <Button
               onClick={handleClickOpenSignUp}
               style={{ marginBottom: 20 }}

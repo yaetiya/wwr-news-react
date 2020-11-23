@@ -12,20 +12,13 @@ import { fetchNews } from "./store/ducks/news/actionCreators";
 import { redirectPaths } from "./configs/redirect";
 
 /*
-1. Change/Add user avatar
-2. Extract header image (dublicate avatarUrl to headerUrl)
-3. Add an oportunity to delete a post for user
----------
-Back:
-Now images are saving on mem-ry
-Front:
-Not u can upload only one image (because lib(...)
-does not clear choosen images state (need to write custom useState and crear
-this from the parent (newPostForm))
-when the post was successfully uploaded)
 TODO:
-Display images with post
-Add logic for change image btn on user's page
+1. Change/Add user avatar (Add logic for change image btn on user's page)
+2. Footer
+3. !!!Clear image buffer for string[] and file[]
+4?. Tap on image preview -> delete image from attachments. For this need to add key no MediaPreview.
+5?. Сделать галочку для wwr канала и др больших
+6.
 */
 
 function App() {
@@ -39,10 +32,13 @@ function App() {
     <div className="App">
       <ScrollTopBtn />
       <Switch>
-        <Route path={redirectPaths.auth} component={SignIn} />
-        <Route path={redirectPaths.private} component={Private} />
-        <Route path={`${redirectPaths.user}/:username`} component={PageScreen} />
-        <Route path="/" component={HomeScreen} />
+        <Route path={redirectPaths.auth} component={(SignIn)} />
+        <Route path={redirectPaths.private} component={(Private)} />
+        <Route
+          path={`${redirectPaths.user}/:username`}
+          component={(PageScreen)}
+        />
+        <Route path="/" component={(HomeScreen)} />
       </Switch>
     </div>
   );

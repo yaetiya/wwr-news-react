@@ -27,6 +27,11 @@ export const UserReducer = produce(
       case UserActionsType.SET_CHANGE_AVATAR_STATE:
         draft.changeAvatarState = action.payload;
         break;
+      case UserActionsType.CHANGE_FETCHED_USER_AVATAR:
+        if (draft.data?.avatarUrl) {
+          draft.data.avatarUrl = action.payload;
+        }
+        break;
       case UserActionsType.SET_USER_DATA:
         draft.data = action.payload;
         draft.loadingState = LoadingState.LOADED;

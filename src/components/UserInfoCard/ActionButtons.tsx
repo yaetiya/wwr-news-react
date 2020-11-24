@@ -8,6 +8,7 @@ import ImageUploader from "react-images-upload";
 import {
   changeUserAvatar,
   logoutUser,
+  setChangeFetcheduserAvatar,
 } from "../../store/ducks/user/actionCreators";
 import {
   defaultBackgroundColor,
@@ -26,9 +27,11 @@ export const ActionButtons = () => {
     dispatch(logoutUser());
     history.push(redirectPaths.auth);
   };
-  const changeAvaratHandler = (_: File[], picture: string[]) => {
-    if (picture[0]){
+  const changeAvaratHandler = (file: File[], picture: string[]) => {
+    if (picture[0] && file[0]) {
       dispatch(changeUserAvatar(picture[0]));
+      const newAvatarUrl = URL.createObjectURL(file[0]);
+      dispatch(setChangeFetcheduserAvatar(newAvatarUrl));
     }
   };
   return (

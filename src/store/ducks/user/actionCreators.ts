@@ -1,5 +1,6 @@
 import {
   ChangeAvatarActionInterface,
+  ChangeFetchedUserAvatarActionInterface,
   FetchUserDataActionInterface,
   FetchUserJWTDataActionInterface,
   LoadJWTDataActionInterface,
@@ -99,6 +100,13 @@ export const logoutUser = (): LogoutActionInterface => ({
   type: UserActionsType.LOGOUT,
 });
 
+export const setChangeFetcheduserAvatar = (
+  payload: string
+): ChangeFetchedUserAvatarActionInterface => ({
+  type: UserActionsType.CHANGE_FETCHED_USER_AVATAR,
+  payload,
+});
+
 export const fetchUserJWTData = (
   payload: string
 ): FetchUserJWTDataActionInterface => ({
@@ -115,6 +123,7 @@ export type UserActions =
   | FetchUserJWTDataActionInterface
   | LoadJWTDataActionInterface
   | LogoutActionInterface
+  | ChangeFetchedUserAvatarActionInterface
   | ChangeAvatarActionInterface
   | SignUpDataActionInterface
   | SetErrorMessageActionInterface

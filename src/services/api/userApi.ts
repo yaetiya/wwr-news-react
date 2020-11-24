@@ -19,12 +19,12 @@ export type TSignUpResp = {
 export const UserApi = {
   // signUp(data: SignUpData): Promise<boolean> {
   //   return axios
-  //     .post("http://localhost:8888/auth/registration", data)
+  //     .post("/auth/registration", data)
   //     .then(({ data }) => data.status === "success");
   // },
   signUp(data: SignUpData): Promise<TSignUpResp> {
     return axios
-      .post("http://localhost:8888/auth/registration", data)
+      .post("/auth/registration", data)
       .then(({ data }) => data)
       .catch((error) => {
         return error.response.data;
@@ -32,18 +32,18 @@ export const UserApi = {
   },
   login(data: UserLoadingData): Promise<User> {
     return axios
-      .post("http://localhost:8888/auth/login", data)
+      .post("/auth/login", data)
       .then(({ data }) => data.data);
   },
   getUserFromJWT(jwt: string): Promise<User> {
     return axios
-      .get("http://localhost:8888/users/me", { headers: { token: jwt } })
+      .get("/users/me", { headers: { token: jwt } })
       .then(({ data }) => data.data);
   },
   changeAvatar(jwt: string, payload: string): Promise<boolean> {
     return axios
       .post(
-        "http://localhost:8888/users/changeAvatar",
+        "/users/changeAvatar",
         { image: payload },
         {
           headers: { token: jwt },
@@ -54,24 +54,24 @@ export const UserApi = {
   },
   fetchUserByUsername(username: string): Promise<ReqUser> {
     return axios
-      .get(`http://localhost:8888/users/${username}`)
+      .get(`/users/${username}`)
       .then(({ data }) => data.data);
   },
   fetchUserPostsByUsername(username: string, page: number): Promise<News[]> {
     return axios
-      .get(`http://localhost:8888/posts/${username}`, {
+      .get(`/posts/${username}`, {
         params: { page: page },
       })
       .then(({ data }) => data.data);
   },
   sub(payload: any, jwt: string) {
-    axios.post("http://localhost:8888/sub/", payload, {
+    axios.post("/sub/", payload, {
       headers: { token: jwt },
     });
   },
   isSubscribed(payload: any, jwt: string): Promise<boolean> {
     return axios
-      .post("http://localhost:8888/sub/isSubscribed", payload, {
+      .post("/sub/isSubscribed", payload, {
         headers: { token: jwt },
       })
       .then(({ data }) => data.data.isSubscribed);

@@ -8,12 +8,12 @@ export const TagsApi = {
   // },
   fetchTags(): Promise<TagsState["items"]> {
     return axios
-      .get(`http://localhost:8888/trends/tags`)
+      .get(`/trends/tags`)
       .then(({ data }) => data.data);
   },
   fetchNewsByTagName(payload: string, page: number): Promise<News[]> {
     return axios
-      .get(`http://localhost:8888/tags/${payload}`, { params: { page: page } })
+      .get(`/tags/${payload}`, { params: { page: page } })
       .then(({ data }) => data.data);
   },
 };

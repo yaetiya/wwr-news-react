@@ -8,6 +8,7 @@ import {
   UserState,
 } from "./state";
 
+
 export enum UserActionsType {
   SET_USER_DATA = "user/LOAD/SET_USER_DATA",
   FETCH_USER_DATA = "user/LOAD/FETCH_USER_DATA",
@@ -17,14 +18,20 @@ export enum UserActionsType {
   SET_ONLY_JWT = "user/SET_ONLY_JWT",
   SET_LOADING_STATE = "user/LOAD/SET_LOADING_STATE",
   LOGOUT = "user/LOAD/LOGOUT",
+  CHANGE_FETCHED_USER_AVATAR = "user/CHANGE_FETCHED_USER_AVATAR",
   SET_REGISTRATION_STATE = "user/LOAD/SET_REGISTRATION_STATE",
   SET_CHANGE_AVATAR_STATE = "user/SET_CHANGE_AVATAR_STATE",
   SET_ERROR_MESSAGE = "user/SET_ERROR_MESSAGE",
   SET_ERROR_REGISTRATION_FIELD = "user/SET_ERROR_REGISTRATION_FIELD",
-  CHANGE_AVATAR = "user/CHANGE_AVATAR"
+  CHANGE_AVATAR = "user/CHANGE_AVATAR",
+  ChangeFetchedUserAvatarActionInterface = "ChangeFetchedUserAvatarActionInterface"
 }
 export interface ChangeAvatarActionInterface extends Action<UserActionsType> {
   type: UserActionsType.CHANGE_AVATAR;
+  payload: string;
+}
+export interface ChangeFetchedUserAvatarActionInterface extends Action<UserActionsType> {
+  type: UserActionsType.CHANGE_FETCHED_USER_AVATAR;
   payload: string;
 }
 

@@ -11,6 +11,7 @@ import { PageScreen } from "./pages/Page/PageScreen";
 import { fetchNews } from "./store/ducks/news/actionCreators";
 import { redirectPaths } from "./configs/redirect";
 
+
 /*
 TODO:
 1. Сделать картинку, которая будет default avatar (Свою какую-то)

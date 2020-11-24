@@ -1,4 +1,5 @@
 import {
+  ChangeAvatarActionInterface,
   FetchUserDataActionInterface,
   FetchUserJWTDataActionInterface,
   LoadJWTDataActionInterface,
@@ -6,6 +7,7 @@ import {
   SetErrorMessageActionInterface,
   SetErrorRegistrationFieldActionInterface,
   SetOnlyJWTActionInterface,
+  SetUserChangeAvatarStateActionInterface,
   SetUserDataActionInterface,
   SetUserLoadingStateActionInterface,
   SetUserRegistrationStateActionInterface,
@@ -13,6 +15,7 @@ import {
   UserActionsType,
 } from "./typescript/actionTypes";
 import {
+  ChangeAvatarState,
   LoadingState,
   RegistrationState,
   SignUpData,
@@ -34,7 +37,9 @@ export const setErrorMessageData = (
   payload,
 });
 
-export const setOnlyJWTData = (payload: string | undefined): SetOnlyJWTActionInterface => ({
+export const setOnlyJWTData = (
+  payload: string | undefined
+): SetOnlyJWTActionInterface => ({
   type: UserActionsType.SET_ONLY_JWT,
   payload,
 });
@@ -46,10 +51,24 @@ export const setErrorRegistrationFieldData = (
   payload,
 });
 
+export const changeUserAvatar = (
+  payload: string
+): ChangeAvatarActionInterface => ({
+  type: UserActionsType.CHANGE_AVATAR,
+  payload,
+});
+
 export const setUserLoadingState = (
   payload: LoadingState
 ): SetUserLoadingStateActionInterface => ({
   type: UserActionsType.SET_LOADING_STATE,
+  payload,
+});
+
+export const setChangeAvatarState = (
+  payload: ChangeAvatarState
+): SetUserChangeAvatarStateActionInterface => ({
+  type: UserActionsType.SET_CHANGE_AVATAR_STATE,
   payload,
 });
 
@@ -96,6 +115,8 @@ export type UserActions =
   | FetchUserJWTDataActionInterface
   | LoadJWTDataActionInterface
   | LogoutActionInterface
+  | ChangeAvatarActionInterface
   | SignUpDataActionInterface
   | SetErrorMessageActionInterface
+  | SetUserChangeAvatarStateActionInterface
   | SetErrorRegistrationFieldActionInterface;

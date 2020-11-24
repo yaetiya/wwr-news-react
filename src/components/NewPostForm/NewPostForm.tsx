@@ -34,6 +34,7 @@ import { redirectPaths } from "../../configs/redirect";
 import { ChooseMediaBtn } from "./ChooseMediaBtn";
 import { isMobile } from "../../configs/device";
 import { MediaPreview } from "../MediaPreview";
+import { getRandomString } from "../../configs/randomKeyGenerator";
 const stylesFormNewPost = makeStyles((_) => ({
   newPost: {
     color: secondaryTextColor,
@@ -49,6 +50,7 @@ const stylesFormNewPost = makeStyles((_) => ({
   },
 }));
 export const NewPostForm = () => {
+  const [randomKey, setRandomKey] = useState(getRandomString());
   const [localFiles, setLocalFiles] = useState<string[]>([]);
   const isLoadingRequest = useSelector(selectIsNewPostLoading);
   const classes = stylesFormNewPost();
@@ -69,6 +71,7 @@ export const NewPostForm = () => {
     if (IsNewPostLoaded) {
       setNewPostForm({ headline: "", text: "", media: [] });
       setLocalFiles([]);
+      setRandomKey(getRandomString());
     }
   }, [IsNewPostLoaded]);
 
@@ -81,13 +84,17 @@ export const NewPostForm = () => {
       ...{ [event.target.name]: event.target.value },
     });
   };
-  const mediaHandler = (files: File[], picture: string[]) => {
+  const mediaHandler = (files: File[], pictures: string[]) => {
     if (newPostForm.media.length < 6) {
       setNewPostForm({
         ...newPostForm,
-        media: [...newPostForm.media, ...picture].slice(0, 5),
+        media: [...newPostForm.media, ...pictures].slice(0, 5),
       });
-      setLocalFiles(files.slice(0, 5).map((file) => URL.createObjectURL(file)));
+      setLocalFiles([
+        ...localFiles,
+        ...files.slice(0, 5).map((file) => URL.createObjectURL(file)),
+      ]);
+      setRandomKey(getRandomString());
     }
   };
   const sendNewPostData = () => {
@@ -178,7 +185,7 @@ export const NewPostForm = () => {
                 {isLoadingRequest ? <LinearProgress /> : null}
               </Grid>
               <Grid item xs>
-                <ChooseMediaBtn mediaHandler={mediaHandler} />
+                <ChooseMediaBtn mediaHandler={mediaHandler} key={randomKey} />
               </Grid>
             </Grid>
           </FormGroup>

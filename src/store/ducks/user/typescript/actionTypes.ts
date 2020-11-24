@@ -1,5 +1,6 @@
 import { Action } from "redux";
 import {
+  ChangeAvatarState,
   LoadingState,
   RegistrationState,
   SignUpData,
@@ -17,8 +18,14 @@ export enum UserActionsType {
   SET_LOADING_STATE = "user/LOAD/SET_LOADING_STATE",
   LOGOUT = "user/LOAD/LOGOUT",
   SET_REGISTRATION_STATE = "user/LOAD/SET_REGISTRATION_STATE",
+  SET_CHANGE_AVATAR_STATE = "user/SET_CHANGE_AVATAR_STATE",
   SET_ERROR_MESSAGE = "user/SET_ERROR_MESSAGE",
   SET_ERROR_REGISTRATION_FIELD = "user/SET_ERROR_REGISTRATION_FIELD",
+  CHANGE_AVATAR = "user/CHANGE_AVATAR"
+}
+export interface ChangeAvatarActionInterface extends Action<UserActionsType> {
+  type: UserActionsType.CHANGE_AVATAR;
+  payload: string;
 }
 
 export interface SetUserDataActionInterface extends Action<UserActionsType> {
@@ -64,6 +71,11 @@ export interface SetUserLoadingStateActionInterface
   extends Action<UserActionsType> {
   type: UserActionsType.SET_LOADING_STATE;
   payload: LoadingState;
+}
+export interface SetUserChangeAvatarStateActionInterface
+  extends Action<UserActionsType> {
+  type: UserActionsType.SET_CHANGE_AVATAR_STATE;
+  payload: ChangeAvatarState;
 }
 
 export interface SetUserRegistrationStateActionInterface

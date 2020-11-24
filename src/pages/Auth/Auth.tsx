@@ -318,6 +318,7 @@ export const SignIn: React.FC = (): React.ReactElement => {
                     onClick={login}
                     variant="contained"
                     color="primary"
+                    type="submit"
                     fullWidth
                   >
                     Войти

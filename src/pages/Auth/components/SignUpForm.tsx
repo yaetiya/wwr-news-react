@@ -12,15 +12,13 @@ type TSignUpFormProps = {
   signUpForm: SignUpData;
   signUp: () => void;
 };
-export const SignUpForm = (
-  {
-    classes,
-    ErrorRegistrationField,
-    changeSignUpInputHandler,
-    signUpForm,
-    signUp,
-  }: TSignUpFormProps
-): React.ReactElement => {
+export const SignUpForm = ({
+  classes,
+  ErrorRegistrationField,
+  changeSignUpInputHandler,
+  signUpForm,
+  signUp,
+}: TSignUpFormProps): React.ReactElement => {
   return (
     <FormControl
       className={classes.loginFormControl}
@@ -109,7 +107,13 @@ export const SignUpForm = (
           onChange={changeSignUpInputHandler}
           value={signUpForm?.password2}
         />
-        <Button variant="contained" color="primary" onClick={signUp} fullWidth>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={signUp}
+          fullWidth
+        >
           Зарегистрироваться
         </Button>
       </FormGroup>

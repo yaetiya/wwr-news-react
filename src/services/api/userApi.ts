@@ -40,6 +40,18 @@ export const UserApi = {
       .get("http://localhost:8888/users/me", { headers: { token: jwt } })
       .then(({ data }) => data.data);
   },
+  changeAvatar(jwt: string, payload: string): Promise<boolean> {
+    return axios
+      .post(
+        "http://localhost:8888/users/changeAvatar",
+        { image: payload },
+        {
+          headers: { token: jwt },
+        }
+      )
+      .then(({ data }) => !!data.status)
+      .catch(({ _ }) => false);
+  },
   fetchUserByUsername(username: string): Promise<ReqUser> {
     return axios
       .get(`http://localhost:8888/users/${username}`)

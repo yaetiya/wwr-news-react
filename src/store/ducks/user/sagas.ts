@@ -1,8 +1,15 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, select, takeEvery } from "redux-saga/effects";
 import { TSignUpResp, UserApi } from "../../../services/api/userApi";
-import { fetchNews, resetNews, setFetchedNewsPage, setLeftNews } from "../news/actionCreators";
+import {
+  fetchNews,
+  resetNews,
+  setFetchedNewsPage,
+  setLeftNews,
+} from "../news/actionCreators";
 import { fetchNotifications } from "../notifications/actionCreators";
 import {
+  loadUserJWTData,
+  setChangeAvatarState,
   setErrorMessageData,
   setErrorRegistrationFieldData,
   setOnlyJWTData,
@@ -10,12 +17,19 @@ import {
   setUserLoadingState,
   setUserRegistrationState,
 } from "./actionCreators";
+import { selectJWT } from "./selectors";
 import {
+  ChangeAvatarActionInterface,
   FetchUserDataActionInterface,
   SignUpDataActionInterface,
   UserActionsType,
 } from "./typescript/actionTypes";
-import { LoadingState, RegistrationState, User } from "./typescript/state";
+import {
+  ChangeAvatarState,
+  LoadingState,
+  RegistrationState,
+  User,
+} from "./typescript/state";
 
 export function* fetchUserDataRequest({
   payload: UserLoadingData,
@@ -32,6 +46,19 @@ export function* fetchUserDataRequest({
     }
   } catch (error) {
     yield put(setUserLoadingState(LoadingState.ERROR));
+  }
+}
+export function* changeAvatarWorker({ payload }: ChangeAvatarActionInterface) {
+  try {
+    const jwt = yield select(selectJWT);
+    yield put(setChangeAvatarState(ChangeAvatarState.LOADING));
+    const isChangeSuccessfully = yield call(UserApi.changeAvatar, jwt, payload);
+    if (isChangeSuccessfully) {
+      yield put(loadUserJWTData());
+      yield put(setChangeAvatarState(ChangeAvatarState.LOADED));
+    }
+  } catch {
+    yield put(setChangeAvatarState(ChangeAvatarState.ERROR));
   }
 }
 export function* fetchUserFromJWTDataRequest() {
@@ -105,4 +132,5 @@ export function* UserSaga() {
   yield takeEvery(UserActionsType.FETCH_USER_DATA, fetchUserDataRequest);
   yield takeEvery(UserActionsType.LOAD_JWT_DATA, fetchUserFromJWTDataRequest);
   yield takeEvery(UserActionsType.LOGOUT, logoutWorker);
+  yield takeEvery(UserActionsType.CHANGE_AVATAR, changeAvatarWorker);
 }

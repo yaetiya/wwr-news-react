@@ -7,6 +7,14 @@ export enum LoadingState {
   NEVER = "NEVER",
 }
 
+export enum ChangeAvatarState {
+  LOADED = "LOADED",
+  LOADING = "LOADING",
+  ERROR = "ERROR",
+  NEVER = "NEVER",
+}
+
+
 export enum RegistrationState {
   SUCCESS = "SUCCESS",
   ERROR = "ERROR",
@@ -45,4 +53,5 @@ export interface UserState {
   errorMessage: string | undefined;
   invalidRegistrationField: string | undefined;
   jwt: string | undefined;
+  changeAvatarState: ChangeAvatarState;
 }

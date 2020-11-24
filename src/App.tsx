@@ -13,12 +13,11 @@ import { redirectPaths } from "./configs/redirect";
 
 /*
 TODO:
-1. Change/Add user avatar (Add logic for change image btn on user's page)
+1. Сделать картинку, которая будет default avatar (Свою какую-то)
+1.1. Сделать header Image (по аналогии с avatar image)
 2. Footer
-3. !!!Clear image buffer for string[] and file[]
 4?. Tap on image preview -> delete image from attachments. For this need to add key no MediaPreview.
 5?. Сделать галочку для wwr канала и др больших
-6.
 */
 
 function App() {

@@ -10,7 +10,7 @@ import {
 export const ChooseMediaBtn = ({ mediaHandler }: { mediaHandler: any }) => {
   const onDrop = (files: File[], picture: string[]) => {
     if (picture.length !== 0) {
-      mediaHandler(files, picture.slice());
+      mediaHandler(files, picture);
     }
   };
   return (

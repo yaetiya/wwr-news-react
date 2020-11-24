@@ -2,7 +2,11 @@ import produce, { Draft } from "immer";
 import { LoadingState } from "../news/typescript/state";
 import { UserActions } from "./actionCreators";
 import { UserActionsType } from "./typescript/actionTypes";
-import { RegistrationState, UserState } from "./typescript/state";
+import {
+  ChangeAvatarState,
+  RegistrationState,
+  UserState,
+} from "./typescript/state";
 
 const initialUserState: UserState = {
   errorMessage: undefined,
@@ -11,6 +15,7 @@ const initialUserState: UserState = {
   registrationState: RegistrationState.NEVER,
   invalidRegistrationField: undefined,
   jwt: undefined,
+  changeAvatarState: ChangeAvatarState.NEVER,
 };
 
 export const UserReducer = produce(
@@ -18,6 +23,9 @@ export const UserReducer = produce(
     switch (action.type) {
       case UserActionsType.SET_ONLY_JWT:
         draft.jwt = action.payload;
+        break;
+      case UserActionsType.SET_CHANGE_AVATAR_STATE:
+        draft.changeAvatarState = action.payload;
         break;
       case UserActionsType.SET_USER_DATA:
         draft.data = action.payload;

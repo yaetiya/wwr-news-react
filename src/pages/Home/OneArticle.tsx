@@ -31,7 +31,7 @@ export const OneArticle = () => {
     }
   }, [dispatch, id]);
   if (isError) {
-    return <Typography variant="h5">Данной новости не существует</Typography>;
+    return <Typography variant="h5" style={{textAlign: "center"}}>Данной новости не существует</Typography>;
   }
   if (oneNews) {
     return (

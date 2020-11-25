@@ -86,6 +86,7 @@ export const theme = createMuiTheme({
         },
       },
     },
+    MuiInput: {},
     MuiOutlinedInput: {
       input: {
         backgroundColor: defaultBackgroundColor,

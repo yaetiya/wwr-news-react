@@ -1,6 +1,6 @@
 import { Avatar, Button, makeStyles, Typography } from "@material-ui/core";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import HomeIcon from "@material-ui/icons/Apps";
 import {
@@ -9,10 +9,14 @@ import {
 } from "../store/ducks/user/selectors";
 import { BackButton } from "./BackButton";
 import { redirectPaths } from "../configs/redirect";
-import { primaryColor } from "../configs/palette";
+import { primaryColor, secondaryBackgroundColor } from "../configs/palette";
 import { userRoles } from "../configs/userRoles";
 import { animateScroll } from "react-scroll";
 import { isMobile } from "../configs/device";
+import { OutlinedTextField } from "./styledComponents/OutlinedTextField";
+import { fetchChannels } from "../store/ducks/searchChannel/actionCreators";
+import { selectChannels } from "../store/ducks/searchChannel/selectors";
+import { SearchContent } from "./SearchContent";
 
 const stylesNav = makeStyles((theme) => ({
   root: {
@@ -39,6 +43,13 @@ const stylesNav = makeStyles((theme) => ({
   loginWrapper: {
     marginRight: isMobile ? 0 : 38,
   },
+  navSearchField: {
+    input: {
+      height: 30,
+    },
+    height: 30,
+    marginTop: 5,
+  },
   navBtn: {
     color: "inherit",
     textDecoration: "none",
@@ -47,14 +58,45 @@ const stylesNav = makeStyles((theme) => ({
 
 const Navbar = () => {
   const isLoggedIn = useSelector(selectIsUserLoaded);
+  const [searchText, setSearchText] = useState("");
+  const dispatch = useDispatch();
+  const channels = useSelector(selectChannels);
   const user = useSelector(selectUserData);
   const classes = stylesNav();
   let scroll = animateScroll;
 
+  const serchTextHandler = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    event.persist();
+    setSearchText(event.target.value);
+  };
+  useEffect(() => {
+    dispatch(fetchChannels(searchText));
+  }, [dispatch, searchText]);
+
   return (
     <div className={classes.navWrapper}>
-      <BackButton />
-
+      <div style={{ display: "flex" }}>
+        <BackButton />
+        <div>
+          <OutlinedTextField
+            className={classes.navSearchField}
+            value={searchText}
+            type="text"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            name="search"
+            onChange={serchTextHandler}
+          />
+          {channels.map((item) => (
+            <div style={{background: secondaryBackgroundColor, borderRadius: 2}}>
+              <SearchContent {...item} />
+            </div>
+          ))}
+        </div>
+      </div>
       <Link
         className={classes.navBtn}
         to={isLoggedIn ? redirectPaths.home : `${redirectPaths.tag}/TRENDS`}

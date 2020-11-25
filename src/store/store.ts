@@ -4,6 +4,7 @@ import { NewsState } from "./ducks/news/typescript/state";
 import { NotificationsState } from "./ducks/notifications/typescript/state";
 import { OneNewsState } from "./ducks/oneNews/typescript/state";
 import { ReqUserState } from "./ducks/reqUser/typescript/state";
+import { SearchChannelState } from "./ducks/searchChannel/typescript/state";
 import { TagsState } from "./ducks/tags/typescript/state";
 import { loadUserJWTData } from "./ducks/user/actionCreators";
 import { UserState } from "./ducks/user/typescript/state";
@@ -31,6 +32,7 @@ export interface RootState {
   user: UserState;
   reqUser: ReqUserState;
   notifications: NotificationsState;
+  searchChannels: SearchChannelState;
 }
 
 

@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { primaryColor } from "../../configs/palette";
-import { redirectPaths } from "../../configs/redirect";
+import { isHome, redirectPaths } from "../../configs/redirect";
 import {
   selectTagsItems,
   selectIsTagsLoaded,
@@ -93,7 +93,7 @@ export const SideBar = () => {
         <Link
           to={redirectPaths.home}
           className={
-            activeTab === redirectPaths.home.slice(1)
+            isHome(location.pathname)
               ? classes.activeTab
               : undefined
           }

@@ -33,7 +33,11 @@ import {
   UserLoadingData,
 } from "../../store/ducks/user/typescript/state";
 import { SignUpForm } from "./components/SignUpForm";
-import { alertsStyle, secondaryTextColor } from "../../configs/palette";
+import {
+  alertsStyle,
+  primaryColor,
+  secondaryTextColor,
+} from "../../configs/palette";
 import Alert from "@material-ui/lab/Alert";
 import { OutlinedTextField } from "../../components/styledComponents/OutlinedTextField";
 import { redirectPaths } from "../../configs/redirect";
@@ -53,19 +57,18 @@ export const useStylesSignIn = makeStyles((theme) => ({
   },
   loginSideWrapper: {
     width: 380,
-    textAlign: "center",
   },
   authRedirectBtn: {
     marginLeft: -2,
     padding: 0,
-    marginBottom: 20,
+    marginBottom: 10,
     height: 40,
     color: secondaryTextColor,
   },
   loginSideTitle: {
     fontWeight: 500,
-    fontSize: 32,
-    marginBottom: 0,
+    fontSize: 22,
+    marginBottom: 20,
     marginTop: 0,
   },
   loginSideField: {
@@ -237,11 +240,18 @@ export const SignIn: React.FC = (): React.ReactElement => {
       <Container maxWidth="md">
         <div className={classes.loginSide}>
           <div className={classes.loginSideWrapper}>
+            <Typography variant="h4" style={{ fontWeight: "bold" }}>
+              READ <span style={{ color: primaryColor }}>THE LATEST</span>{" "}
+              HEADLINES
+            </Typography>
+            <Link to={`${redirectPaths.tag}/TRENDS`}>
+              <HomeIcon className={classes.authRedirectBtn} />
+            </Link>
             <Typography variant="body2">WELCOME TO</Typography>
             <Typography
               className={classes.loginSideTitle}
               gutterBottom
-              variant="h4"
+              component="h5"
             >
               <span
                 style={{
@@ -252,9 +262,7 @@ export const SignIn: React.FC = (): React.ReactElement => {
               </span>
               NEWS
             </Typography>
-            <Link to={`${redirectPaths.tag}/TRENDS`}>
-              <HomeIcon className={classes.authRedirectBtn} />
-            </Link>
+
             <Button
               onClick={handleClickOpenSignUp}
               style={{ marginBottom: 20 }}

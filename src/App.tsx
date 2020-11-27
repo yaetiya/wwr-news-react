@@ -23,7 +23,7 @@ TODO:
 // https://www.youtube.com/watch?v=YaM0CaDTshc&ab_channel=Front-endSciencec%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%BC%D0%9F%D1%83%D0%B7%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%8B%D0%BC
 7. Написать (скопировать) функцию,
  чтобы не плодить запросы к api (при наборе текста в поиске в навбаре)
- 8. Сделать нормальную верстку
+8. Сделать нормальную верстку
 */
 
 function App() {

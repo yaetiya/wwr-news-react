@@ -149,6 +149,7 @@ export const NewPostForm = () => {
               InputLabelProps={{
                 shrink: true,
               }}
+              autoComplete="off"
               value={newPostForm?.headline}
               variant="outlined"
               type="headline"
@@ -164,6 +165,7 @@ export const NewPostForm = () => {
               InputLabelProps={{
                 shrink: true,
               }}
+              autoComplete="off"
               value={newPostForm?.text}
               variant="outlined"
               type="text"

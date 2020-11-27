@@ -13,6 +13,6 @@ export interface SearchChannelState {
 export interface Channel {
   name: string;
   avatarUrl?: string;
-  link: string;
+  link?: string;
   type: string;
 }

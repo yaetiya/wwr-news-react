@@ -2,14 +2,14 @@ import { call, put, takeLatest } from "redux-saga/effects";
 import { searchChannelsAPI } from "../../../services/api/searchChannels";
 import { setChannels, setLoadingState } from "./actionCreators";
 import {
-  FetchChennelsActionInterface,
+  FetchChannelsActionInterface,
   SearchChannelActionsType,
 } from "./typescript/actionTypes";
 import { SearchLoadingState } from "./typescript/state";
 
 export function* fetchChannelsRequest({
   payload,
-}: FetchChennelsActionInterface) {
+}: FetchChannelsActionInterface) {
   try {
     let channels = [];
     if (payload) {

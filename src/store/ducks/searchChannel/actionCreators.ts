@@ -1,14 +1,14 @@
 import {
-  FetchChennelsActionInterface,
+  FetchChannelsActionInterface,
   SearchChannelActionsType,
-  SetChennelsActionInterface,
+  SetChannelsActionInterface,
   SetLoadingStateActionInterface,
 } from "./typescript/actionTypes";
 import { Channel, SearchLoadingState } from "./typescript/state";
 
 export const setChannels = (
   payload: Channel[]
-): SetChennelsActionInterface => ({
+): SetChannelsActionInterface => ({
   type: SearchChannelActionsType.SET_CHANNELS,
   payload,
 });
@@ -20,11 +20,11 @@ export const setLoadingState = (
 });
 export const fetchChannels = (
   payload: string
-): FetchChennelsActionInterface => ({
+): FetchChannelsActionInterface => ({
   type: SearchChannelActionsType.FETCH_CHANNELS,
   payload,
 });
 export type SearchChannelActions =
-  | SetChennelsActionInterface
+  | SetChannelsActionInterface
   | SetLoadingStateActionInterface
-  | FetchChennelsActionInterface;
+  | FetchChannelsActionInterface;

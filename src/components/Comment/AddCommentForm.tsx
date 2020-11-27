@@ -24,6 +24,7 @@ import { redirectPaths } from "../../configs/redirect";
 const stylesFormNewComment = makeStyles(() => ({
   newCommentField: {
     marginTop: 10,
+    
   },
   newCommentBtn: {
     boxShadow: "0px 4px 10px rgba(5, 0, 255, 0.28)",
@@ -110,6 +111,7 @@ export const NewCommentForm = () => {
                   className={classes.newCommentField}
                   id="comment"
                   label="Comment"
+                  autoComplete='off'
                   InputLabelProps={{
                     shrink: true,
                   }}

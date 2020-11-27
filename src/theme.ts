@@ -7,6 +7,7 @@ import {
   secondaryTextColor,
   defaultBackgroundColor,
   defaultErrorColor,
+  secondaryBackgroundColor,
   primaryShadow,
 } from "./configs/palette";
 
@@ -86,7 +87,14 @@ export const theme = createMuiTheme({
         },
       },
     },
-    MuiInput: {},
+    MuiFilledInput: {
+      input: {
+        backgroundColor: secondaryBackgroundColor,
+      },
+      notchedOutline: {
+        borderRadius: 2,
+      },
+    },
     MuiOutlinedInput: {
       input: {
         backgroundColor: defaultBackgroundColor,

@@ -26,6 +26,7 @@ import { NotificationHub } from "../../components/NotificationsHub/Notifications
 import { isHome, redirectPaths } from "../../configs/redirect";
 import { TagNewsComponent } from "./TagNewsComponent";
 import { isMobile } from "../../configs/device";
+import { SearchChannel } from "../../components/SearchChannel";
 
 const stylesHome = makeStyles(() => ({
   root: {
@@ -51,7 +52,7 @@ const Home: React.FC = (): React.ReactElement => {
   const isLoading = useSelector(selectIsNewsLoading);
   const classes = stylesHome();
   const location = useLocation();
-  
+
   useEffect(() => {
     if (leftNews.length === 0 && isHome(location.pathname) && !isMobile) {
       dispatch(fetchLeftNews());
@@ -65,6 +66,7 @@ const Home: React.FC = (): React.ReactElement => {
       <Container maxWidth="md" className={classes.root}>
         <NewPostForm />
         <SideBar />
+        <SearchChannel />
         <div className={classes.ArticlesWrapper}>
           <Grid container spacing={3}>
             <Grid item xs={!isMobile ? 4 : undefined}>

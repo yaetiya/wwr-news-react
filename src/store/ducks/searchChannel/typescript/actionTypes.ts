@@ -13,13 +13,13 @@ export interface SetLoadingStateActionInterface
   payload: SearchLoadingState;
 }
 
-export interface SetChennelsActionInterface
+export interface SetChannelsActionInterface
   extends Action<SearchChannelActionsType> {
   type: SearchChannelActionsType.SET_CHANNELS;
   payload: Channel[];
 }
 
-export interface FetchChennelsActionInterface
+export interface FetchChannelsActionInterface
   extends Action<SearchChannelActionsType> {
   type: SearchChannelActionsType.FETCH_CHANNELS;
   payload: string;

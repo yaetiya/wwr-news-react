@@ -127,7 +127,7 @@ export const NewPostForm = () => {
       <Snackbar
         transitionDuration={200}
         open={openNewPostMessage}
-        autoHideDuration={3500}
+        autoHideDuration={1500}
         onClose={handleClose}
       >
         <Alert

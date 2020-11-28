@@ -2,6 +2,7 @@ import { makeStyles } from "@material-ui/core";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { secondaryBackgroundColor } from "../configs/palette";
+import useDebounce from "../services/controllers/useDebounce";
 import { fetchChannels } from "../store/ducks/searchChannel/actionCreators";
 import { selectChannels } from "../store/ducks/searchChannel/selectors";
 import { SearchContent } from "./SearchContent";
@@ -23,7 +24,7 @@ const stylesSearch = makeStyles((theme) => ({
     width: 200,
     marginBottom: 20,
   },
-  "@media (max-width: 1200px)": {
+  "@media (max-width: 1390px)": {
     searchWrapper: {
       position: "relative",
       top: 0,
@@ -35,6 +36,7 @@ const stylesSearch = makeStyles((theme) => ({
 export const SearchChannel = () => {
   const [searchText, setSearchText] = useState("");
   const classes = stylesSearch();
+  const debouncedText = useDebounce(searchText, 300);
 
   const dispatch = useDispatch();
   const channels = useSelector(selectChannels);
@@ -44,9 +46,10 @@ export const SearchChannel = () => {
     event.persist();
     setSearchText(event.target.value);
   };
+
   useEffect(() => {
-    dispatch(fetchChannels(searchText));
-  }, [dispatch, searchText]);
+    dispatch(fetchChannels(debouncedText));
+  }, [dispatch, debouncedText]);
 
   return (
     <div className={classes.searchWrapper}>

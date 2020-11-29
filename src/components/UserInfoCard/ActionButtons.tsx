@@ -36,56 +36,94 @@ export const ActionButtons = () => {
   };
   return (
     <>
+      <div style={{ display: isMobile ? "flex" : "block", paddingBottom: 10, paddingTop: 10 }}>
+        <ImageUploader
+          singleImage
+          withIcon={false}
+          withLabel={false}
+          buttonText="Change header"
+          onChange={changeAvaratHandler}
+          buttonStyles={{
+            backgroundColor: defaultBackgroundColor,
+            color: primaryColor,
+            fontWeight: "bold",
+            border: "2px solid " + secondaryTextColor,
+            borderRadius: 0,
+            marginBottom: 0,
+            marginLeft: 0,
+            marginRight: isMobile ? 8 : 0,
+            marginTop: 0,
+            padding: "0 10",
+            width: "100%",
+            fontSize: 14,
+            boxShadow: "0px 4px 10px rgba(5, 0, 255, 0.06)",
+          }}
+          errorStyle={{
+            position: "absolute",
+            left: 0,
+            top: 50,
+            zIndex: 2,
+            padding: 3,
+            borderRadius: 2,
+            backgroundColor: defaultErrorColor,
+            color: defaultBackgroundColor,
+          }}
+          fileContainerStyle={{
+            boxShadow: "none",
+            margin: 0,
+            padding: 0,
+          }}
+          imgExtension={[".jpg", ".gif", ".png"]}
+          maxFileSize={5242880}
+        />
+        <ImageUploader
+          singleImage
+          withIcon={false}
+          withLabel={false}
+          buttonText="Change avatar"
+          onChange={changeAvaratHandler}
+          buttonStyles={{
+            backgroundColor: defaultBackgroundColor,
+            color: primaryColor,
+            fontWeight: "bold",
+            border: "2px solid " + secondaryTextColor,
+            borderRadius: 0,
+            marginBottom: 0,
+            marginTop: !isMobile ? 5: 0,
+            marginLeft: isMobile ? 8 : 0,
+            padding: "0 10",
+            width: "100%",
+            fontSize: 14,
+            boxShadow: "0px 4px 10px rgba(5, 0, 255, 0.06)",
+          }}
+          errorStyle={{
+            position: "absolute",
+            left: 0,
+            top: 50,
+            zIndex: 2,
+            padding: 3,
+            borderRadius: 2,
+            backgroundColor: defaultErrorColor,
+            color: defaultBackgroundColor,
+          }}
+          fileContainerStyle={{
+            boxShadow: "none",
+            margin: 0,
+            padding: 0,
+          }}
+          imgExtension={[".jpg", ".gif", ".png"]}
+          maxFileSize={5242880}
+        />
+        {isChangeAvatarLoading ? <LinearProgress /> : null}
+      </div>
       <Button
         onClick={logoutHandler}
         variant="outlined"
         color="primary"
-        style={isMobile ? { marginRight: 8 } : { margin: 0 }}
         fullWidth
       >
         Logout
       </Button>
-      <ImageUploader
-        singleImage
-        withIcon={false}
-        withLabel={false}
-        buttonText="Change avatar"
-        onChange={changeAvaratHandler}
-        buttonStyles={{
-          backgroundColor: defaultBackgroundColor,
-          color: primaryColor,
-          fontWeight: "bold",
-          border: "2px solid " + secondaryTextColor,
-          borderRadius: 0,
-          // marginRight: 10,
-          marginTop: isMobile ? 0 : 10,
-          marginBottom: 0,
-          marginLeft: 0,
-          height: 40,
-          padding: 0,
-          width: "100%",
-          fontSize: 14,
-          boxShadow: "0px 4px 10px rgba(5, 0, 255, 0.06)",
-        }}
-        errorStyle={{
-          position: "absolute",
-          left: 0,
-          top: 50,
-          zIndex: 2,
-          padding: 3,
-          borderRadius: 2,
-          backgroundColor: defaultErrorColor,
-          color: defaultBackgroundColor,
-        }}
-        fileContainerStyle={{
-          boxShadow: "none",
-          margin: 0,
-          padding: 0,
-        }}
-        imgExtension={[".jpg", ".gif", ".png"]}
-        maxFileSize={5242880}
-      />
-      {isChangeAvatarLoading ? <LinearProgress /> : null}
     </>
   );
 };

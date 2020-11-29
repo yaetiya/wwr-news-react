@@ -40,16 +40,12 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
     root: {
       position: !isMobile ? "sticky" : "relative",
       top: 50,
-      backgroundColor: defaultBackgroundColor
+      paddingBottom: 20,
+      backgroundColor: defaultBackgroundColor,
     },
     details: {
       display: "flex",
       flexDirection: "column",
-    },
-    actionsBtnWrapper: {
-      display: "flex",
-      paddingBottom: 10,
-      paddingTop: 10,
     },
     avatarCover: {
       background: user
@@ -81,22 +77,19 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
       dispatch(fetchSubscribe(user?._id));
     }
   };
-  
+
   if (user) {
     return (
       <div className={classes.root}>
+        <Link
+          to={`${redirectPaths.user}/${user.username}`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <Typography variant="h5">@{user.username}</Typography>
+        </Link>
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <div className={classes.details}>
-              <Link
-                to={`${redirectPaths.user}/${user.username}`}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <Typography component="h5" variant="h5">
-                  @{user.username}
-                </Typography>
-              </Link>
-              <br />
               <Typography variant="subtitle1" color="textPrimary">
                 {user.fullname}
               </Typography>
@@ -134,11 +127,7 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
             ) : null}
           </Grid>
         </Grid>
-        {isPrivate &&isMobile ? (
-          <div className={classes.actionsBtnWrapper}>
-            <ActionButtons />
-          </div>
-        ) : null}
+        {isPrivate && isMobile ? <ActionButtons /> : null}
       </div>
     );
   }

@@ -8,7 +8,6 @@ import {
   UserState,
 } from "./state";
 
-
 export enum UserActionsType {
   SET_USER_DATA = "user/LOAD/SET_USER_DATA",
   FETCH_USER_DATA = "user/LOAD/FETCH_USER_DATA",
@@ -19,19 +18,30 @@ export enum UserActionsType {
   SET_LOADING_STATE = "user/LOAD/SET_LOADING_STATE",
   LOGOUT = "user/LOAD/LOGOUT",
   CHANGE_FETCHED_USER_AVATAR = "user/CHANGE_FETCHED_USER_AVATAR",
+  CHANGE_FETCHED_USER_HEADER = "user/CHANGE_FETCHED_USER_HEADER",
   SET_REGISTRATION_STATE = "user/LOAD/SET_REGISTRATION_STATE",
   SET_CHANGE_AVATAR_STATE = "user/SET_CHANGE_AVATAR_STATE",
   SET_ERROR_MESSAGE = "user/SET_ERROR_MESSAGE",
   SET_ERROR_REGISTRATION_FIELD = "user/SET_ERROR_REGISTRATION_FIELD",
   CHANGE_AVATAR = "user/CHANGE_AVATAR",
-  ChangeFetchedUserAvatarActionInterface = "ChangeFetchedUserAvatarActionInterface"
+  CHANGE_HEADER = "user/CHANGE_HEADER",
 }
 export interface ChangeAvatarActionInterface extends Action<UserActionsType> {
   type: UserActionsType.CHANGE_AVATAR;
   payload: string;
 }
-export interface ChangeFetchedUserAvatarActionInterface extends Action<UserActionsType> {
+export interface ChangeHeaderActionInterface extends Action<UserActionsType> {
+  type: UserActionsType.CHANGE_HEADER;
+  payload: string;
+}
+export interface ChangeFetchedUserAvatarActionInterface
+  extends Action<UserActionsType> {
   type: UserActionsType.CHANGE_FETCHED_USER_AVATAR;
+  payload: string;
+}
+export interface ChangeFetchedUserHeaderActionInterface
+  extends Action<UserActionsType> {
+  type: UserActionsType.CHANGE_FETCHED_USER_HEADER;
   payload: string;
 }
 

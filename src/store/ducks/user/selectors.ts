@@ -50,6 +50,9 @@ export const selectIsUserError = (state: RootState): boolean =>
 export const selectUserId = (state: RootState): string | undefined =>
   selectUserData(state)?._id;
 
+export const selectUserHeader = (state: RootState): string | undefined =>
+  selectUserData(state)?.headerUrl;
+
 export const selectIsAdmin = (state: RootState): boolean | undefined =>
   selectUserData(state)?.role === "admin";
 

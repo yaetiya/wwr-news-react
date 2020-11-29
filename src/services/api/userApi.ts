@@ -31,9 +31,7 @@ export const UserApi = {
       });
   },
   login(data: UserLoadingData): Promise<User> {
-    return axios
-      .post("/auth/login", data)
-      .then(({ data }) => data.data);
+    return axios.post("/auth/login", data).then(({ data }) => data.data);
   },
   getUserFromJWT(jwt: string): Promise<User> {
     return axios
@@ -52,10 +50,20 @@ export const UserApi = {
       .then(({ data }) => !!data.status)
       .catch(({ _ }) => false);
   },
-  fetchUserByUsername(username: string): Promise<ReqUser> {
+  changeHeader(jwt: string, payload: string): Promise<boolean> {
     return axios
-      .get(`/users/${username}`)
-      .then(({ data }) => data.data);
+      .post(
+        "/users/changeHeader",
+        { image: payload },
+        {
+          headers: { token: jwt },
+        }
+      )
+      .then(({ data }) => !!data.status)
+      .catch(({ _ }) => false);
+  },
+  fetchUserByUsername(username: string): Promise<ReqUser> {
+    return axios.get(`/users/${username}`).then(({ data }) => data.data);
   },
   fetchUserPostsByUsername(username: string, page: number): Promise<News[]> {
     return axios

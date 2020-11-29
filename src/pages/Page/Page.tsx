@@ -19,7 +19,10 @@ import { fetchReqUserData } from "../../store/ducks/reqUser/actionCreators";
 import { useParams } from "react-router-dom";
 import { UserInfoCard } from "../../components/UserInfoCard/UserInfoCard";
 import { NewPostForm } from "../../components/NewPostForm/NewPostForm";
-import { selectUserId } from "../../store/ducks/user/selectors";
+import {
+  selectUserHeader,
+  selectUserId,
+} from "../../store/ducks/user/selectors";
 import { isMobile } from "../../configs/device";
 
 export const Page: React.FC = (): React.ReactElement => {
@@ -27,6 +30,7 @@ export const Page: React.FC = (): React.ReactElement => {
   const isError = useSelector(selectIsReqUserError);
   const loggedUserId = useSelector(selectUserId);
   const user = useSelector(selectReqUserData);
+  const headerUrl = useSelector(selectUserHeader);
   const params: { username?: string } = useParams();
   const username = params.username;
   const dispatch = useDispatch();
@@ -45,7 +49,7 @@ export const Page: React.FC = (): React.ReactElement => {
           // right: 38,
         }
       : { position: "sticky", top: 50 },
-    
+
     headImageWrapper: {
       width: "99%",
       marginLeft: 2,
@@ -54,9 +58,11 @@ export const Page: React.FC = (): React.ReactElement => {
       position: "sticky",
       top: 50,
       background: user
-        ? `url(${user.headerUrl}) no-repeat`
+        ? `url(${
+            loggedUserId !== user._id ? user.headerUrl : headerUrl
+          }) no-repeat`
         : theme.palette.background.default,
-      backgroundSize: "cover"
+      backgroundSize: "cover",
     },
     newslineWrapper: {
       paddingTop: 30,

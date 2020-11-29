@@ -7,8 +7,10 @@ import { redirectPaths } from "../../configs/redirect";
 import ImageUploader from "react-images-upload";
 import {
   changeUserAvatar,
+  changeUserHeader,
   logoutUser,
   setChangeFetcheduserAvatar,
+  setChangeFetcheduserHeader,
 } from "../../store/ducks/user/actionCreators";
 import {
   defaultBackgroundColor,
@@ -34,15 +36,28 @@ export const ActionButtons = () => {
       dispatch(setChangeFetcheduserAvatar(newAvatarUrl));
     }
   };
+  const changeHeaderHandler = (file: File[], picture: string[]) => {
+    if (picture[0] && file[0]) {
+      dispatch(changeUserHeader(picture[0]));
+      const newHeaderUrl = URL.createObjectURL(file[0]);
+      dispatch(setChangeFetcheduserHeader(newHeaderUrl));
+    }
+  };
   return (
     <>
-      <div style={{ display: isMobile ? "flex" : "block", paddingBottom: 10, paddingTop: 10 }}>
+      <div
+        style={{
+          display: isMobile ? "flex" : "block",
+          paddingBottom: 10,
+          paddingTop: 10,
+        }}
+      >
         <ImageUploader
           singleImage
           withIcon={false}
           withLabel={false}
-          buttonText="Change header"
-          onChange={changeAvaratHandler}
+          buttonText="Edit header"
+          onChange={changeHeaderHandler}
           buttonStyles={{
             backgroundColor: defaultBackgroundColor,
             color: primaryColor,
@@ -80,7 +95,7 @@ export const ActionButtons = () => {
           singleImage
           withIcon={false}
           withLabel={false}
-          buttonText="Change avatar"
+          buttonText="Edit avatar"
           onChange={changeAvaratHandler}
           buttonStyles={{
             backgroundColor: defaultBackgroundColor,
@@ -89,7 +104,7 @@ export const ActionButtons = () => {
             border: "2px solid " + secondaryTextColor,
             borderRadius: 0,
             marginBottom: 0,
-            marginTop: !isMobile ? 5: 0,
+            marginTop: !isMobile ? 5 : 0,
             marginLeft: isMobile ? 8 : 0,
             padding: "0 10",
             width: "100%",

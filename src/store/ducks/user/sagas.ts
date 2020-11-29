@@ -61,6 +61,19 @@ export function* changeAvatarWorker({ payload }: ChangeAvatarActionInterface) {
     yield put(setChangeAvatarState(ChangeAvatarState.ERROR));
   }
 }
+export function* changeHeaderWorker({ payload }: ChangeAvatarActionInterface) {
+  try {
+    const jwt = yield select(selectJWT);
+    yield put(setChangeAvatarState(ChangeAvatarState.LOADING));
+    const isChangeSuccessfully = yield call(UserApi.changeHeader, jwt, payload);
+    if (isChangeSuccessfully) {
+      yield put(loadUserJWTData());
+      yield put(setChangeAvatarState(ChangeAvatarState.LOADED));
+    }
+  } catch {
+    yield put(setChangeAvatarState(ChangeAvatarState.ERROR));
+  }
+}
 export function* fetchUserFromJWTDataRequest() {
   try {
     const jwt = localStorage.getItem("jwt");
@@ -133,4 +146,5 @@ export function* UserSaga() {
   yield takeEvery(UserActionsType.LOAD_JWT_DATA, fetchUserFromJWTDataRequest);
   yield takeEvery(UserActionsType.LOGOUT, logoutWorker);
   yield takeEvery(UserActionsType.CHANGE_AVATAR, changeAvatarWorker);
+  yield takeEvery(UserActionsType.CHANGE_HEADER, changeHeaderWorker);
 }

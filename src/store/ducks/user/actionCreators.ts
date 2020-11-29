@@ -1,6 +1,8 @@
 import {
   ChangeAvatarActionInterface,
   ChangeFetchedUserAvatarActionInterface,
+  ChangeFetchedUserHeaderActionInterface,
+  ChangeHeaderActionInterface,
   FetchUserDataActionInterface,
   FetchUserJWTDataActionInterface,
   LoadJWTDataActionInterface,
@@ -59,6 +61,13 @@ export const changeUserAvatar = (
   payload,
 });
 
+export const changeUserHeader = (
+  payload: string
+): ChangeHeaderActionInterface => ({
+  type: UserActionsType.CHANGE_HEADER,
+  payload,
+});
+
 export const setUserLoadingState = (
   payload: LoadingState
 ): SetUserLoadingStateActionInterface => ({
@@ -107,6 +116,13 @@ export const setChangeFetcheduserAvatar = (
   payload,
 });
 
+export const setChangeFetcheduserHeader = (
+  payload: string
+): ChangeFetchedUserHeaderActionInterface => ({
+  type: UserActionsType.CHANGE_FETCHED_USER_HEADER,
+  payload,
+});
+
 export const fetchUserJWTData = (
   payload: string
 ): FetchUserJWTDataActionInterface => ({
@@ -125,7 +141,9 @@ export type UserActions =
   | LogoutActionInterface
   | ChangeFetchedUserAvatarActionInterface
   | ChangeAvatarActionInterface
+  | ChangeHeaderActionInterface
   | SignUpDataActionInterface
   | SetErrorMessageActionInterface
+  | ChangeFetchedUserHeaderActionInterface
   | SetUserChangeAvatarStateActionInterface
   | SetErrorRegistrationFieldActionInterface;

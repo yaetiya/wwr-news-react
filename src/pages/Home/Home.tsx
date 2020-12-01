@@ -26,7 +26,7 @@ import { NotificationHub } from "../../components/NotificationsHub/Notifications
 import { isHome, redirectPaths } from "../../configs/redirect";
 import { TagNewsComponent } from "./TagNewsComponent";
 import { isMobile } from "../../configs/device";
-import { SearchChannel } from "../../components/SearchChannel";
+import { SearchChannel } from "../../components/Search/SearchChannel";
 
 const stylesHome = makeStyles(() => ({
   root: {

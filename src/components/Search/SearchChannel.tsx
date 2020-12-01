@@ -1,12 +1,12 @@
 import { makeStyles } from "@material-ui/core";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { secondaryBackgroundColor } from "../configs/palette";
-import useDebounce from "../services/controllers/useDebounce";
-import { fetchChannels } from "../store/ducks/searchChannel/actionCreators";
-import { selectChannels } from "../store/ducks/searchChannel/selectors";
+import { secondaryBackgroundColor } from "../../configs/palette";
+import useDebounce from "../../services/controllers/useDebounce";
+import { fetchChannels } from "../../store/ducks/searchChannel/actionCreators";
+import { selectChannels } from "../../store/ducks/searchChannel/selectors";
 import { SearchContent } from "./SearchContent";
-import { OutlinedTextField } from "./styledComponents/OutlinedTextField";
+import { OutlinedTextField } from "../styledComponents/OutlinedTextField";
 
 const stylesSearch = makeStyles((theme) => ({
   navSearchField: {

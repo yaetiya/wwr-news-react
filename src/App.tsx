@@ -14,7 +14,6 @@ import { redirectPaths } from "./configs/redirect";
 
 /*
 TODO:
-1. Сделать картинку, которая будет default avatar (Свою какую-то)
 2. Footer
 3. Письмо подтверждения
 5?. Сделать галочку для wwr канала и др больших

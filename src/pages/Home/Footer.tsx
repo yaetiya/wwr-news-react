@@ -4,7 +4,7 @@ import { secondaryBackgroundColor } from "../../configs/palette";
 
 const stylesFooter = makeStyles(() => ({
   footerWrapper: {
-    height: 100,
+    height: 20,
     backgroundColor: secondaryBackgroundColor,
   },
 }));

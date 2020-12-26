@@ -12,13 +12,6 @@ import { fetchNews } from "./store/ducks/news/actionCreators";
 import { redirectPaths } from "./configs/redirect";
 
 
-/*
-TODO:
-2. Footer
-3. Письмо подтверждения
-5?. Сделать галочку для wwr канала и др больших
-*/
-
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {

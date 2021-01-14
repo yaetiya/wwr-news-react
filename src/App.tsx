@@ -13,7 +13,7 @@ import { redirectPaths } from "./configs/redirect";
 
 
 /**
- * main branch list
+ * checked branch list
  */
 function App() {
   const dispatch = useDispatch();

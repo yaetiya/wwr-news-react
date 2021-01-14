@@ -13,7 +13,7 @@ import { redirectPaths } from "./configs/redirect";
 
 
 /**
- * todo
+ * changes
  */
 function App() {
   const dispatch = useDispatch();

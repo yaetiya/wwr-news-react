@@ -8,10 +8,6 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 
-/**
- * Main
- */
-
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />

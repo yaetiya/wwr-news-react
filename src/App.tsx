@@ -12,7 +12,7 @@ import { fetchNews } from "./store/ducks/news/actionCreators";
 import { redirectPaths } from "./configs/redirect";
 
 /**
- * todo
+ * todo2
  */
 function App() {
   const dispatch = useDispatch();

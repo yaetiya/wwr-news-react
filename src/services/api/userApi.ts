@@ -6,6 +6,7 @@ import {
   UserLoadingData,
   SignUpData,
 } from "../../store/ducks/user/typescript/state";
+import { apiUrl } from "../config";
 
 export type TSignUpResp = {
   status: string;
@@ -24,24 +25,24 @@ export const UserApi = {
   // },
   signUp(data: SignUpData): Promise<TSignUpResp> {
     return axios
-      .post("/auth/registration", data)
+      .post(`${apiUrl}/auth/registration`, data)
       .then(({ data }) => data)
       .catch((error) => {
         return error.response.data;
       });
   },
   login(data: UserLoadingData): Promise<User> {
-    return axios.post("/auth/login", data).then(({ data }) => data.data);
+    return axios.post(`${apiUrl}/auth/login`, data).then(({ data }) => data.data);
   },
   getUserFromJWT(jwt: string): Promise<User> {
     return axios
-      .get("/users/me", { headers: { token: jwt } })
+      .get(`${apiUrl}/users/me`, { headers: { token: jwt } })
       .then(({ data }) => data.data);
   },
   changeAvatar(jwt: string, payload: string): Promise<boolean> {
     return axios
       .post(
-        "/users/changeAvatar",
+        `${apiUrl}/users/changeAvatar`,
         { image: payload },
         {
           headers: { token: jwt },
@@ -53,7 +54,7 @@ export const UserApi = {
   changeHeader(jwt: string, payload: string): Promise<boolean> {
     return axios
       .post(
-        "/users/changeHeader",
+        `${apiUrl}/users/changeHeader`,
         { image: payload },
         {
           headers: { token: jwt },
@@ -63,23 +64,23 @@ export const UserApi = {
       .catch(({ _ }) => false);
   },
   fetchUserByUsername(username: string): Promise<ReqUser> {
-    return axios.get(`/users/${username}`).then(({ data }) => data.data);
+    return axios.get(`${apiUrl}/users/${username}`).then(({ data }) => data.data);
   },
   fetchUserPostsByUsername(username: string, page: number): Promise<News[]> {
     return axios
-      .get(`/posts/${username}`, {
+      .get(`${apiUrl}/posts/${username}`, {
         params: { page: page },
       })
       .then(({ data }) => data.data);
   },
   sub(payload: any, jwt: string) {
-    axios.post("/sub/", payload, {
+    axios.post(`${apiUrl}/sub/`, payload, {
       headers: { token: jwt },
     });
   },
   isSubscribed(payload: any, jwt: string): Promise<boolean> {
     return axios
-      .post("/sub/isSubscribed", payload, {
+      .post(`${apiUrl}/sub/isSubscribed`, payload, {
         headers: { token: jwt },
       })
       .then(({ data }) => data.data.isSubscribed);

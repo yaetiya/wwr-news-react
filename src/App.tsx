@@ -26,13 +26,13 @@ function App() {
     <div className="App">
       <ScrollTopBtn />
       <Switch>
-        <Route path={redirectPaths.auth} component={(SignIn)} />
-        <Route path={redirectPaths.private} component={(Private)} />
+        <Route path={redirectPaths.auth} component={SignIn} />
+        <Route path={redirectPaths.private} component={Private} />
         <Route
           path={`${redirectPaths.user}/:username`}
           component={(PageScreen)}
         />
-        <Route path="/" component={(HomeScreen)} />
+        <Route path="/" component={HomeScreen} />
       </Switch>
     </div>
   );

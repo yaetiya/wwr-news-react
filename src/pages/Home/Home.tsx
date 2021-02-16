@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, useLocation } from "react-router-dom";
+import { Route, useHistory, useLocation } from "react-router-dom";
 import Article from "../../components/Article/Article";
 import Navbar from "../../components/Navbar";
 import { NewPostForm } from "../../components/NewPostForm/NewPostForm";
@@ -52,12 +52,19 @@ const Home: React.FC = (): React.ReactElement => {
   const isLoading = useSelector(selectIsNewsLoading);
   const classes = stylesHome();
   const location = useLocation();
+  const history = useHistory();
 
   useEffect(() => {
     if (leftNews.length === 0 && isHome(location.pathname) && !isMobile) {
       dispatch(fetchLeftNews());
     }
   }, [dispatch, leftNews.length, location.pathname]);
+
+  useEffect(() => {
+    if (!localStorage.getItem("jwt")) {
+      history.push("/tag/TRENDS");
+    }
+  }, [history]);
 
   return (
     <>

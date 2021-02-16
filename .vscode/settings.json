@@ -1,3 +1,9 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.deploySubpath": ".",
+    "appService.defaultWebAppToDeploy": "/subscriptions/628ba32f-6c78-4350-9c38-bb45cc110b53/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/veev"
 }

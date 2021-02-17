@@ -61,10 +61,12 @@ const Home: React.FC = (): React.ReactElement => {
   }, [dispatch, leftNews.length, location.pathname]);
 
   useEffect(() => {
-    if (!localStorage.getItem("jwt")) {
-      history.push("/tag/TRENDS");
+    if (isHome(location.pathname)) {
+      if (!localStorage.getItem("jwt")) {
+        history.push("/tag/TRENDS");
+      }
     }
-  }, [history]);
+  }, [history, location.pathname]);
 
   return (
     <>

@@ -55,7 +55,7 @@ export const Page: React.FC = (): React.ReactElement => {
       marginLeft: 2,
       marginRight: 2,
       paddingTop: "40%",
-      position: "sticky",
+      position: isMobile ? "relative" : "sticky",
       top: 50,
       background: user
         ? `url(${

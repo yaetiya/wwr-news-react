@@ -38,7 +38,7 @@ export const UserInfoCard = ({ isPrivate }: { isPrivate: boolean }) => {
   const dispatch = useDispatch();
   const stylesCard = makeStyles((theme) => ({
     root: {
-      position: !isMobile ? "sticky" : "relative",
+      position: isMobile ? "relative" : "sticky",
       top: 50,
       paddingBottom: 20,
       backgroundColor: defaultBackgroundColor,

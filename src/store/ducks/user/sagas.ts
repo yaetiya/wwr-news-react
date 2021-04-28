@@ -129,7 +129,7 @@ export function* signUpWorker({
         )
       );
       yield put(setErrorRegistrationFieldData(undefined));
-    } else if (RegistrationData.data) {
+    } else {
       yield put(setUserRegistrationState(RegistrationState.SUCCESS));
       setErrorRegistrationFieldData(undefined);
     }
